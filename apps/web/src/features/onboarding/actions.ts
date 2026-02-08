@@ -4,11 +4,12 @@ import { z } from 'zod'
 import { slugify } from '@nyxidiom/shared'
 import { createAction } from '@/lib/safe-action'
 import { email } from '@/lib/email'
+import { getAppUrl } from '@/lib/url'
 import { db } from 'db'
 import { users, organizations, members } from 'db/schemas'
 import { eq } from 'drizzle-orm'
 
-const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000'
+const appUrl = getAppUrl()
 
 export const updateUserName = createAction({
   schema: z.object({ name: z.string().min(1).max(100) }),

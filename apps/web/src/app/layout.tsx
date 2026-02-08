@@ -5,6 +5,7 @@ import { ThemeProvider } from 'next-themes'
 import { Toaster } from '@nyxidiom/ui'
 import { PostHogProvider } from '@/lib/posthog'
 import { PostHogPageView } from '@/lib/posthog-pageview'
+import { getAppUrl } from '@/lib/url'
 import './globals.css'
 
 export const metadata: Metadata = {
@@ -13,7 +14,7 @@ export const metadata: Metadata = {
     template: '%s | SaaS App',
   },
   description: 'Your SaaS application description',
-  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000'),
+  metadataBase: new URL(getAppUrl()),
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

@@ -177,7 +177,7 @@ cp apps/web/.env.example apps/web/.env.local
   - [x] Authorized redirect URIs: `http://localhost:3000/api/auth/callback/google`
 - [x] Copiar **Client ID** → `AUTH_GOOGLE_ID` en `apps/web/.env.local`
 - [x] Copiar **Client Secret** → `AUTH_GOOGLE_SECRET` en `apps/web/.env.local`
-- [ ] Generar `AUTH_SECRET` y añadir en `apps/web/.env.local`:
+- [x] Generar `AUTH_SECRET` y añadir en `apps/web/.env.local`:
 
 ```bash
 npx auth secret
@@ -302,36 +302,9 @@ Una vez todo configurado, ejecutar estas comprobaciones:
 
 ### Proyecto
 
-- [ ] Ir a [vercel.com](https://vercel.com) → Import Git Repository
-- [ ] Seleccionar repo `saas-template`
-- [ ] Framework Preset: **Next.js**
-- [ ] Root Directory: `apps/web`
-- [ ] Build Command: `cd ../.. && pnpm turbo build --filter=web`
-- [ ] Install Command: `pnpm install`
-
-### Environment Variables
-
-Añadir **todas** en Vercel (Settings → Environment Variables):
-
-```
-DATABASE_URL=postgresql://...
-AUTH_SECRET=...
-AUTH_GOOGLE_ID=...
-AUTH_GOOGLE_SECRET=...
-STRIPE_SECRET_KEY=sk_live_...
-STRIPE_WEBHOOK_SECRET=whsec_...
-RESEND_API_KEY=re_...
-EMAIL_FROM=App <noreply@tudominio.com>
-UPSTASH_REDIS_REST_URL=https://...
-UPSTASH_REDIS_REST_TOKEN=...
-NEXT_PUBLIC_SENTRY_DSN=https://...
-SENTRY_AUTH_TOKEN=sntrys_... (ver seccion 14)
-SENTRY_ORG=... (ver seccion 14)
-SENTRY_PROJECT=... (ver seccion 14)
-NEXT_PUBLIC_POSTHOG_KEY=phc_...
-NEXT_PUBLIC_POSTHOG_HOST=https://us.i.posthog.com
-NEXT_PUBLIC_APP_URL=https://tudominio.com
-```
+- [x] Ir a [vercel.com](https://vercel.com) → Import Git Repository
+- [x] Seleccionar repo `saas-template`
+- [x] Configura todas las Environment Variables
 
 ### Dominio
 

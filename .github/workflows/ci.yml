@@ -24,6 +24,8 @@ jobs:
           cache: 'pnpm'
 
       - run: pnpm install --frozen-lockfile
+        env:
+          PKG_AUTH_TOKEN: ${{ secrets.PKG_AUTH_TOKEN }}
 
       - name: Typecheck
         run: pnpm typecheck

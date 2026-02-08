@@ -3,8 +3,9 @@ import { handleWebhook } from 'payments'
 import { db } from 'db'
 import { stripe } from '@/lib/services'
 import { email } from '@/lib/email'
+import { getAppUrl } from '@/lib/url'
 
-const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000'
+const appUrl = getAppUrl()
 
 export async function POST(req: Request) {
   const payload = await req.text()
