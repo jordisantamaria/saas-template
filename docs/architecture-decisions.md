@@ -409,7 +409,7 @@ Servicios compuestos: Vercel + Neon + Cloudflare + servicios especializados.
 | Cache/Queues   | Upstash Redis         | Serverless, rate limiting                   |
 | Analytics      | PostHog               | Product analytics, 1M eventos gratis        |
 | Error Tracking | Sentry                | Stack traces, performance, gratis           |
-| Uptime         | Better Stack          | Monitoring + alertas, gratis                |
+| Logs + Uptime  | Vercel Observability  | Logs 30 dias, integrado, $10/mes            |
 
 ### Costes por fase
 
@@ -465,13 +465,13 @@ Servicios compuestos: Vercel + Neon + Cloudflare + servicios especializados.
 | Herramienta  | Funcion                                  | Coste                 |
 | ------------ | ---------------------------------------- | --------------------- |
 | Sentry       | Error tracking + performance             | Free (5k errores/mes) |
-| Better Stack | Uptime monitoring + logs + alertas       | Free                  |
+| Vercel Obs.  | Logs 30 dias + uptime + alertas          | $10/mes               |
 | PostHog      | Product analytics + session replay       | Free (1M eventos/mes) |
 | Vercel       | Build logs, web vitals, function metrics | Incluido en Pro       |
 
 ### Health Check
 
-Endpoint `/api/health` que verifica conectividad a DB. Better Stack lo monitorea cada minuto con alertas a Slack/SMS.
+Endpoint `/api/health` que verifica conectividad a DB. Vercel Observability ($10/mes) da 30 dias de retencion de logs con busqueda avanzada y trazas de requests. Para uptime monitoring externo, se puede anadir Better Stack o UptimeRobot (ambos gratis) apuntando a `/api/health`.
 
 ---
 

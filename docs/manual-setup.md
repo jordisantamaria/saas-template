@@ -393,14 +393,11 @@ Una vez todo configurado, ejecutar estas comprobaciones:
 
 ---
 
-## 16. Better Stack (Uptime) — Opcional
+## 16. Vercel Observability — Recomendado
 
-- [ ] Crear cuenta en [betterstack.com](https://betterstack.com) (free tier)
-- [ ] Monitors → Create Monitor:
-  - [ ] URL: `https://tudominio.com/api/health`
-  - [ ] Check interval: 60s
-  - [ ] Regions: US + EU
-- [ ] Configurar alertas: email + Slack
+- [ ] En Vercel project settings → Observability
+- [ ] Activar Log Drains ($10/mes) para 30 dias de retencion de logs
+- [ ] (Opcional) Anadir uptime monitor externo (UptimeRobot o Better Stack gratis) apuntando a `https://tudominio.com/api/health`
 
 ---
 

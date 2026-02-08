@@ -24,25 +24,26 @@ SENTRY_PROJECT="your-project"
   - Issue frequency > 10 in 1 hour
   - Performance: p95 latency > 2s
 
-## 2. Better Stack (Uptime Monitoring)
+## 2. Vercel Observability (Logs + Monitoring)
 
 ### Setup
 
-1. Create account at [betterstack.com](https://betterstack.com)
-2. Add a monitor for your `/api/health` endpoint
-3. Set check interval to 60 seconds
+1. In Vercel project settings, go to **Observability**
+2. Enable **Log Drains** ($10/month add-on)
+3. Get 30 days of log retention with advanced search and request tracing
 
-### Monitors to Create
+### What You Get
 
-| URL                                 | Interval | Timeout | Regions |
-| ----------------------------------- | -------- | ------- | ------- |
-| `https://yourdomain.com/api/health` | 60s      | 30s     | US, EU  |
-| `https://yourdomain.com`            | 300s     | 30s     | US, EU  |
+- 30-day log retention with filtering by level, route, status code
+- Request tracing across serverless functions
+- Real-time log streaming
 
-### Incident Management
+### Optional: External Uptime Monitoring
 
-- Connect Slack or email for alerts
-- Set escalation: email immediately, Slack after 5 min, phone after 15 min
+For external uptime checks (verifies your app is reachable from outside):
+- [UptimeRobot](https://uptimerobot.com) (free, 5-min intervals)
+- [Better Stack](https://betterstack.com) (free, 3-min intervals)
+- Point monitors to `https://yourdomain.com/api/health`
 
 ## 3. PostHog (Product Analytics)
 

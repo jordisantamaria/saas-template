@@ -154,5 +154,5 @@ Ver [docs/manual-setup.md](docs/manual-setup.md) para la checklist completa de s
 | [playbook.md](docs/playbook.md)                             | Playbook de la agencia                      |
 | [manual-setup.md](docs/manual-setup.md)                     | Setup manual de servicios cloud             |
 | [setup-cloudflare.md](docs/setup-cloudflare.md)             | Guia de configuracion Cloudflare            |
-| [setup-monitoring.md](docs/setup-monitoring.md)             | Guia de Sentry + PostHog + Better Stack     |
+| [setup-monitoring.md](docs/setup-monitoring.md)             | Guia de Sentry + PostHog + Vercel Logs      |
 | [new-project-guide.md](docs/new-project-guide.md)           | Como crear proyecto nuevo desde el template |
