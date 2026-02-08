@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { LogOut, Settings, User } from 'lucide-react'
 import { useState, useRef, useEffect } from 'react'
 
-type UserMenuProps = {
+interface UserMenuProps {
   name: string | null
   email: string
 }

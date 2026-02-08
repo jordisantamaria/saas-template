@@ -7,21 +7,25 @@
 ## ADR-001: Monorepo con Turborepo
 
 ### Decision
+
 Monorepo gestionado con Turborepo + pnpm workspaces.
 
 ### Contexto
+
 Como agencia, necesitamos reutilizar modulos entre proyectos de distintos clientes y mantener consistencia en todo el equipo.
 
 ### Alternativas evaluadas
-| Opcion | Pros | Contras |
-|--------|------|---------|
-| **Turborepo + pnpm** | Simple, rapido, cache inteligente, zero-config | Dos herramientas |
-| Nx | Mas features, plugins, graph visualization | Overkill para <15 packages, curva alta |
-| Bun solo | Una herramienta, rapido | Sin task orchestration ni cache inteligente |
-| Bun + Turborepo | Install mas rapido | Menos battle-tested, edge cases con paquetes |
-| Repos separados | Independencia total | Friccion entre front/back, tipos duplicados, CI/CD separados |
+
+| Opcion               | Pros                                           | Contras                                                      |
+| -------------------- | ---------------------------------------------- | ------------------------------------------------------------ |
+| **Turborepo + pnpm** | Simple, rapido, cache inteligente, zero-config | Dos herramientas                                             |
+| Nx                   | Mas features, plugins, graph visualization     | Overkill para <15 packages, curva alta                       |
+| Bun solo             | Una herramienta, rapido                        | Sin task orchestration ni cache inteligente                  |
+| Bun + Turborepo      | Install mas rapido                             | Menos battle-tested, edge cases con paquetes                 |
+| Repos separados      | Independencia total                            | Friccion entre front/back, tipos duplicados, CI/CD separados |
 
 ### Justificacion
+
 - Un solo PR toca front + back + tipos compartidos
 - Refactoring sin dolor entre paquetes
 - CI/CD unificado
@@ -31,6 +35,7 @@ Como agencia, necesitamos reutilizar modulos entre proyectos de distintos client
 - La combinacion mas probada en produccion para monorepos
 
 ### Nota sobre Bun
+
 Bun madura rapidamente. En 6-12 meses evaluar migracion de pnpm a Bun como package manager. La migracion es trivial (cambiar lockfile). Turborepo se mantiene como task runner.
 
 ---
@@ -38,21 +43,25 @@ Bun madura rapidamente. En 6-12 meses evaluar migracion de pnpm a Bun como packa
 ## ADR-002: Next.js Full-Stack (App Router)
 
 ### Decision
+
 Next.js 15 con App Router como framework unico para frontend y backend.
 
 ### Contexto
+
 Para startups SaaS, la velocidad de entrega es critica. Separar frontend y backend al inicio genera friccion innecesaria.
 
 ### Alternativas evaluadas
-| Opcion | Pros | Contras |
-|--------|------|---------|
-| **Next.js full-stack** | SSR + API + React en uno, DX excelente | Acoplado a Vercel para max performance |
-| React SPA + API separada | Independencia front/back | Mas infra, CORS, deployment doble |
-| Remix | Buen manejo de forms | Menor ecosistema, menos integraciones SaaS |
-| Nuxt (Vue) | Bueno si el equipo sabe Vue | Ecosistema SaaS mas pequeno |
-| Angular | Enterprise-ready | Lento de iterar, overkill para startup |
+
+| Opcion                   | Pros                                   | Contras                                    |
+| ------------------------ | -------------------------------------- | ------------------------------------------ |
+| **Next.js full-stack**   | SSR + API + React en uno, DX excelente | Acoplado a Vercel para max performance     |
+| React SPA + API separada | Independencia front/back               | Mas infra, CORS, deployment doble          |
+| Remix                    | Buen manejo de forms                   | Menor ecosistema, menos integraciones SaaS |
+| Nuxt (Vue)               | Bueno si el equipo sabe Vue            | Ecosistema SaaS mas pequeno                |
+| Angular                  | Enterprise-ready                       | Lento de iterar, overkill para startup     |
 
 ### Justificacion
+
 - React tiene el ecosistema mas grande y mas talento disponible
 - SSR/SSG para SEO (landing pages, pricing, blog)
 - Server Components reducen JS al browser drasticamente
@@ -65,9 +74,11 @@ Para startups SaaS, la velocidad de entrega es critica. Separar frontend y backe
 ## ADR-003: React sobre Vue y Angular
 
 ### Decision
+
 React 19 como libreria de UI.
 
 ### Justificacion
+
 - Ecosistema mas grande para SaaS (shadcn/ui, Tremor, TanStack, etc.)
 - Mayor pool de talento disponible para contratar
 - Mejor tooling y integraciones
@@ -80,19 +91,23 @@ React 19 como libreria de UI.
 ## ADR-004: No Universal / No Tamagui
 
 ### Decision
+
 No usar Tamagui ni enfoque universal (web + mobile compartiendo UI) al inicio.
 
 ### Contexto
+
 Se evaluo ofrecer "web + mobile" como value proposition de la agencia.
 
 ### Alternativas evaluadas
-| Opcion | Pros | Contras |
-|--------|------|---------|
-| **Web-first + mobile despues** | Max velocidad, UX optimizada por plataforma | No hay app nativa al inicio |
-| Tamagui + Solito | UI compartida web/mobile | +40-60% mas lento, compromises en UX |
-| React Native Web | Un codebase | Web UX inferior a Next.js nativo |
+
+| Opcion                         | Pros                                        | Contras                              |
+| ------------------------------ | ------------------------------------------- | ------------------------------------ |
+| **Web-first + mobile despues** | Max velocidad, UX optimizada por plataforma | No hay app nativa al inicio          |
+| Tamagui + Solito               | UI compartida web/mobile                    | +40-60% mas lento, compromises en UX |
+| React Native Web               | Un codebase                                 | Web UX inferior a Next.js nativo     |
 
 ### Justificacion
+
 - SaaS B2B (fintech/marketing) es 90%+ web
 - Las interfaces de dashboard no se traducen 1:1 a mobile
 - Lo que se comparte entre plataformas es logica de negocio, no UI
@@ -100,10 +115,12 @@ Se evaluo ofrecer "web + mobile" como value proposition de la agencia.
 - Mejor vender web primero y upsell mobile como fase 2
 
 ### Estrategia mobile cuando llegue el momento
+
 ```
 apps/mobile/     → Expo + React Native
 packages/shared/ → Tipos, validaciones, API client (ya existentes)
 ```
+
 La UI se construye nativa para cada plataforma. La logica de negocio se comparte via packages/.
 
 ---
@@ -111,17 +128,20 @@ La UI se construye nativa para cada plataforma. La logica de negocio se comparte
 ## ADR-005: Drizzle ORM sobre Prisma
 
 ### Decision
+
 Drizzle ORM para acceso a base de datos con schemas modulares.
 
 ### Alternativas evaluadas
-| Opcion | Pros | Contras |
-|--------|------|---------|
-| **Drizzle** | TypeScript nativo, schemas componibles, sin code generation | Mas nuevo |
-| Prisma | Muy popular, buena DX | Schema monolitico, requiere code gen, dificil modularizar |
-| Kysely | Ligero, type-safe | Menos features, mas manual |
-| SQL raw | Control total | Sin type safety, vulnerable a SQL injection |
+
+| Opcion      | Pros                                                        | Contras                                                   |
+| ----------- | ----------------------------------------------------------- | --------------------------------------------------------- |
+| **Drizzle** | TypeScript nativo, schemas componibles, sin code generation | Mas nuevo                                                 |
+| Prisma      | Muy popular, buena DX                                       | Schema monolitico, requiere code gen, dificil modularizar |
+| Kysely      | Ligero, type-safe                                           | Menos features, mas manual                                |
+| SQL raw     | Control total                                               | Sin type safety, vulnerable a SQL injection               |
 
 ### Justificacion
+
 - Schemas son TypeScript puro: se pueden importar, componer y reutilizar entre packages
 - No hay paso de code generation (prisma generate)
 - Cada modulo (auth, billing, teams) define su propio schema
@@ -130,6 +150,7 @@ Drizzle ORM para acceso a base de datos con schemas modulares.
 - Performance superior (queries mas cercanas a SQL)
 
 ### Patron de schemas modulares
+
 ```
 packages/db/schemas/auth.ts     → users, sessions, accounts
 packages/db/schemas/billing.ts  → subscriptions, invoices, plans
@@ -139,7 +160,9 @@ apps/web/src/db/schema.ts       → import y compone solo lo que necesita
 ```
 
 ### Inyeccion de dependencias
+
 Los packages reciben el db client, no lo importan directamente:
+
 ```ts
 export function createAuthService(db: DrizzleDB) { ... }
 ```
@@ -149,18 +172,21 @@ export function createAuthService(db: DrizzleDB) { ... }
 ## ADR-006: Auth.js para Autenticacion
 
 ### Decision
+
 Auth.js (NextAuth v5) como solucion de autenticacion.
 
 ### Alternativas evaluadas
-| Opcion | Pros | Contras |
-|--------|------|---------|
-| **Auth.js** | Gratis, data en tu DB, 80+ providers, personalizable | UI hay que hacerla, config puede ser compleja |
-| Clerk | UI pre-hecha, multi-tenancy built-in | $0.02/MAU, vendor lock-in, data no en tu DB |
-| Better Auth | TypeScript-first, plugins | Mas nuevo, menor comunidad |
-| Supabase Auth | Integrado con Supabase | Conflicto con modulo propio, lock-in |
-| Custom | Control total | Inseguro, reinventar la rueda |
+
+| Opcion        | Pros                                                 | Contras                                       |
+| ------------- | ---------------------------------------------------- | --------------------------------------------- |
+| **Auth.js**   | Gratis, data en tu DB, 80+ providers, personalizable | UI hay que hacerla, config puede ser compleja |
+| Clerk         | UI pre-hecha, multi-tenancy built-in                 | $0.02/MAU, vendor lock-in, data no en tu DB   |
+| Better Auth   | TypeScript-first, plugins                            | Mas nuevo, menor comunidad                    |
+| Supabase Auth | Integrado con Supabase                               | Conflicto con modulo propio, lock-in          |
+| Custom        | Control total                                        | Inseguro, reinventar la rueda                 |
 
 ### Justificacion
+
 - Gratis siempre: no come margen del cliente (50k users en Clerk = $800/mes)
 - Data en nuestra DB (schema packages/db/schemas/auth.ts)
 - 100% personalizable: cada cliente quiere su propia pantalla de login
@@ -169,18 +195,22 @@ Auth.js (NextAuth v5) como solucion de autenticacion.
 - Facil anadir: Microsoft, GitHub, Apple, Credentials
 
 ### Estrategia de sesion: JWT sobre Database Session
+
 - JWT: verificacion local (crypto), ~1-2ms, sin DB query
 - Database session: query a DB por request, ~50-100ms
 - JWT para performance; datos de sesion enriquecidos en el callback
 
 ### Por que no Neon Auth
+
 Neon ofrece su propio modulo de autenticacion (Neon Auth). No lo usamos porque:
+
 - Auth.js da control total sobre providers, callbacks y UI
 - JWT strategy sin queries a DB en cada request
 - No ata la autenticacion al proveedor de base de datos
 - Si migramos de Neon a otro PostgreSQL, auth sigue funcionando sin cambios
 
 ### Paginas publicas y auth
+
 - Paginas marketing (/, /pricing, /blog): CERO auth check, SSG, CDN
 - Paginas protegidas (/dashboard, /settings): JWT check en middleware Edge
 - Google nunca ve las paginas protegidas: SEO no se ve afectado
@@ -190,17 +220,20 @@ Neon ofrece su propio modulo de autenticacion (Neon Auth). No lo usamos porque:
 ## ADR-007: Estructura de Carpetas (Feature-Based)
 
 ### Decision
+
 Estructura basada en features, inspirada en Feature Slice Design pero adaptada a Next.js App Router.
 
 ### Alternativas evaluadas
-| Opcion | Pros | Contras |
-|--------|------|---------|
-| **Feature-based adaptado** | Intuitivo, colocation, se aprende en 5 min | Menos formal que FSD |
-| FSD completo (7 capas) | Muy estructurado | Conflicto con App Router, overkill, curva alta |
-| Todo en app/ | Simple | Archivos de 500 lineas, imposible reutilizar |
-| Components/ plano | Simple | 200 archivos sin organizacion |
+
+| Opcion                     | Pros                                       | Contras                                        |
+| -------------------------- | ------------------------------------------ | ---------------------------------------------- |
+| **Feature-based adaptado** | Intuitivo, colocation, se aprende en 5 min | Menos formal que FSD                           |
+| FSD completo (7 capas)     | Muy estructurado                           | Conflicto con App Router, overkill, curva alta |
+| Todo en app/               | Simple                                     | Archivos de 500 lineas, imposible reutilizar   |
+| Components/ plano          | Simple                                     | 200 archivos sin organizacion                  |
 
 ### Estructura
+
 ```
 app/               → Solo routing y composicion (Next.js App Router)
 features/          → Logica de negocio por dominio (components + actions + hooks)
@@ -210,10 +243,13 @@ packages/          → Modulos reutilizables entre proyectos
 ```
 
 ### Regla de dependencias (de FSD)
+
 Las dependencias solo van hacia abajo:
+
 ```
 app/ → features/ → components/ → lib/ → packages/
 ```
+
 Nunca imports cruzados entre features. Si dos features necesitan comunicarse, se componen en app/.
 
 ---
@@ -221,25 +257,30 @@ Nunca imports cruzados entre features. Si dos features necesitan comunicarse, se
 ## ADR-008: Rendering Strategy
 
 ### Decision
+
 Server Components por defecto. "use client" es la excepcion.
 
 ### Estrategia por zona
-| Zona | Patron | Auth | Cache | SEO |
-|------|--------|------|-------|-----|
-| Marketing (/, /pricing) | SSG (force-static) | Ninguno | CDN edge | Si |
-| Blog (/blog/[slug]) | ISR (revalidate) | Ninguno | CDN + revalidacion | Si |
-| Auth (/login) | SSR | Ninguno | No cache | No (noindex) |
-| Dashboard | SSR dinamico | JWT middleware | No cache | N/A (privado) |
-| Settings | SSR + Server Actions | JWT middleware | No cache | N/A (privado) |
+
+| Zona                    | Patron               | Auth           | Cache              | SEO           |
+| ----------------------- | -------------------- | -------------- | ------------------ | ------------- |
+| Marketing (/, /pricing) | SSG (force-static)   | Ninguno        | CDN edge           | Si            |
+| Blog (/blog/[slug])     | ISR (revalidate)     | Ninguno        | CDN + revalidacion | Si            |
+| Auth (/login)           | SSR                  | Ninguno        | No cache           | No (noindex)  |
+| Dashboard               | SSR dinamico         | JWT middleware | No cache           | N/A (privado) |
+| Settings                | SSR + Server Actions | JWT middleware | No cache           | N/A (privado) |
 
 ### Data fetching
+
 - Lectura: async Server Component (fetch en servidor)
 - Escritura: Server Actions (formularios y mutaciones)
-- Webhooks: Route Handlers (/api/webhooks/*)
+- Webhooks: Route Handlers (/api/webhooks/\*)
 - No crear API Routes para uso interno de la app
 
 ### Regla "use client"
+
 Solo cuando el compilador lo requiera:
+
 - useState, useEffect, useRef
 - Event handlers (onClick, onChange)
 - Librerias de browser (charts, maps, drag & drop)
@@ -250,18 +291,22 @@ Solo cuando el compilador lo requiera:
 ## ADR-009: No TanStack Query por Defecto
 
 ### Decision
+
 No incluir TanStack Query en la plantilla base.
 
 ### Contexto
+
 Con Server Components + Server Actions + Suspense, el 95% de los casos de uso de TanStack Query ya estan cubiertos.
 
 ### Cuando si instalarlo (por proyecto)
+
 - Polling en tiempo real (refetchInterval)
 - Infinite scroll (useInfiniteQuery)
 - Optimistic updates
 - Busqueda con debounce y cache client-side
 
 ### Justificacion
+
 Menos dependencias = menos mantenimiento = mas margen para la agencia. Se instala en 5 minutos cuando un proyecto especifico lo necesita.
 
 ---
@@ -269,9 +314,11 @@ Menos dependencias = menos mantenimiento = mas margen para la agencia. Se instal
 ## ADR-010: Performance Strategy
 
 ### Decision
+
 Aprovechar lo que Next.js da gratis + disciplina del equipo con reglas especificas.
 
 ### Lo que Next.js hace automaticamente
+
 - Code splitting por ruta
 - Prefetch de `<Link>` visibles
 - Image optimization (next/image)
@@ -279,6 +326,7 @@ Aprovechar lo que Next.js da gratis + disciplina del equipo con reglas especific
 - Tree-shaking
 
 ### Lo que configuramos en la plantilla
+
 - next/font con display swap (zero layout shift)
 - next/image obligatorio (ESLint rule prohibe `<img>`)
 - Lucide icons con tree-shaking (no SVG sprites)
@@ -287,40 +335,47 @@ Aprovechar lo que Next.js da gratis + disciplina del equipo con reglas especific
 - dynamic() para client components >50KB (charts, editors, maps)
 
 ### Patron Suspense para APIs lentas
+
 Cada seccion independiente envuelta en Suspense con su propio Skeleton. La pagina carga progresivamente, el usuario siempre ve contenido.
 
 ### Librerias prohibidas
-| Prohibida | Alternativa |
-|-----------|-------------|
-| moment.js | date-fns |
-| lodash | lodash-es o funciones nativas |
-| @fortawesome | lucide-react |
-| chart.js | recharts |
-| Draft.js | Tiptap |
+
+| Prohibida    | Alternativa                   |
+| ------------ | ----------------------------- |
+| moment.js    | date-fns                      |
+| lodash       | lodash-es o funciones nativas |
+| @fortawesome | lucide-react                  |
+| chart.js     | recharts                      |
+| Draft.js     | Tiptap                        |
 
 ---
 
 ## ADR-011: Gestion de SVGs
 
 ### Decision
+
 Lucide para iconos estandar + componente `<Icon>` tipado para custom + catalog page para descubrimiento.
 
 ### Estrategia por tipo
-| Tipo | Solucion | Descubrimiento |
-|------|----------|----------------|
-| Iconos estandar | Lucide React (tree-shakeable) | lucide.dev/icons |
-| Iconos custom | `<Icon name="..." />` con SVGR, tipo IconName | Catalog page |
-| Ilustraciones | `<EmptyState illustration="..." />` | Catalog page |
+
+| Tipo            | Solucion                                      | Descubrimiento   |
+| --------------- | --------------------------------------------- | ---------------- |
+| Iconos estandar | Lucide React (tree-shakeable)                 | lucide.dev/icons |
+| Iconos custom   | `<Icon name="..." />` con SVGR, tipo IconName | Catalog page     |
+| Ilustraciones   | `<EmptyState illustration="..." />`           | Catalog page     |
 
 ### Por que no SVG sprites
+
 Con tree-shaking y Server Components, los sprites son obsoletos. Un sprite carga TODOS los iconos. Tree-shaking solo los usados.
 
 ### Por que catalog page sobre Storybook (inicial)
+
 - Storybook es overkill solo para SVGs
 - Una pagina en `/catalog` (solo dev) con zero tooling extra
 - Si el design system crece a 50+ componentes, migrar a Storybook
 
 ### Storybook
+
 Se incluye en `packages/ui` para el design system reutilizable. Solo componentes de packages/ui, no pages ni features.
 
 ---
@@ -328,60 +383,68 @@ Se incluye en `packages/ui` para el design system reutilizable. Solo componentes
 ## ADR-012: Cloud & Infrastructure
 
 ### Decision
+
 Servicios compuestos: Vercel + Neon + Cloudflare + servicios especializados.
 
 ### Alternativas evaluadas
-| Opcion | Pros | Contras |
-|--------|------|---------|
-| **Compuesto** | Best-of-breed, sin overlap, flexible | Varios dashboards |
-| Supabase all-in-one | Un dashboard, rapido | Solapa con nuestros modulos (auth, storage) |
-| AWS completo | Control total, barato a escala | Necesita DevOps, complejo |
-| Firebase | Rapido | Vendor lock-in extremo, no SQL |
+
+| Opcion              | Pros                                 | Contras                                     |
+| ------------------- | ------------------------------------ | ------------------------------------------- |
+| **Compuesto**       | Best-of-breed, sin overlap, flexible | Varios dashboards                           |
+| Supabase all-in-one | Un dashboard, rapido                 | Solapa con nuestros modulos (auth, storage) |
+| AWS completo        | Control total, barato a escala       | Necesita DevOps, complejo                   |
+| Firebase            | Rapido                               | Vendor lock-in extremo, no SQL              |
 
 ### Stack elegido
-| Capa | Servicio | Justificacion |
-|------|----------|---------------|
-| Hosting | Vercel | Zero-config para Next.js, preview deploys |
-| Database | Neon PostgreSQL | Serverless, branching por PR, scale-to-zero |
-| CDN + DDoS | Cloudflare (free) | Absorbe 95% de ataques, $0 |
-| File Storage | Cloudflare R2 | Compatible S3, sin egress fees |
-| Auth | Auth.js (self-hosted) | $0, data en nuestra DB |
-| Email | Resend | React Email templates, 3k/mes gratis |
-| Payments | Stripe | Subscriptions, invoices |
-| Cache/Queues | Upstash Redis | Serverless, rate limiting |
-| Analytics | PostHog | Product analytics, 1M eventos gratis |
-| Error Tracking | Sentry | Stack traces, performance, gratis |
-| Uptime | Better Stack | Monitoring + alertas, gratis |
+
+| Capa           | Servicio              | Justificacion                               |
+| -------------- | --------------------- | ------------------------------------------- |
+| Hosting        | Vercel                | Zero-config para Next.js, preview deploys   |
+| Database       | Neon PostgreSQL       | Serverless, branching por PR, scale-to-zero |
+| CDN + DDoS     | Cloudflare (free)     | Absorbe 95% de ataques, $0                  |
+| File Storage   | Cloudflare R2         | Compatible S3, sin egress fees              |
+| Auth           | Auth.js (self-hosted) | $0, data en nuestra DB                      |
+| Email          | Resend                | React Email templates, 3k/mes gratis        |
+| Payments       | Stripe                | Subscriptions, invoices                     |
+| Cache/Queues   | Upstash Redis         | Serverless, rate limiting                   |
+| Analytics      | PostHog               | Product analytics, 1M eventos gratis        |
+| Error Tracking | Sentry                | Stack traces, performance, gratis           |
+| Uptime         | Better Stack          | Monitoring + alertas, gratis                |
 
 ### Costes por fase
-| Fase | Usuarios | Coste/mes |
-|------|----------|-----------|
-| Pre-revenue | 0-100 | $0 (Vercel Hobby) |
-| MVP | 100-1k | $20 (Vercel Pro) |
-| Crecimiento | 1k-10k | ~$96 |
-| Escala | 10k-50k | ~$352 |
+
+| Fase        | Usuarios | Coste/mes         |
+| ----------- | -------- | ----------------- |
+| Pre-revenue | 0-100    | $0 (Vercel Hobby) |
+| MVP         | 100-1k   | $20 (Vercel Pro)  |
+| Crecimiento | 1k-10k   | ~$96              |
+| Escala      | 10k-50k  | ~$352             |
 
 ---
 
 ## ADR-013: Seguridad — Defensa por Capas
 
 ### Decision
+
 4 capas de proteccion: Cloudflare → Vercel Edge → App → Database.
 
 ### Capas
+
 1. **Cloudflare (gratis)**: DDoS mitigation, WAF, bot detection
 2. **Middleware Edge**: Rate limiting con Upstash Redis (auth: 10/min, API: 60/min)
 3. **Aplicacion**: Security headers, Server Actions con validacion zod, webhook signature verification
 4. **Database**: Connection pooling, query timeouts, paginacion obligatoria (max 100)
 
 ### Rate Limiting
-| Ruta | Limite | Motivo |
-|------|--------|--------|
-| /api/auth/* | 10 req/min por IP | Prevenir brute force |
-| /api/* general | 60 req/min por IP | Proteccion general |
-| /api/webhooks/* | 200 req/min | Stripe puede enviar muchos |
+
+| Ruta             | Limite            | Motivo                     |
+| ---------------- | ----------------- | -------------------------- |
+| /api/auth/\*     | 10 req/min por IP | Prevenir brute force       |
+| /api/\* general  | 60 req/min por IP | Proteccion general         |
+| /api/webhooks/\* | 200 req/min       | Stripe puede enviar muchos |
 
 ### Respuesta ante ataque DDoS activo
+
 1. Activar "Under Attack Mode" en Cloudflare (1 click)
 2. Bajar rate limits temporalmente
 3. Bloquear IPs/paises en Cloudflare
@@ -392,19 +455,22 @@ Servicios compuestos: Vercel + Neon + Cloudflare + servicios especializados.
 ## ADR-014: Backups y Monitoring
 
 ### Backups
+
 - **Continuo**: Neon PITR (Point-in-Time Recovery) automatico, incluido
 - **Semanal**: Dump a Cloudflare R2 via GitHub Action (~$1/mes)
 - **Pre-migracion**: Dump manual antes de cada migracion de schema
 
 ### Monitoring
-| Herramienta | Funcion | Coste |
-|-------------|---------|-------|
-| Sentry | Error tracking + performance | Free (5k errores/mes) |
-| Better Stack | Uptime monitoring + logs + alertas | Free |
-| PostHog | Product analytics + session replay | Free (1M eventos/mes) |
-| Vercel | Build logs, web vitals, function metrics | Incluido en Pro |
+
+| Herramienta  | Funcion                                  | Coste                 |
+| ------------ | ---------------------------------------- | --------------------- |
+| Sentry       | Error tracking + performance             | Free (5k errores/mes) |
+| Better Stack | Uptime monitoring + logs + alertas       | Free                  |
+| PostHog      | Product analytics + session replay       | Free (1M eventos/mes) |
+| Vercel       | Build logs, web vitals, function metrics | Incluido en Pro       |
 
 ### Health Check
+
 Endpoint `/api/health` que verifica conectividad a DB. Better Stack lo monitorea cada minuto con alertas a Slack/SMS.
 
 ---
@@ -412,23 +478,28 @@ Endpoint `/api/health` que verifica conectividad a DB. Better Stack lo monitorea
 ## ADR-015: PostHog para Product Analytics
 
 ### Decision
+
 PostHog como unica herramienta de analytics. No incluir Google Analytics.
 
 ### Contexto
+
 Una startup SaaS necesita entender como los usuarios usan el producto para tomar decisiones. Hay dos tipos de analytics:
+
 - **Web/marketing analytics** (trafico, fuentes, SEO): Google Analytics, Plausible
 - **Product analytics** (comportamiento dentro de la app, funnels, retencion): PostHog, Mixpanel, Amplitude
 
 ### Alternativas evaluadas
-| Opcion | Pros | Contras |
-|--------|------|---------|
-| **PostHog** | Product analytics + pageviews en uno, 1M eventos gratis, open source | Menos potente para attribution de campañas |
-| Google Analytics | Gratis, attribution de ads, SEO insights | No tiene funnels de producto, no mide uso de features |
-| Mixpanel | Muy potente para producto | Caro (solo 1k usuarios en free), closed source |
-| Amplitude | Enterprise-grade | Overkill, complejo |
-| PostHog + GA | Lo mejor de ambos | Dos herramientas, mas complejidad |
+
+| Opcion           | Pros                                                                 | Contras                                               |
+| ---------------- | -------------------------------------------------------------------- | ----------------------------------------------------- |
+| **PostHog**      | Product analytics + pageviews en uno, 1M eventos gratis, open source | Menos potente para attribution de campañas            |
+| Google Analytics | Gratis, attribution de ads, SEO insights                             | No tiene funnels de producto, no mide uso de features |
+| Mixpanel         | Muy potente para producto                                            | Caro (solo 1k usuarios en free), closed source        |
+| Amplitude        | Enterprise-grade                                                     | Overkill, complejo                                    |
+| PostHog + GA     | Lo mejor de ambos                                                    | Dos herramientas, mas complejidad                     |
 
 ### Justificacion
+
 - PostHog cubre el 90% de lo que un SaaS necesita: pageviews, funnels, retencion, feature usage
 - Para una startup, saber "el 70% abandona en el paso 2 del checkout" vale mas que "100 visitas vinieron de Google"
 - 1M eventos gratis/mes es mas que suficiente para startups en fase inicial
@@ -436,18 +507,20 @@ Una startup SaaS necesita entender como los usuarios usan el producto para tomar
 - No es responsabilidad del template base
 
 ### Que medir con PostHog
-| Tipo | Ejemplo |
-|------|---------|
-| Funnels | Signup → Onboarding → First action → Subscription |
-| Feature usage | Cuantos usuarios usan feature X por semana |
-| Retencion | Cuantos vuelven despues de 7/30 dias |
-| Pageviews | Paginas mas visitadas, bounce rate |
+
+| Tipo          | Ejemplo                                           |
+| ------------- | ------------------------------------------------- |
+| Funnels       | Signup → Onboarding → First action → Subscription |
+| Feature usage | Cuantos usuarios usan feature X por semana        |
+| Retencion     | Cuantos vuelven despues de 7/30 dias              |
+| Pageviews     | Paginas mas visitadas, bounce rate                |
 
 ---
 
 ## ADR-016: Dos Repos — Packages Publicados + Template de Proyecto
 
 ### Decision
+
 Separar en dos repositorios: uno para packages compartidos (publicados en GitHub Packages) y otro como template de proyecto para clientes.
 
 ### Estructura
@@ -477,15 +550,17 @@ REPO 2: nyxidiom/saas-template (GitHub Template)
 ```
 
 ### Alternativas evaluadas
-| Opcion | Pros | Contras |
-|--------|------|---------|
-| **2 repos + registry** | Zero drift, onboarding simple, cada dev lo entiende | Dos repos que mantener |
-| Todo in-repo (template copy) | Zero friccion al desarrollar | Drift de componentes entre proyectos (bugs distintos por proyecto) |
-| Mega monorepo (todos los clientes) | Packages siempre actualizados | Sin aislamiento, permisos complicados |
-| Git submodules | Referencia directa | DX terrible, nadie los entiende |
-| pnpm link workflow | Desarrollo cruzado en tiempo real | Complejidad de onboarding, confuso para devs nuevos |
+
+| Opcion                             | Pros                                                | Contras                                                            |
+| ---------------------------------- | --------------------------------------------------- | ------------------------------------------------------------------ |
+| **2 repos + registry**             | Zero drift, onboarding simple, cada dev lo entiende | Dos repos que mantener                                             |
+| Todo in-repo (template copy)       | Zero friccion al desarrollar                        | Drift de componentes entre proyectos (bugs distintos por proyecto) |
+| Mega monorepo (todos los clientes) | Packages siempre actualizados                       | Sin aislamiento, permisos complicados                              |
+| Git submodules                     | Referencia directa                                  | DX terrible, nadie los entiende                                    |
+| pnpm link workflow                 | Desarrollo cruzado en tiempo real                   | Complejidad de onboarding, confuso para devs nuevos                |
 
 ### Justificacion
+
 - El problema principal a resolver: **evitar que el mismo componente (ej. `<Input/>`) tenga versiones distintas con bugs distintos en cada proyecto**
 - 2 repos es el modelo mental mas simple: "packages = libreria, proyecto = app"
 - Onboarding: cualquier dev entiende "instalo un package y lo uso"
@@ -494,22 +569,24 @@ REPO 2: nyxidiom/saas-template (GitHub Template)
 
 ### Que se publica vs que se queda in-repo
 
-| Publicar (igual en todos los proyectos) | In-repo (varia por proyecto) |
-|----------------------------------------|------------------------------|
-| @nyxidiom/ui (componentes, design system) | packages/db (schemas del dominio) |
-| @nyxidiom/config (ESLint, TS, Prettier) | packages/auth (providers, callbacks) |
-| @nyxidiom/email (templates base) | packages/payments (planes, webhooks) |
-| @nyxidiom/shared (validaciones, utils) | |
+| Publicar (igual en todos los proyectos)   | In-repo (varia por proyecto)         |
+| ----------------------------------------- | ------------------------------------ |
+| @nyxidiom/ui (componentes, design system) | packages/db (schemas del dominio)    |
+| @nyxidiom/config (ESLint, TS, Prettier)   | packages/auth (providers, callbacks) |
+| @nyxidiom/email (templates base)          | packages/payments (planes, webhooks) |
+| @nyxidiom/shared (validaciones, utils)    |                                      |
 
 **Regla:** si lo modificarias por proyecto, va in-repo. Si NO deberia cambiar entre proyectos, va publicado.
 
 ### Flujo de trabajo
+
 1. Dev encuentra bug en `<Input/>` → fix en repo nyxidiom-packages
 2. Commit con changeset → CI publica automaticamente nueva version
 3. En cada proyecto de cliente: `pnpm update @nyxidiom/ui`
 4. Todos los proyectos tienen el fix. Zero drift.
 
 ### Customizacion por proyecto: wrappear, nunca forkear
+
 ```ts
 // BIEN: wrapper que extiende el componente base
 import { Input } from '@nyxidiom/ui'
@@ -525,38 +602,45 @@ export function CurrencyInput(props) {
 ## ADR-017: Design System sin Disenador
 
 ### Decision
+
 Design system basado en shadcn/ui con personalizacion minima por cliente. Sin ilustraciones custom. Estetica minimalista tipo Linear/Vercel.
 
 ### Paleta de colores
+
 - Base: shadcn/ui default (Zinc grays)
 - Personalizacion: solo 1 CSS variable `--primary` por cliente
 - Dark mode: incluido gratis con shadcn/ui
 - No usar paletas externas (Nord, Material, etc.)
 
 ### Tipografia
+
 - Geist Sans (de Vercel): gratis, moderna, optimizada para interfaces
 - Geist Mono: para bloques de codigo
 - Alternativa: Inter
 - Cargada con next/font (zero layout shift)
 
 ### Iconografia
+
 - Lucide React: +1,500 iconos, tree-shakeable, estilo consistente
 - Simple Icons: solo para logos de marca (Google, GitHub en social login)
 - No icon sets custom, no SVG sprites
 
 ### Ilustraciones: NO usar
+
 - Empty states: icono grande de Lucide + texto
 - Error pages: icono + mensaje claro
 - Backgrounds: gradientes CSS abstractos
 - Marketing hero: screenshot del producto real
 
 ### Imagenes
+
 - Screenshots del dashboard como hero image (lo que hacen Linear, Vercel)
 - Gradientes mesh con CSS puro para fondos
 - No stock photos (se ven genericas)
 - No fotos custom (necesitan fotografo)
 
 ### Justificacion
+
 - Sin disenador en el equipo: la plantilla debe verse profesional out-of-the-box
 - shadcn/ui + Zinc + Geist es el mismo stack visual de Linear, Vercel, Raycast
 - Personalizar por cliente = cambiar 1 color + logo (5 minutos)
@@ -566,6 +650,7 @@ Design system basado en shadcn/ui con personalizacion minima por cliente. Sin il
 ## ADR-018: Configuracion Claude Code para el Equipo
 
 ### Decision
+
 CLAUDE.md en raiz y por package + custom commands + settings compartidos. Se configura en AMBOS repos.
 
 ### Estructura
@@ -585,6 +670,7 @@ saas-template/ (repo 2)
 ```
 
 ### Beneficio
+
 - Estilo consistente en todo el equipo
 - Claude usa los componentes y patrones del proyecto
 - Onboarding instantaneo: dev nuevo lee CLAUDE.md y esta al dia
@@ -595,31 +681,36 @@ saas-template/ (repo 2)
 ## ADR-019: Fechas, Formateo e Idioma
 
 ### Decision
+
 - Fechas almacenadas en **UTC** en la base de datos
 - Formateo de fechas, numeros y moneda con **`Intl` nativo** del browser (sin librerias)
 - Template en **ingles** sin libreria de i18n
 - No incluir next-intl, i18next, moment.js, ni date-fns
 
 ### Contexto
+
 La plantilla sirve a startups que lanzan en un mercado inicial. i18n desde el dia 1 anade complejidad innecesaria. Sin embargo, los usuarios pueden estar en diferentes zonas horarias y locales, por lo que el formateo de fechas y numeros debe adaptarse automaticamente.
 
 ### Alternativas evaluadas
-| Opcion | Pros | Contras |
-|--------|------|---------|
-| **Intl nativo** | Zero bundle, funciona en todos los browsers, auto-detecta locale | Sin traducciones de UI |
-| date-fns | API funcional, tree-shakeable | +7KB innecesarios, `Intl` ya lo resuelve |
-| moment.js | Popular | 300KB, deprecated, prohibido por ESLint |
-| next-intl desde dia 1 | Multi-idioma listo | Complejidad prematura, carpetas `[locale]`, archivos JSON de traducciones |
+
+| Opcion                | Pros                                                             | Contras                                                                   |
+| --------------------- | ---------------------------------------------------------------- | ------------------------------------------------------------------------- |
+| **Intl nativo**       | Zero bundle, funciona en todos los browsers, auto-detecta locale | Sin traducciones de UI                                                    |
+| date-fns              | API funcional, tree-shakeable                                    | +7KB innecesarios, `Intl` ya lo resuelve                                  |
+| moment.js             | Popular                                                          | 300KB, deprecated, prohibido por ESLint                                   |
+| next-intl desde dia 1 | Multi-idioma listo                                               | Complejidad prematura, carpetas `[locale]`, archivos JSON de traducciones |
 
 ### Implementacion
 
 **Base de datos — siempre UTC:**
+
 ```ts
 // Drizzle schema
 createdAt: timestamp('created_at', { withTimezone: true }).defaultNow()
 ```
 
 **Formateo de fechas — `Intl.DateTimeFormat`:**
+
 ```ts
 // @nyxidiom/shared
 function formatDate(date: Date | string, style: 'short' | 'long' = 'short') {
@@ -631,6 +722,7 @@ function formatDate(date: Date | string, style: 'short' | 'long' = 'short') {
 ```
 
 **Fechas relativas — `Intl.RelativeTimeFormat`:**
+
 ```ts
 function formatRelative(date: Date | string) {
   const d = typeof date === 'string' ? new Date(date) : date
@@ -646,6 +738,7 @@ function formatRelative(date: Date | string) {
 ```
 
 **Moneda — `Intl.NumberFormat`:**
+
 ```ts
 function formatCurrency(amount: number, currency: string) {
   return new Intl.NumberFormat(undefined, { style: 'currency', currency }).format(amount)
@@ -654,12 +747,14 @@ function formatCurrency(amount: number, currency: string) {
 ```
 
 ### Idioma
+
 - UI en ingles por defecto (strings directos en componentes, no en archivos de traduccion)
 - Si un cliente necesita otro idioma: se cambian los strings directamente en su proyecto
 - Si necesita multi-idioma: se anade `next-intl` con `[locale]` segment en ese proyecto especifico
 - No es responsabilidad de la plantilla base
 
 ### Beneficio
+
 - Zero dependencias de fechas/formateo (0KB extra de bundle)
 - Fechas y numeros se adaptan al locale del usuario automaticamente
 - Sin complejidad de i18n hasta que un proyecto la necesite

@@ -8,10 +8,10 @@ Complete reference for authentication methods, session management, and error han
 
 ```typescript
 await auth.signUp.email({
-  email: "user@example.com",
-  password: "securepassword",
-  name: "John Doe", // Optional
-});
+  email: 'user@example.com',
+  password: 'securepassword',
+  name: 'John Doe', // Optional
+})
 ```
 
 ### Sign In
@@ -19,31 +19,31 @@ await auth.signUp.email({
 ```typescript
 // Email/password
 await auth.signIn.email({
-  email: "user@example.com",
-  password: "securepassword",
-});
+  email: 'user@example.com',
+  password: 'securepassword',
+})
 
 // Social (Google, GitHub)
 await auth.signIn.social({
-  provider: "google", // or "github"
-  callbackURL: "/dashboard",
-});
+  provider: 'google', // or "github"
+  callbackURL: '/dashboard',
+})
 ```
 
 ### Sign Out
 
 ```typescript
-await auth.signOut();
+await auth.signOut()
 ```
 
 ### Get Session
 
 ```typescript
 // Async (Node.js, server components)
-const session = await auth.getSession();
+const session = await auth.getSession()
 
 // React hook (client components)
-const session = auth.useSession();
+const session = auth.useSession()
 // Returns: { data: Session | null, isPending: boolean }
 ```
 
@@ -52,46 +52,46 @@ const session = auth.useSession();
 ```typescript
 interface Session {
   user: {
-    id: string;
-    name: string | null;
-    email: string;
-    image: string | null;
-    emailVerified: boolean;
-    createdAt: Date;
-    updatedAt: Date;
-  };
+    id: string
+    name: string | null
+    email: string
+    image: string | null
+    emailVerified: boolean
+    createdAt: Date
+    updatedAt: Date
+  }
   session: {
-    id: string;
-    expiresAt: Date;
-    token: string;
-    createdAt: Date;
-    updatedAt: Date;
-    userId: string;
-  };
+    id: string
+    expiresAt: Date
+    token: string
+    createdAt: Date
+    updatedAt: Date
+    userId: string
+  }
 }
 ```
 
 ## Error Handling
 
 ```typescript
-const { error } = await auth.signIn.email({ email, password });
+const { error } = await auth.signIn.email({ email, password })
 
 if (error) {
   switch (error.code) {
-    case "INVALID_EMAIL_OR_PASSWORD":
-      showError("Invalid email or password");
-      break;
-    case "EMAIL_NOT_VERIFIED":
-      showError("Please verify your email");
-      break;
-    case "USER_NOT_FOUND":
-      showError("User not found");
-      break;
-    case "TOO_MANY_REQUESTS":
-      showError("Too many attempts. Please wait.");
-      break;
+    case 'INVALID_EMAIL_OR_PASSWORD':
+      showError('Invalid email or password')
+      break
+    case 'EMAIL_NOT_VERIFIED':
+      showError('Please verify your email')
+      break
+    case 'USER_NOT_FOUND':
+      showError('User not found')
+      break
+    case 'TOO_MANY_REQUESTS':
+      showError('Too many attempts. Please wait.')
+      break
     default:
-      showError("Authentication failed");
+      showError('Authentication failed')
   }
 }
 ```
@@ -114,20 +114,20 @@ For authentication pages, use the pre-built `AuthView` component instead of buil
 1. **Import CSS** (in `app/layout.tsx` or `app/globals.css`):
 
 ```tsx
-import "@neondatabase/auth/ui/css";
+import '@neondatabase/auth/ui/css'
 ```
 
 2. **Wrap app with provider** (create `app/auth-provider.tsx`):
 
 ```tsx
-"use client";
-import { NeonAuthUIProvider } from "@neondatabase/auth/react/ui";
-import { authClient } from "@/lib/auth/client";
-import { useRouter } from "next/navigation";
-import Link from "next/link";
+'use client'
+import { NeonAuthUIProvider } from '@neondatabase/auth/react/ui'
+import { authClient } from '@/lib/auth/client'
+import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const router = useRouter();
+  const router = useRouter()
   return (
     <NeonAuthUIProvider
       authClient={authClient}
@@ -138,27 +138,23 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     >
       {children}
     </NeonAuthUIProvider>
-  );
+  )
 }
 ```
 
 3. **Create auth page** (`app/auth/[path]/page.tsx`):
 
 ```tsx
-import { AuthView } from "@neondatabase/auth/react/ui";
-import { authViewPaths } from "@neondatabase/auth/react/ui/server";
+import { AuthView } from '@neondatabase/auth/react/ui'
+import { authViewPaths } from '@neondatabase/auth/react/ui/server'
 
 export function generateStaticParams() {
-  return Object.values(authViewPaths).map((path) => ({ path }));
+  return Object.values(authViewPaths).map((path) => ({ path }))
 }
 
-export default async function AuthPage({
-  params,
-}: {
-  params: Promise<{ path: string }>;
-}) {
-  const { path } = await params;
-  return <AuthView pathname={path} />;
+export default async function AuthPage({ params }: { params: Promise<{ path: string }> }) {
+  const { path } = await params
+  return <AuthView pathname={path} />
 }
 ```
 
@@ -182,24 +178,24 @@ For standard React web apps, **use AuthView**.
 ```tsx
 // ❌ Don't build custom forms unless you have specific requirements
 function CustomSignInPage() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    const { error } = await authClient.signIn.email({ email, password });
-    if (error) setError(error.message);
-    setLoading(false);
-  };
+    e.preventDefault()
+    setLoading(true)
+    const { error } = await authClient.signIn.email({ email, password })
+    if (error) setError(error.message)
+    setLoading(false)
+  }
 
   // ... 50+ more lines of form JSX, validation, error display
 }
 
 // ✅ Use AuthView instead - one component handles everything
-<AuthView pathname="sign-in" />;
+;<AuthView pathname="sign-in" />
 ```
 
 ## Styling

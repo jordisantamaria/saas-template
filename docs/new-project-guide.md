@@ -16,18 +16,18 @@ cp .env.example .env
 
 Fill in all required values:
 
-| Variable | How to get it |
-|----------|---------------|
-| `DATABASE_URL` | Create a Neon project at [neon.tech](https://neon.tech) |
-| `AUTH_SECRET` | Run `openssl rand -base64 32` |
-| `AUTH_GOOGLE_ID` | Google Cloud Console → APIs → Credentials |
-| `AUTH_GOOGLE_SECRET` | Same as above |
-| `STRIPE_SECRET_KEY` | Stripe Dashboard → Developers → API keys |
-| `STRIPE_WEBHOOK_SECRET` | Stripe CLI: `stripe listen --forward-to localhost:3000/api/webhooks/stripe` |
-| `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` | Stripe Dashboard → Developers → API keys |
-| `RESEND_API_KEY` | Resend Dashboard → API Keys |
-| `UPSTASH_REDIS_REST_URL` | Create a database at [upstash.com](https://upstash.com) |
-| `UPSTASH_REDIS_REST_TOKEN` | Same as above |
+| Variable                             | How to get it                                                               |
+| ------------------------------------ | --------------------------------------------------------------------------- |
+| `DATABASE_URL`                       | Create a Neon project at [neon.tech](https://neon.tech)                     |
+| `AUTH_SECRET`                        | Run `openssl rand -base64 32`                                               |
+| `AUTH_GOOGLE_ID`                     | Google Cloud Console → APIs → Credentials                                   |
+| `AUTH_GOOGLE_SECRET`                 | Same as above                                                               |
+| `STRIPE_SECRET_KEY`                  | Stripe Dashboard → Developers → API keys                                    |
+| `STRIPE_WEBHOOK_SECRET`              | Stripe CLI: `stripe listen --forward-to localhost:3000/api/webhooks/stripe` |
+| `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` | Stripe Dashboard → Developers → API keys                                    |
+| `RESEND_API_KEY`                     | Resend Dashboard → API Keys                                                 |
+| `UPSTASH_REDIS_REST_URL`             | Create a database at [upstash.com](https://upstash.com)                     |
+| `UPSTASH_REDIS_REST_TOKEN`           | Same as above                                                               |
 
 ## 3. Database Setup
 
@@ -40,22 +40,26 @@ pnpm db:seed       # Seed plans (free, pro, enterprise)
 ## 4. Customize for Client
 
 ### Branding
+
 - Update `apps/web/src/app/globals.css` — Change primary color in `@theme`
 - Update `apps/web/src/app/layout.tsx` — Change app name in metadata
 - Replace `public/` assets (favicon, og-image, logo)
 
 ### Plans & Pricing
+
 - Edit `packages/payments/src/plans.ts` — Change plan names, prices, features
 - Update Stripe Dashboard with matching products and prices
 - Re-run `pnpm db:seed` after changes
 
 ### Content
+
 - Edit landing page at `apps/web/src/features/marketing/components/hero.tsx`
 - Edit features section in `features-section.tsx`
 - Update testimonials in `testimonials.tsx`
 - Update legal pages in `apps/web/src/app/(legal)/`
 
 ### Schema Changes
+
 - Add domain-specific tables in `packages/db/src/schemas/`
 - Follow the existing pattern with `baseColumns`
 - Run `pnpm db:generate && pnpm db:migrate`

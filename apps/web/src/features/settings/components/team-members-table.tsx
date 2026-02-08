@@ -1,4 +1,4 @@
-type Member = {
+interface Member {
   id: string
   name: string | null
   email: string

@@ -5,7 +5,13 @@ export const metadata: Metadata = { title: 'Users - Admin' }
 
 export default function AdminUsersPage() {
   // TODO: Fetch users from DB with pagination
-  const users: { id: string; name: string | null; email: string; role: string; createdAt: string }[] = []
+  const users: {
+    id: string
+    name: string | null
+    email: string
+    role: string
+    createdAt: string
+  }[] = []
 
   return (
     <div className="space-y-6">

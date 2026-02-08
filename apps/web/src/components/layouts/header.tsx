@@ -15,10 +15,7 @@ export async function Header() {
 
       <div className="ml-auto flex items-center gap-4">
         {session?.user && (
-          <UserMenu
-            name={session.user.name ?? null}
-            email={session.user.email ?? ''}
-          />
+          <UserMenu name={session.user.name ?? null} email={session.user.email ?? ''} />
         )}
       </div>
     </header>

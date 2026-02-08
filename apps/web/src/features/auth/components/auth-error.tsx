@@ -4,7 +4,8 @@ const ERROR_MESSAGES: Record<string, string> = {
   OAuthSignin: 'Could not start the sign-in process. Please try again.',
   OAuthCallback: 'Could not complete the sign-in process. Please try again.',
   OAuthCreateAccount: 'Could not create your account. Please try again.',
-  OAuthAccountNotLinked: 'This email is already associated with another sign-in method. Please use your original sign-in method.',
+  OAuthAccountNotLinked:
+    'This email is already associated with another sign-in method. Please use your original sign-in method.',
   EmailCreateAccount: 'Could not create your account. Please try again.',
   EmailSignin: 'Could not send the sign-in email. Please try again.',
   CredentialsSignin: 'Invalid email or password.',
@@ -12,7 +13,7 @@ const ERROR_MESSAGES: Record<string, string> = {
   Default: 'An unexpected error occurred. Please try again.',
 }
 
-type AuthErrorProps = {
+interface AuthErrorProps {
   code: string
 }
 

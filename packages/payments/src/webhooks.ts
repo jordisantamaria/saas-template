@@ -9,6 +9,11 @@ type HandleWebhookParams = {
   payload: string | Buffer
   signature: string
   webhookSecret: string
+  onSubscriptionCreated?: (params: {
+    userId: string
+    email: string
+    planName: string
+  }) => Promise<void>
 }
 
 export async function handleWebhook({
@@ -17,12 +22,13 @@ export async function handleWebhook({
   payload,
   signature,
   webhookSecret,
+  onSubscriptionCreated,
 }: HandleWebhookParams) {
   const event = stripe.webhooks.constructEvent(payload, signature, webhookSecret)
 
   switch (event.type) {
     case 'checkout.session.completed':
-      await handleCheckoutCompleted(db, stripe, event.data.object)
+      await handleCheckoutCompleted(db, stripe, event.data.object, onSubscriptionCreated)
       break
     case 'customer.subscription.updated':
       await handleSubscriptionUpdated(db, event.data.object)
@@ -47,6 +53,11 @@ async function handleCheckoutCompleted(
   db: Database,
   stripe: Stripe,
   session: Stripe.Checkout.Session,
+  onSubscriptionCreated?: (params: {
+    userId: string
+    email: string
+    planName: string
+  }) => Promise<void>,
 ) {
   const userId = session.metadata?.userId
   const planId = session.metadata?.planId
@@ -82,6 +93,17 @@ async function handleCheckoutCompleted(
         updatedAt: new Date(),
       },
     })
+
+  if (onSubscriptionCreated && session.customer_email) {
+    const plan = await db.query.plans.findFirst({
+      where: eq(plans.id, planId),
+    })
+    await onSubscriptionCreated({
+      userId,
+      email: session.customer_email,
+      planName: plan?.name ?? 'Pro',
+    }).catch((err) => console.error('Failed to send subscription email:', err))
+  }
 }
 
 async function handleSubscriptionUpdated(db: Database, sub: Stripe.Subscription) {
@@ -190,19 +212,17 @@ async function handleInvoicePaymentFailed(db: Database, invoice: Stripe.Invoice)
 function mapStripeStatus(
   status: Stripe.Subscription.Status,
 ): 'active' | 'canceled' | 'past_due' | 'trialing' | 'incomplete' {
-  const statusMap: Record<
-    string,
-    'active' | 'canceled' | 'past_due' | 'trialing' | 'incomplete'
-  > = {
-    active: 'active',
-    canceled: 'canceled',
-    past_due: 'past_due',
-    trialing: 'trialing',
-    incomplete: 'incomplete',
-    incomplete_expired: 'canceled',
-    unpaid: 'past_due',
-    paused: 'canceled',
-  }
+  const statusMap: Record<string, 'active' | 'canceled' | 'past_due' | 'trialing' | 'incomplete'> =
+    {
+      active: 'active',
+      canceled: 'canceled',
+      past_due: 'past_due',
+      trialing: 'trialing',
+      incomplete: 'incomplete',
+      incomplete_expired: 'canceled',
+      unpaid: 'past_due',
+      paused: 'canceled',
+    }
 
   return statusMap[status] ?? 'active'
 }

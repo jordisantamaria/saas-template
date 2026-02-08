@@ -36,16 +36,16 @@ npm install @neondatabase/neon-js
 
 ```typescript
 // app/api/auth/[...path]/route.ts
-import { authApiHandler } from "@neondatabase/auth/next";
-export const { GET, POST } = authApiHandler();
+import { authApiHandler } from '@neondatabase/auth/next'
+export const { GET, POST } = authApiHandler()
 ```
 
 **2. Auth Client:**
 
 ```typescript
 // lib/auth/client.ts
-import { createAuthClient } from "@neondatabase/auth/next";
-export const authClient = createAuthClient();
+import { createAuthClient } from '@neondatabase/auth/next'
+export const authClient = createAuthClient()
 ```
 
 **3. Use in Components:**
@@ -65,22 +65,22 @@ function AuthStatus() {
 ### React SPA
 
 ```typescript
-import { createAuthClient } from "@neondatabase/auth";
-import { BetterAuthReactAdapter } from "@neondatabase/auth/react/adapters";
+import { createAuthClient } from '@neondatabase/auth'
+import { BetterAuthReactAdapter } from '@neondatabase/auth/react/adapters'
 
 const authClient = createAuthClient(import.meta.env.VITE_NEON_AUTH_URL, {
   adapter: BetterAuthReactAdapter(),
-});
+})
 ```
 
 ### Node.js Backend
 
 ```typescript
-import { createAuthClient } from "@neondatabase/auth";
+import { createAuthClient } from '@neondatabase/auth'
 
-const auth = createAuthClient(process.env.NEON_AUTH_URL!);
-await auth.signIn.email({ email, password });
-const session = await auth.getSession();
+const auth = createAuthClient(process.env.NEON_AUTH_URL!)
+await auth.signIn.email({ email, password })
+const session = await auth.getSession()
 ```
 
 ## Environment Variables
@@ -110,24 +110,20 @@ For detailed documentation:
 
 ```typescript
 // Auth client (Next.js)
-import { authApiHandler, createAuthClient } from "@neondatabase/auth/next";
+import { authApiHandler, createAuthClient } from '@neondatabase/auth/next'
 
 // Auth client (vanilla)
-import { createAuthClient } from "@neondatabase/auth";
+import { createAuthClient } from '@neondatabase/auth'
 
 // React adapter (NOT from main entry)
-import { BetterAuthReactAdapter } from "@neondatabase/auth/react/adapters";
+import { BetterAuthReactAdapter } from '@neondatabase/auth/react/adapters'
 
 // UI components
-import {
-  NeonAuthUIProvider,
-  AuthView,
-  SignInForm,
-} from "@neondatabase/auth/react/ui";
-import { authViewPaths } from "@neondatabase/auth/react/ui/server";
+import { NeonAuthUIProvider, AuthView, SignInForm } from '@neondatabase/auth/react/ui'
+import { authViewPaths } from '@neondatabase/auth/react/ui/server'
 
 // CSS
-import "@neondatabase/auth/ui/css";
+import '@neondatabase/auth/ui/css'
 ```
 
 ## Common Mistakes

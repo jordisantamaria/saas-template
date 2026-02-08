@@ -6,7 +6,7 @@ import { CancelButton } from './cancel-button'
 const plans = Object.values(PLANS)
 const PLAN_ORDER = ['free', 'pro', 'enterprise']
 
-type PricingCardsProps = {
+interface PricingCardsProps {
   currentPlanSlug?: string
   isCanceling?: boolean
 }

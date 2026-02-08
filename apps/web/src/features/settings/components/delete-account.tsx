@@ -46,13 +46,11 @@ export function DeleteAccount() {
     <div className="rounded-lg border border-destructive/30 p-6">
       <h3 className="text-lg font-medium text-destructive">Are you sure?</h3>
       <p className="mt-1 text-sm text-muted-foreground">
-        This will permanently delete your account, all your data, and cancel any active subscriptions.
-        Type <strong>DELETE</strong> to confirm.
+        This will permanently delete your account, all your data, and cancel any active
+        subscriptions. Type <strong>DELETE</strong> to confirm.
       </p>
 
-      {error && (
-        <p className="mt-2 text-sm text-destructive">{error}</p>
-      )}
+      {error && <p className="mt-2 text-sm text-destructive">{error}</p>}
 
       <div className="mt-4 flex items-center gap-3">
         <input

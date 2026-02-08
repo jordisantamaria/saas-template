@@ -23,12 +23,8 @@ export function PricingSection() {
             >
               <h3 className="text-lg font-semibold">{plan.name}</h3>
               <div className="mt-4">
-                <span className="text-4xl font-bold">
-                  ${(plan.price / 100).toFixed(0)}
-                </span>
-                {plan.price > 0 && (
-                  <span className="text-muted-foreground">/month</span>
-                )}
+                <span className="text-4xl font-bold">${(plan.price / 100).toFixed(0)}</span>
+                {plan.price > 0 && <span className="text-muted-foreground">/month</span>}
               </div>
 
               <ul className="mt-8 space-y-3">

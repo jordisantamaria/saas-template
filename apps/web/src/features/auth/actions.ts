@@ -1,12 +1,13 @@
 'use server'
 
 import { z } from 'zod'
+import { emailSchema } from '@nyxidiom/shared'
 import { createAction } from '@/lib/safe-action'
 import { signIn, signOut } from '@/lib/auth'
 
 export const signInWithEmail = createAction({
   requireAuth: false,
-  schema: z.object({ email: z.string().email() }),
+  schema: z.object({ email: emailSchema }),
   handler: async ({ input }) => {
     await signIn('resend', { email: input.email, redirect: false })
     return { success: true }

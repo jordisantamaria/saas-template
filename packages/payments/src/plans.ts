@@ -1,3 +1,5 @@
+import type { PlanType } from '@nyxidiom/shared'
+
 export type PlanConfig = {
   slug: string
   name: string
@@ -8,7 +10,7 @@ export type PlanConfig = {
   limits: { members: number; projects: number }
 }
 
-export const PLANS: Record<string, PlanConfig> = {
+export const PLANS: Record<PlanType, PlanConfig> = {
   free: {
     slug: 'free',
     name: 'Free',
@@ -45,7 +47,7 @@ export const PLANS: Record<string, PlanConfig> = {
 }
 
 export function getPlan(slug: string): PlanConfig | undefined {
-  return PLANS[slug]
+  return PLANS[slug as PlanType]
 }
 
 export function isFreePlan(slug: string): boolean {

@@ -1,18 +1,12 @@
 import { auth } from '@/lib/auth'
 import type { z } from 'zod'
 
-type ActionResult<T> =
-  | { success: true; data: T }
-  | { success: false; error: string }
+type ActionResult<T> = { success: true; data: T } | { success: false; error: string }
 
-type ActionOptions<TInput, TOutput> = {
+interface ActionOptions<TInput, TOutput> {
   schema?: z.ZodType<TInput>
   requireAuth?: boolean
-  handler: (params: {
-    input: TInput
-    userId: string
-    userRole: string
-  }) => Promise<TOutput>
+  handler: (params: { input: TInput; userId: string; userRole: string }) => Promise<TOutput>
 }
 
 export function createAction<TInput, TOutput>(options: ActionOptions<TInput, TOutput>) {

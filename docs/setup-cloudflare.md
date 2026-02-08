@@ -17,21 +17,25 @@
 ## 3. Security
 
 ### WAF Rules
+
 - Enable **Managed Rules** (OWASP Core Rule Set)
 - Add custom rule to block requests without valid User-Agent
 - Rate limit: 100 requests per 10 seconds per IP on `/api/*`
 
 ### DDoS Protection
+
 - Cloudflare DDoS protection is enabled by default on all plans
 - For additional protection, enable **Under Attack Mode** during active attacks
 
 ### Bot Management
+
 - Enable **Bot Fight Mode** (free tier)
 - Configure challenge for suspicious traffic on sensitive endpoints
 
 ## 4. Performance
 
 ### Caching
+
 - Set browser cache TTL to 4 hours for static assets
 - Cache Level: **Standard**
 - Add Page Rules:
@@ -39,6 +43,7 @@
   - `yourdomain.com/_next/static/*` → Cache Level: Cache Everything, Edge TTL: 1 month
 
 ### Speed
+
 - Enable **Auto Minify** for JavaScript, CSS, HTML
 - Enable **Brotli** compression
 - Enable **Early Hints**

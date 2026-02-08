@@ -34,14 +34,14 @@ src/
 
 ## Route Groups
 
-| Group         | Auth     | Layout                    |
-|---------------|----------|---------------------------|
-| (marketing)   | None     | Header + Footer           |
-| (legal)       | None     | Header + Footer (narrow)  |
-| (auth)        | None     | Centered, logo            |
-| (onboarding)  | Required | Minimal, progress         |
-| (dashboard)   | Required | Sidebar + Header          |
-| (admin)       | Admin    | Admin sidebar + Header    |
+| Group        | Auth     | Layout                   |
+| ------------ | -------- | ------------------------ |
+| (marketing)  | None     | Header + Footer          |
+| (legal)      | None     | Header + Footer (narrow) |
+| (auth)       | None     | Centered, logo           |
+| (onboarding) | Required | Minimal, progress        |
+| (dashboard)  | Required | Sidebar + Header         |
+| (admin)      | Admin    | Admin sidebar + Header   |
 
 ## Conventions
 

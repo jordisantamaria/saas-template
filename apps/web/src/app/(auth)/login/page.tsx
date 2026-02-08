@@ -6,7 +6,7 @@ import { AuthError } from '@/features/auth/components/auth-error'
 
 export const metadata: Metadata = { title: 'Sign In' }
 
-type Props = {
+interface Props {
   searchParams: Promise<{ error?: string }>
 }
 

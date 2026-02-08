@@ -28,10 +28,7 @@ export default async function SettingsPage() {
         <p className="text-muted-foreground">Manage your account settings.</p>
       </div>
 
-      <ProfileForm
-        initialName={session.user.name ?? ''}
-        email={session.user.email ?? ''}
-      />
+      <ProfileForm initialName={session.user.name ?? ''} email={session.user.email ?? ''} />
 
       <ConnectedAccounts providers={providers} />
 

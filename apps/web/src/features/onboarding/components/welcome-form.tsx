@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { updateUserName } from '../actions'
 
-type WelcomeFormProps = {
+interface WelcomeFormProps {
   initialName: string
 }
 

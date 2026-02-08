@@ -10,9 +10,7 @@ const FOOTER_LINKS = [
   },
   {
     title: 'Company',
-    links: [
-      { label: 'Blog', href: '/blog' },
-    ],
+    links: [{ label: 'Blog', href: '/blog' }],
   },
   {
     title: 'Legal',
@@ -30,9 +28,7 @@ export function Footer() {
         <div className="grid grid-cols-2 gap-8 md:grid-cols-4">
           <div className="col-span-2 md:col-span-1">
             <p className="text-lg font-bold tracking-tight">SaaS App</p>
-            <p className="mt-2 text-sm text-muted-foreground">
-              Your SaaS application description.
-            </p>
+            <p className="mt-2 text-sm text-muted-foreground">Your SaaS application description.</p>
           </div>
 
           {FOOTER_LINKS.map((section) => (

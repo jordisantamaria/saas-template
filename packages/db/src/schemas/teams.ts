@@ -21,7 +21,9 @@ export const members = pgTable('members', {
   organizationId: uuid('organization_id')
     .notNull()
     .references(() => organizations.id, { onDelete: 'cascade' }),
-  role: text('role', { enum: ['admin', 'member', 'viewer'] }).default('member').notNull(),
+  role: text('role', { enum: ['admin', 'member', 'viewer'] })
+    .default('member')
+    .notNull(),
 })
 
 export const invitations = pgTable('invitations', {
@@ -33,8 +35,12 @@ export const invitations = pgTable('invitations', {
   invitedById: uuid('invited_by_id')
     .notNull()
     .references(() => users.id),
-  role: text('role', { enum: ['admin', 'member', 'viewer'] }).default('member').notNull(),
-  status: text('status', { enum: ['pending', 'accepted', 'expired'] }).default('pending').notNull(),
+  role: text('role', { enum: ['admin', 'member', 'viewer'] })
+    .default('member')
+    .notNull(),
+  status: text('status', { enum: ['pending', 'accepted', 'expired'] })
+    .default('pending')
+    .notNull(),
   token: text('token').notNull().unique(),
   expiresAt: timestamp('expires_at', { withTimezone: true }).notNull(),
 })

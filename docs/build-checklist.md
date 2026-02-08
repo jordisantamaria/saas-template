@@ -7,6 +7,7 @@
 # REPO 1: `nyxidiom-packages`
 
 ## P1. Setup del repo
+
 - [x] Inicializar repo con git
 - [x] `package.json` raiz con workspaces
 - [x] `pnpm-workspace.yaml`
@@ -18,6 +19,7 @@
 - [x] `README.md`
 
 ## P2. `@nyxidiom/config`
+
 - [x] `package.json`
 - [x] ESLint config base
 - [x] ESLint regla: prohibir `<img>`
@@ -30,6 +32,7 @@
 - [x] Sentry config base
 
 ## P3. `@nyxidiom/ui` — Setup
+
 - [x] `package.json`
 - [x] Tailwind CSS v4
 - [x] shadcn/ui instalado y configurado
@@ -37,6 +40,7 @@
 - [x] Geist Sans + Geist Mono como fuentes
 
 ## P4. `@nyxidiom/ui` — Componentes base
+
 - [x] Button (default, secondary, outline, ghost, destructive)
 - [x] Input
 - [x] Textarea
@@ -59,6 +63,7 @@
 - [x] Popover
 
 ## P5. `@nyxidiom/ui` — Componentes SaaS
+
 - [x] DataTable (TanStack Table wrapper: sorting, filtering, pagination)
 - [x] PageHeader (titulo + descripcion + actions)
 - [x] EmptyState (icono Lucide + titulo + descripcion + CTA)
@@ -66,6 +71,7 @@
 - [x] GradientBackground (CSS mesh gradient para hero sections)
 
 ## P6. `@nyxidiom/ui` — Skeletons
+
 - [x] Skeleton base (pulse animation)
 - [x] CardSkeleton
 - [x] StatsGridSkeleton
@@ -73,6 +79,7 @@
 - [x] ChartSkeleton
 
 ## P7. `@nyxidiom/ui` — Temas
+
 - [x] Tema base (Zinc + neutral primary)
 - [x] Dark mode
 - [x] Tema ejemplo: fintech (azul)
@@ -81,6 +88,7 @@
 - [x] Docs: como crear tema por cliente
 
 ## P8. `@nyxidiom/ui` — Storybook
+
 - [x] Storybook 8 configurado
 - [x] Stories: todos los componentes base (P4)
 - [x] Stories: componentes SaaS (P5)
@@ -89,13 +97,16 @@
 - [x] Script `pnpm storybook`
 
 ## P9. `@nyxidiom/ui` — Tests
+
 - [x] DataTable: renders data, empty state, sorting
 - [ ] Form integration: validation errors display
 
 ## P10. `@nyxidiom/ui` — CLAUDE.md
+
 - [x] Reglas de componentes, variants, styling
 
 ## P11. `@nyxidiom/email`
+
 - [x] `package.json`
 - [x] Resend + React Email instalados
 - [x] Template base layout (logo, footer, unsubscribe)
@@ -109,10 +120,12 @@
 - [x] CLAUDE.md
 
 ## P12. `@nyxidiom/email` — Tests
+
 - [x] Render test: cada template renderiza sin errores
 - [x] Render test: templates contienen contenido esperado (nombre, links)
 
 ## P13. `@nyxidiom/shared`
+
 - [x] `package.json`
 - [x] Validaciones Zod: email, password, pagination, id (uuid)
 - [x] Tipos compartidos: UserRole, PlanType, PaginatedResponse
@@ -120,6 +133,7 @@
 - [x] Utils: formatCurrency, formatDate, slugify, cn
 
 ## P14. `@nyxidiom/shared` — Tests
+
 - [x] Validaciones: email (validos, invalidos, edge cases)
 - [x] Validaciones: password (min length, complexity)
 - [x] Validaciones: pagination (defaults, max limit cap)
@@ -128,12 +142,14 @@
 - [x] Utils: slugify
 
 ## P15. App de referencia `apps/reference`
+
 - [ ] Next.js app minima
 - [ ] Importa y renderiza componentes de @nyxidiom/ui
 - [ ] Pagina catalog con todos los componentes y temas
 - [ ] Verifica que build funciona
 
 ## P16. CI/CD del repo
+
 - [x] GitHub Action: lint + typecheck + test (on PR)
 - [x] GitHub Action: publish con Changesets (on merge to main)
 - [ ] GitHub Packages configurado como registry privado
@@ -143,8 +159,9 @@
 # REPO 2: `saas-template`
 
 ## T1. Setup del repo
+
 - [x] Inicializar repo con git
-- [x] `package.json` raiz con workspaces + deps de @nyxidiom/*
+- [x] `package.json` raiz con workspaces + deps de @nyxidiom/\*
 - [x] `pnpm-workspace.yaml`
 - [x] `turbo.json` (build, dev, lint, test, typecheck)
 - [x] `.gitignore`
@@ -154,6 +171,7 @@
 - [x] `README.md`
 
 ## T2. `packages/db`
+
 - [x] `package.json`
 - [x] Drizzle ORM + drizzle-kit configurado
 - [x] Connection con Neon PostgreSQL
@@ -171,6 +189,7 @@
 - [x] CLAUDE.md
 
 ## T3. `packages/auth`
+
 - [x] `package.json`
 - [x] Auth.js (next-auth v5) instalado
 - [x] `providers.ts` — Google, Magic Link, Credentials
@@ -182,6 +201,7 @@
 - [x] CLAUDE.md
 
 ## T4. `packages/payments`
+
 - [x] `package.json`
 - [x] Stripe SDK instalado
 - [x] `service.ts` — createPaymentService(db, stripe)
@@ -199,6 +219,7 @@
 - [x] CLAUDE.md
 
 ## T5. `apps/web` — Setup
+
 - [x] Next.js 15 app con App Router
 - [x] Tailwind CSS con tema de @nyxidiom/ui
 - [x] `next.config.ts` (security headers, bundle analyzer)
@@ -215,6 +236,7 @@
 - [x] `lib/utils.ts` — cn() y helpers
 
 ## T6. `apps/web` — Layouts
+
 - [x] `app/layout.tsx` — root layout (fonts, providers, metadata)
 - [x] `app/(marketing)/layout.tsx` — marketing header + footer, force-static
 - [x] `app/(legal)/layout.tsx` — mismo layout marketing
@@ -224,6 +246,7 @@
 - [x] `app/(admin)/layout.tsx` — sidebar admin + role check (admin only)
 
 ## T7. `apps/web` — Componentes compartidos
+
 - [x] `components/layouts/marketing-header.tsx` — logo + nav + CTA, sin auth check
 - [x] `components/layouts/footer.tsx`
 - [x] `components/layouts/sidebar.tsx` — dashboard sidebar
@@ -232,6 +255,7 @@
 - [x] `components/shared/page-header.tsx`
 
 ## T8. Paginas Marketing (SSG)
+
 - [x] `/` — Landing: hero gradient + screenshot, features con Lucide icons, pricing preview, CTA
 - [x] `/pricing` — 3 cards (Free/Pro/Enterprise), feature comparison, FAQ
 - [x] `/blog` — lista de posts (placeholder, MDX o CMS)
@@ -239,10 +263,12 @@
 - [x] `/changelog` — timeline de updates del producto
 
 ## T9. Paginas Legales (SSG)
+
 - [x] `/terms` — terminos de servicio
 - [x] `/privacy` — politica de privacidad (GDPR)
 
 ## T10. Paginas Auth
+
 - [x] `/login` — social buttons (Google) arriba + separador + magic link form + link a register
 - [x] `/register` — social buttons + form (email, name) + link a login + checkbox ToS
 - [x] `/check-email` — icono email + "Revisa tu email"
@@ -252,10 +278,12 @@
 - [x] `/error` — error generico + link a login
 
 ## T11. Paginas Onboarding
+
 - [x] `/welcome` — paso 1: nombre, avatar
 - [x] `/setup` — paso 2: crear org / elegir plan
 
 ## T12. Paginas Dashboard
+
 - [x] `/dashboard` — overview: stats cards + recent activity
 - [x] `/dashboard/settings` — profile: nombre, email, avatar
 - [x] `/dashboard/settings/billing` — plan actual, usage, boton Stripe portal
@@ -263,12 +291,14 @@
 - [x] `/dashboard/settings/notifications` — toggles email/in-app/marketing
 
 ## T13. Paginas Dashboard — Recurso CRUD (placeholder)
+
 - [x] `/dashboard/[recurso]` — lista con DataTable, filtros, search, paginacion
 - [x] `/dashboard/[recurso]/new` — form de creacion
 - [x] `/dashboard/[recurso]/[id]` — vista detalle con tabs
 - [x] `/dashboard/[recurso]/[id]/edit` — form de edicion
 
 ## T14. Paginas Admin
+
 - [x] `/admin` — overview: total users, MRR, active subs, churn, signups recientes
 - [x] `/admin/users` — DataTable todos los users: email, plan, status, fecha registro
 - [x] `/admin/users/[id]` — detalle: info, subscription, actividad, acciones
@@ -276,18 +306,22 @@
 - [x] `/admin/analytics` — charts: revenue over time, signups, churn, plan distribution
 
 ## T15. Paginas Error
+
 - [x] `not-found.tsx` — 404: Lucide FileQuestion + "Page not found" + boton Home
 - [x] `error.tsx` — 500: Lucide AlertTriangle + "Something went wrong" + Retry
 
 ## T16. Pagina Dev (solo desarrollo)
+
 - [x] `/catalog` — visual catalog de componentes, temas (redirect en produccion)
 
 ## T17. API Routes
+
 - [x] `/api/auth/[...nextauth]/route.ts` — Auth.js handler
 - [x] `/api/webhooks/stripe/route.ts` — Stripe webhooks (verificacion firma)
 - [x] `/api/health/route.ts` — health check (Edge runtime)
 
 ## T18. Features
+
 - [x] `features/auth/components/login-form.tsx`
 - [x] `features/auth/components/register-form.tsx`
 - [x] `features/auth/components/social-buttons.tsx`
@@ -317,12 +351,14 @@
 - [x] `features/onboarding/actions.ts`
 
 ## T19. Tests — Unit (Vitest)
+
 - [x] Vitest configurado
 - [x] `packages/auth/middleware` — rutas publicas pasan, protegidas redirigen, logged-in redirige desde /login
 - [x] `packages/payments/webhooks` — checkout.completed activa sub, subscription.deleted cancela, unknown event no crashea
 - [x] `lib/safe-action` — valida input zod, rechaza sin auth, rate limit funciona
 
 ## T20. Tests — E2E (Playwright)
+
 - [x] Playwright configurado
 - [x] Auth: /dashboard redirige a /login sin sesion
 - [x] Auth: /login muestra social buttons y form
@@ -332,6 +368,7 @@
 - [x] Error: ruta desconocida muestra 404
 
 ## T21. Configuracion Claude Code
+
 - [x] `CLAUDE.md` raiz
 - [x] `.claude/settings.json` — permisos allow/deny
 - [x] `.claude/commands/create-module.md`
@@ -342,6 +379,7 @@
 - [x] `packages/auth/CLAUDE.md`
 
 ## T22. CI/CD
+
 - [x] GitHub Action: lint + typecheck + test (on PR)
 - [x] GitHub Action: build (on PR)
 - [x] GitHub Action: weekly database backup
@@ -351,6 +389,7 @@
 - [ ] Vercel environment variables
 
 ## T23. Documentacion
+
 - [x] `docs/architecture-decisions.md`
 - [x] `docs/build-checklist.md`
 - [x] `docs/clean-code.md`
@@ -361,6 +400,7 @@
 - [x] `docs/new-project-guide.md`
 
 ## T24. Scripts
+
 - [x] `pnpm dev`
 - [x] `pnpm build`
 - [x] `pnpm test`

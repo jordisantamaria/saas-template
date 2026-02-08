@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { updateProfile } from '../actions'
 
-type ProfileFormProps = {
+interface ProfileFormProps {
   initialName: string
   email: string
 }
@@ -61,7 +61,9 @@ export function ProfileForm({ initialName, email }: ProfileFormProps) {
         </div>
 
         {message && (
-          <p className={`text-sm ${message === 'Profile updated.' ? 'text-green-600' : 'text-destructive'}`}>
+          <p
+            className={`text-sm ${message === 'Profile updated.' ? 'text-green-600' : 'text-destructive'}`}
+          >
             {message}
           </p>
         )}

@@ -7,18 +7,21 @@
 ## 1. Principios Generales
 
 ### Simplicidad sobre abstraccion
+
 - No crees helpers, utilities o abstracciones para operaciones que se usan una vez
 - Tres lineas de codigo similar son mejor que una abstraccion prematura
 - No disenes para requisitos hipoteticos futuros
 - La cantidad correcta de complejidad es el minimo necesario para la tarea actual
 
 ### Explicito sobre implicito
+
 - Prefiere codigo que se lea como prosa
 - Evita side effects ocultos
 - Las funciones deben hacer lo que su nombre dice, nada mas
 - Si una funcion necesita un comentario para explicar QUE hace, renombrala
 
 ### Colocation
+
 - Lo que va junto, vive junto
 - Tests junto al archivo: `user-service.test.ts`
 - Types donde se usan, no en un archivo `types.ts` global
@@ -29,6 +32,7 @@
 ## 2. TypeScript
 
 ### Strict siempre
+
 ```json
 {
   "compilerOptions": {
@@ -41,6 +45,7 @@
 ```
 
 ### Nunca `any`
+
 ```ts
 // MAL
 function processData(data: any) { ... }
@@ -53,6 +58,7 @@ function processData(data: TransactionInput) { ... }
 ```
 
 ### Inferencia sobre anotacion explicita
+
 ```ts
 // INNECESARIO — TypeScript ya lo infiere
 const name: string = 'John'
@@ -67,6 +73,7 @@ export function getUser(id: string): Promise<User | null> { ... }
 ```
 
 ### `as const` y satisfies
+
 ```ts
 // BIEN — preserva tipos literales
 const PLANS = {
@@ -82,6 +89,7 @@ const config = {
 ```
 
 ### Discriminated unions sobre flags booleanos
+
 ```ts
 // MAL
 type Result = {
@@ -91,9 +99,7 @@ type Result = {
 }
 
 // BIEN
-type Result =
-  | { success: true; data: User }
-  | { success: false; error: string }
+type Result = { success: true; data: User } | { success: false; error: string }
 ```
 
 ---
@@ -101,6 +107,7 @@ type Result =
 ## 3. Naming Conventions
 
 ### Archivos
+
 ```
 kebab-case para todo:
   user-profile.tsx
@@ -110,6 +117,7 @@ kebab-case para todo:
 ```
 
 ### Codigo
+
 ```ts
 // Componentes: PascalCase
 export function UserProfile() { ... }
@@ -146,6 +154,7 @@ const shouldRedirect = true
 ```
 
 ### Nombres descriptivos
+
 ```ts
 // MAL — abreviaciones crípticas
 const usr = getUsr(id)
@@ -173,6 +182,7 @@ const activeSubscriptions = getActiveSubscriptions()
 ## 4. Funciones
 
 ### Pequenas y con un solo proposito
+
 ```ts
 // MAL — hace demasiadas cosas
 async function processPayment(userId: string, planId: string) {
@@ -200,6 +210,7 @@ async function processPayment(userId: string, planId: string) {
 ```
 
 ### Maximo 3 parametros, usar objeto si hay mas
+
 ```ts
 // MAL
 function createUser(name: string, email: string, role: string, orgId: string) { ... }
@@ -216,6 +227,7 @@ type CreateUserInput = {
 ```
 
 ### Early returns
+
 ```ts
 // MAL — nesting profundo
 function getDiscount(user: User) {
@@ -243,6 +255,7 @@ function getDiscount(user: User | null) {
 ```
 
 ### No clases. Funciones y composicion.
+
 ```ts
 // MAL — clase innecesaria
 class UserService {
@@ -265,17 +278,19 @@ function createUserService(db: DrizzleDB) {
 ## 5. React / Next.js
 
 ### Server Components por defecto
+
 ```tsx
 // NO pongas "use client" hasta que sea necesario
 // Server Component: 0 JS al browser
 
 export default async function DashboardPage() {
-  const data = await getStats()   // Fetch en servidor
+  const data = await getStats() // Fetch en servidor
   return <StatsCards data={data} />
 }
 ```
 
 ### "use client" solo cuando sea estrictamente necesario
+
 ```tsx
 // NECESITA "use client":
 // - useState, useEffect, useRef
@@ -286,11 +301,12 @@ export default async function DashboardPage() {
 
 export function SearchInput() {
   const [query, setQuery] = useState('')
-  return <input value={query} onChange={e => setQuery(e.target.value)} />
+  return <input value={query} onChange={(e) => setQuery(e.target.value)} />
 }
 ```
 
 ### Componentes pequenos y enfocados
+
 ```tsx
 // MAL — componente que hace todo
 export function DashboardPage() {
@@ -314,6 +330,7 @@ export default async function DashboardPage() {
 ```
 
 ### Props destructuradas
+
 ```tsx
 // MAL
 function UserCard(props: UserCardProps) {
@@ -327,6 +344,7 @@ function UserCard({ user, onEdit }: UserCardProps) {
 ```
 
 ### No prop drilling — composicion
+
 ```tsx
 // MAL — pasar props a traves de 4 niveles
 <Layout user={user}>
@@ -347,6 +365,7 @@ function UserCard({ user, onEdit }: UserCardProps) {
 ## 6. Data Fetching
 
 ### Server Actions para mutaciones
+
 ```tsx
 // BIEN — Server Action tipada y validada
 'use server'
@@ -365,6 +384,7 @@ export async function updateProfile(formData: FormData) {
 ```
 
 ### Fetch paralelo, nunca en cascada
+
 ```tsx
 // MAL — cascada
 const user = await getUser(id)
@@ -372,14 +392,11 @@ const stats = await getStats(id)
 const activity = await getActivity(id)
 
 // BIEN — paralelo
-const [user, stats, activity] = await Promise.all([
-  getUser(id),
-  getStats(id),
-  getActivity(id),
-])
+const [user, stats, activity] = await Promise.all([getUser(id), getStats(id), getActivity(id)])
 ```
 
 ### Validacion con Zod en boundaries
+
 ```ts
 // Validar en: Server Actions, API Routes, form submissions
 // NO validar: funciones internas entre modulos de confianza
@@ -396,6 +413,7 @@ export const createTransactionSchema = z.object({
 ## 7. Error Handling
 
 ### Errors en boundaries, no en cada linea
+
 ```ts
 // MAL — try/catch en cada funcion
 async function getUser(id: string) {
@@ -416,6 +434,7 @@ async function getUser(id: string) {
 ```
 
 ### Errores esperados vs inesperados
+
 ```ts
 // Esperado: el usuario puede no existir — return null
 async function findUserByEmail(email: string): Promise<User | null> {
@@ -441,6 +460,7 @@ async function getStats() {
 ## 8. Imports
 
 ### Orden de imports
+
 ```ts
 // 1. React / Next.js
 import { Suspense } from 'react'
@@ -461,6 +481,7 @@ import type { User } from '@nyxidiom/db'
 ```
 
 ### Siempre import type cuando solo se importa el tipo
+
 ```ts
 // BIEN
 import type { User } from '@nyxidiom/db'
@@ -472,6 +493,7 @@ import { type NextRequest } from 'next/server'
 ## 9. Lo que NO hacer
 
 ### No sobreingenieria
+
 - No feature flags para cosas que puedes cambiar directamente
 - No backwards-compatibility shims
 - No repositorios abstractos si solo hay una implementacion
@@ -479,6 +501,7 @@ import { type NextRequest } from 'next/server'
 - No comments tipo `// removed` para codigo eliminado
 
 ### No comentarios obvios
+
 ```ts
 // MAL
 // Get the user by ID
@@ -493,6 +516,7 @@ await softDeleteUser(id)
 ```
 
 ### No overhandling de errores
+
 ```ts
 // MAL — catch de cosas que nunca fallan
 try {

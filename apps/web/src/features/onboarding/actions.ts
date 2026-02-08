@@ -1,10 +1,14 @@
 'use server'
 
 import { z } from 'zod'
+import { slugify } from '@nyxidiom/shared'
 import { createAction } from '@/lib/safe-action'
+import { email } from '@/lib/email'
 import { db } from 'db'
 import { users, organizations, members } from 'db/schemas'
 import { eq } from 'drizzle-orm'
+
+const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000'
 
 export const updateUserName = createAction({
   schema: z.object({ name: z.string().min(1).max(100) }),
@@ -13,13 +17,6 @@ export const updateUserName = createAction({
     return { success: true }
   },
 })
-
-function slugify(text: string) {
-  return text
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/(^-|-$)/g, '')
-}
 
 export const createOrganization = createAction({
   schema: z.object({ name: z.string().min(1).max(100) }),
@@ -39,10 +36,22 @@ export const createOrganization = createAction({
       role: 'admin',
     })
 
-    await db
-      .update(users)
-      .set({ onboardingCompleted: new Date() })
-      .where(eq(users.id, userId))
+    await db.update(users).set({ onboardingCompleted: new Date() }).where(eq(users.id, userId))
+
+    // Send welcome email (non-blocking)
+    const user = await db.query.users.findFirst({
+      where: eq(users.id, userId),
+      columns: { email: true, name: true },
+    })
+    if (user?.email) {
+      email
+        .sendWelcome({
+          to: user.email,
+          name: user.name ?? user.email.split('@')[0] ?? 'there',
+          dashboardUrl: `${appUrl}/dashboard`,
+        })
+        .catch((err) => console.error('Failed to send welcome email:', err))
+    }
 
     return { orgId: org.id }
   },

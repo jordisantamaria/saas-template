@@ -10,7 +10,11 @@ export function CancelButton({ variant = 'outline' }: { variant?: 'primary' | 'o
   const [error, setError] = useState('')
 
   async function handleCancel() {
-    if (!confirm('Are you sure you want to cancel your subscription? You will keep access until the end of your billing period.')) {
+    if (
+      !confirm(
+        'Are you sure you want to cancel your subscription? You will keep access until the end of your billing period.',
+      )
+    ) {
       return
     }
 

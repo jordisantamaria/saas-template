@@ -1,7 +1,7 @@
 import type Stripe from 'stripe'
 import { eq, desc } from 'drizzle-orm'
 import type { Database } from 'db'
-import { plans, subscriptions, invoices } from 'db/schemas'
+import { plans, subscriptions } from 'db/schemas'
 
 type CreatePaymentServiceParams = {
   db: Database
@@ -80,11 +80,7 @@ export function createPaymentService({ db, stripe, appUrl }: CreatePaymentServic
       return { url: session.url, sessionId: session.id }
     },
 
-    async createCustomerPortalSession({
-      stripeCustomerId,
-    }: {
-      stripeCustomerId: string
-    }) {
+    async createCustomerPortalSession({ stripeCustomerId }: { stripeCustomerId: string }) {
       const session = await stripe.billingPortal.sessions.create({
         customer: stripeCustomerId,
         return_url: `${appUrl}/dashboard/settings/billing`,

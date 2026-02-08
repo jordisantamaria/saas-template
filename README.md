@@ -64,16 +64,16 @@ pnpm db:seed          # Seed plans (free, pro, enterprise)
 
 Todo el entorno (local incluido) usa servicios cloud. No hay Docker.
 
-| Servicio | Uso | Free tier |
-|----------|-----|-----------|
-| [Neon](https://neon.tech) | PostgreSQL | 10 proyectos, 0.5 GB |
-| [Upstash](https://upstash.com) | Redis (rate limiting) | 10K commands/day |
-| [Stripe](https://stripe.com) | Pagos | Test mode ilimitado |
-| [Resend](https://resend.com) | Email transaccional | 3K emails/mes |
-| [Sentry](https://sentry.io) | Error tracking | 5K events/mes |
-| [PostHog](https://posthog.com) | Analytics | 1M events/mes |
-| [Vercel](https://vercel.com) | Deploy | Hobby plan gratis |
-| [Cloudflare](https://cloudflare.com) | CDN / DDoS | Free tier |
+| Servicio                             | Uso                   | Free tier            |
+| ------------------------------------ | --------------------- | -------------------- |
+| [Neon](https://neon.tech)            | PostgreSQL            | 10 proyectos, 0.5 GB |
+| [Upstash](https://upstash.com)       | Redis (rate limiting) | 10K commands/day     |
+| [Stripe](https://stripe.com)         | Pagos                 | Test mode ilimitado  |
+| [Resend](https://resend.com)         | Email transaccional   | 3K emails/mes        |
+| [Sentry](https://sentry.io)          | Error tracking        | 5K events/mes        |
+| [PostHog](https://posthog.com)       | Analytics             | 1M events/mes        |
+| [Vercel](https://vercel.com)         | Deploy                | Hobby plan gratis    |
+| [Cloudflare](https://cloudflare.com) | CDN / DDoS            | Free tier            |
 
 Los servicios se comparten por equipo. La unica variable que cambia por desarrollador es `DATABASE_URL` (cada uno usa su propio branch de Neon).
 
@@ -146,13 +146,13 @@ Ver [docs/manual-setup.md](docs/manual-setup.md) para la checklist completa de s
 
 ## Documentacion
 
-| Doc | Contenido |
-|-----|-----------|
-| [architecture-decisions.md](docs/architecture-decisions.md) | Decisiones tecnicas y trade-offs |
-| [build-checklist.md](docs/build-checklist.md) | Checklist de construccion del template |
-| [clean-code.md](docs/clean-code.md) | Convenciones de codigo |
-| [playbook.md](docs/playbook.md) | Playbook de la agencia |
-| [manual-setup.md](docs/manual-setup.md) | Setup manual de servicios cloud |
-| [setup-cloudflare.md](docs/setup-cloudflare.md) | Guia de configuracion Cloudflare |
-| [setup-monitoring.md](docs/setup-monitoring.md) | Guia de Sentry + PostHog + Better Stack |
-| [new-project-guide.md](docs/new-project-guide.md) | Como crear proyecto nuevo desde el template |
+| Doc                                                         | Contenido                                   |
+| ----------------------------------------------------------- | ------------------------------------------- |
+| [architecture-decisions.md](docs/architecture-decisions.md) | Decisiones tecnicas y trade-offs            |
+| [build-checklist.md](docs/build-checklist.md)               | Checklist de construccion del template      |
+| [clean-code.md](docs/clean-code.md)                         | Convenciones de codigo                      |
+| [playbook.md](docs/playbook.md)                             | Playbook de la agencia                      |
+| [manual-setup.md](docs/manual-setup.md)                     | Setup manual de servicios cloud             |
+| [setup-cloudflare.md](docs/setup-cloudflare.md)             | Guia de configuracion Cloudflare            |
+| [setup-monitoring.md](docs/setup-monitoring.md)             | Guia de Sentry + PostHog + Better Stack     |
+| [new-project-guide.md](docs/new-project-guide.md)           | Como crear proyecto nuevo desde el template |

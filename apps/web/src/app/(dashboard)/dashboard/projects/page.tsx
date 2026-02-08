@@ -28,7 +28,9 @@ export default function ProjectsPage() {
         <div className="flex flex-col items-center justify-center rounded-lg border border-dashed p-12">
           <FolderOpen className="h-10 w-10 text-muted-foreground" />
           <h3 className="mt-4 font-semibold">No projects yet</h3>
-          <p className="mt-1 text-sm text-muted-foreground">Create your first project to get started.</p>
+          <p className="mt-1 text-sm text-muted-foreground">
+            Create your first project to get started.
+          </p>
           <Link
             href="/dashboard/projects/new"
             className="mt-4 inline-flex h-9 items-center gap-2 rounded-md bg-primary px-3 text-sm font-medium text-primary-foreground hover:bg-primary/90"

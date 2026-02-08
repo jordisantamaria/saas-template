@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { resumeSubscription } from '../actions'
 
-type SubscriptionStatusProps = {
+interface SubscriptionStatusProps {
   planName: string
   status: string
   currentPeriodEnd: string | null

@@ -1,6 +1,4 @@
-function Skeleton({ className }: { className?: string }) {
-  return <div className={`animate-pulse rounded-md bg-muted ${className ?? ''}`} />
-}
+import { Skeleton } from '@nyxidiom/ui'
 
 export default function DashboardLoading() {
   return (

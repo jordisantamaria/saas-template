@@ -7,9 +7,11 @@
 ## 1. Primera Reunion con el Cliente
 
 ### Objetivo
+
 Entender el problema, validar que somos el fit correcto, y dar una estimacion inicial.
 
 ### Agenda (45-60 min)
+
 1. **Escuchar** (15 min) — Que quieren construir, para quien, por que ahora
 2. **Preguntas clave** (10 min) — Ver seccion abajo
 3. **Demo de la plantilla** (10 min) — Mostrar lo que ya viene resuelto
@@ -17,6 +19,7 @@ Entender el problema, validar que somos el fit correcto, y dar una estimacion in
 5. **Siguientes pasos** (5 min) — Que necesitamos de ellos
 
 ### Preguntas clave para el cliente
+
 ```
 PRODUCTO
 - Que problema resuelven? Para quien?
@@ -43,6 +46,7 @@ CONTEXTO
 ```
 
 ### Cuando un cliente pide mobile
+
 ```
 Respuesta estandar:
 
@@ -60,6 +64,7 @@ Esto te ahorra entre un 40-60% del coste de hacerlo todo de golpe."
 ## 2. Fases de Entrega
 
 ### Fase 0: Discovery & Setup (1 semana)
+
 **Entregable:** Documento de requisitos + repo configurado
 
 ```
@@ -80,6 +85,7 @@ Lo que el cliente nos da:
 ```
 
 ### Fase 1: MVP Core (2-4 semanas)
+
 **Entregable:** App funcional con las features criticas
 
 ```
@@ -99,6 +105,7 @@ Lo que construimos custom:
 ```
 
 ### Fase 2: Polish & Launch (1-2 semanas)
+
 **Entregable:** App lista para produccion
 
 ```
@@ -112,6 +119,7 @@ Lo que construimos custom:
 ```
 
 ### Fase 3: Iteracion Post-Launch (ongoing)
+
 **Entregable:** Mejoras basadas en datos reales
 
 ```
@@ -163,6 +171,7 @@ Total: 9 semanas
 ## 4. Lo que Viene Resuelto vs Lo que es Custom
 
 ### Ya resuelto en la plantilla (lo que NO cobramos como desarrollo)
+
 Esto es nuestra ventaja competitiva. El cliente paga por lo custom, no por reinventar la rueda.
 
 ```
@@ -215,6 +224,7 @@ MONITORING
 ```
 
 ### Lo que construimos custom (lo que SI cobramos)
+
 ```
   Features especificas del dominio del cliente
   Schemas de DB del negocio
@@ -229,6 +239,7 @@ MONITORING
 ## 5. Gestion del Cliente
 
 ### Comunicacion
+
 ```
 HERRAMIENTAS
 - Slack/Discord: comunicacion diaria
@@ -243,6 +254,7 @@ CADENCIA
 ```
 
 ### Gestion de cambios de scope
+
 ```
 Cuando el cliente pide algo nuevo mid-sprint:
 
@@ -254,6 +266,7 @@ Nunca decir que no. Siempre dar opciones con trade-offs claros.
 ```
 
 ### Handoff al equipo del cliente
+
 ```
 Lo que entregamos al final:
 
@@ -270,6 +283,7 @@ Lo que entregamos al final:
 ## 6. Objeciones Comunes
 
 ### "Es muy caro"
+
 ```
 "Entiendo. Piensa que lo que te entregamos incluye autenticacion,
 pagos, email, seguridad, monitoring y dashboard — todo listo.
@@ -280,6 +294,7 @@ no por la infraestructura."
 ```
 
 ### "Podemos hacerlo internos"
+
 ```
 "Por supuesto. La pregunta es: cuanto cuesta en tiempo?
 Si tu equipo tarda 4 meses en llegar a produccion, son 4 meses
@@ -289,6 +304,7 @@ en iterar sobre lo que importa."
 ```
 
 ### "Quiero mobile desde el dia 1"
+
 ```
 "El 90% de tus usuarios iniciales van a llegar por web.
 Te entregamos una web que funciona perfecto en movil, se instala
@@ -299,6 +315,7 @@ que quizas no necesitas aun."
 ```
 
 ### "Puedo usar un template de $99 de internet"
+
 ```
 "Los templates genericos te dan una carcasa. No incluyen la
 arquitectura para escalar, los modulos de pagos configurados,
@@ -308,6 +325,7 @@ con algo bien hecho. Nosotros te damos un producto, no un zip."
 ```
 
 ### "Quiero usar AWS"
+
 ```
 "Tienes razon, AWS es excelente. Netflix, Airbnb, Spotify lo usan.
 Pero esas empresas tienen equipos de DevOps de 10-50 personas.
@@ -336,6 +354,7 @@ Normalmente cuando ven el coste extra, eligen Vercel.
 ```
 
 ### "Que pasa si necesito cambiar de proveedor?"
+
 ```
 "Cero lock-in. Tu codigo es tuyo, en tu GitHub. La base de datos
 es PostgreSQL estandar — funciona en cualquier proveedor. El ORM
@@ -349,12 +368,14 @@ de ningun vendor propietario."
 ## 7. Metricas de Exito
 
 ### Para el cliente
+
 - Time to market (semanas, no meses)
 - Coste de infra ($0-$20/mes al inicio)
 - Conversion rate (auth social > email/password)
 - Uptime (>99.9% con Cloudflare + Vercel)
 
 ### Para la agencia
+
 - Tiempo de entrega vs estimacion
 - % de reutilizacion de la plantilla (target: 70%+ es plantilla, 30% es custom)
 - NPS del cliente

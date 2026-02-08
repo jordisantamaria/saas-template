@@ -63,9 +63,7 @@ describe('createAction', () => {
       const action = createAction({ handler })
       await action('test')
 
-      expect(handler).toHaveBeenCalledWith(
-        expect.objectContaining({ userRole: 'member' }),
-      )
+      expect(handler).toHaveBeenCalledWith(expect.objectContaining({ userRole: 'member' }))
     })
   })
 

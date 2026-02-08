@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { LayoutDashboard, Settings, CreditCard, Users, Bell } from 'lucide-react'
-import { cn } from '@/lib/utils'
+import { cn } from '@nyxidiom/ui'
 
 const NAV_ITEMS = [
   { label: 'Overview', href: '/dashboard', icon: LayoutDashboard },
@@ -26,7 +26,8 @@ export function Sidebar() {
 
       <nav className="space-y-1 p-3">
         {NAV_ITEMS.map((item) => {
-          const isActive = pathname === item.href || (item.href !== '/dashboard' && pathname.startsWith(item.href))
+          const isActive =
+            pathname === item.href || (item.href !== '/dashboard' && pathname.startsWith(item.href))
           return (
             <Link
               key={item.href}

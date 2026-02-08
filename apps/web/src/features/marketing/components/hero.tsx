@@ -15,8 +15,8 @@ export function Hero() {
           </h1>
 
           <p className="mx-auto mt-6 max-w-xl text-lg text-muted-foreground">
-            Everything you need to launch your SaaS product. Authentication, payments,
-            dashboards, and more — ready out of the box.
+            Everything you need to launch your SaaS product. Authentication, payments, dashboards,
+            and more — ready out of the box.
           </p>
 
           <div className="mt-8 flex items-center justify-center gap-4">

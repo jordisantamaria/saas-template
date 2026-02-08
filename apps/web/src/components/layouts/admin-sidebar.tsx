@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { LayoutDashboard, Users, CreditCard, BarChart3 } from 'lucide-react'
-import { cn } from '@/lib/utils'
+import { cn } from '@nyxidiom/ui'
 
 const NAV_ITEMS = [
   { label: 'Overview', href: '/admin', icon: LayoutDashboard },
@@ -25,7 +25,8 @@ export function AdminSidebar() {
 
       <nav className="space-y-1 p-3">
         {NAV_ITEMS.map((item) => {
-          const isActive = pathname === item.href || (item.href !== '/admin' && pathname.startsWith(item.href))
+          const isActive =
+            pathname === item.href || (item.href !== '/admin' && pathname.startsWith(item.href))
           return (
             <Link
               key={item.href}

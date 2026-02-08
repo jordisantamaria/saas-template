@@ -49,12 +49,7 @@ export function RegisterForm() {
       </div>
 
       <div className="flex items-start gap-2">
-        <input
-          id="terms"
-          type="checkbox"
-          required
-          className="mt-1 h-4 w-4 rounded border-input"
-        />
+        <input id="terms" type="checkbox" required className="mt-1 h-4 w-4 rounded border-input" />
         <label htmlFor="terms" className="text-xs text-muted-foreground">
           I agree to the{' '}
           <Link href="/terms" className="underline hover:text-foreground">

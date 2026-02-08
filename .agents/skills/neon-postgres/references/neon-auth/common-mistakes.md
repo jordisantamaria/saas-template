@@ -12,18 +12,18 @@ Reference guide for common mistakes when using `@neondatabase/auth` or `@neondat
 
 ```typescript
 // These will NOT work
-import { BetterAuthReactAdapter } from "@neondatabase/neon-js";
-import { BetterAuthReactAdapter } from "@neondatabase/auth";
+import { BetterAuthReactAdapter } from '@neondatabase/neon-js'
+import { BetterAuthReactAdapter } from '@neondatabase/auth'
 ```
 
 **Correct:**
 
 ```typescript
 // For @neondatabase/neon-js
-import { BetterAuthReactAdapter } from "@neondatabase/neon-js/auth/react/adapters";
+import { BetterAuthReactAdapter } from '@neondatabase/neon-js/auth/react/adapters'
 
 // For @neondatabase/auth
-import { BetterAuthReactAdapter } from "@neondatabase/auth/react/adapters";
+import { BetterAuthReactAdapter } from '@neondatabase/auth/react/adapters'
 ```
 
 **Why:** The React adapter has React-specific dependencies and is tree-shaken out of the main bundle. Using subpath exports keeps the main bundle smaller for non-React environments.
@@ -41,7 +41,7 @@ const client = createClient({
     url: process.env.NEON_AUTH_URL!,
   },
   dataApi: { url: process.env.NEON_DATA_API_URL! },
-});
+})
 ```
 
 **Correct:**
@@ -53,7 +53,7 @@ const client = createClient({
     url: process.env.NEON_AUTH_URL!,
   },
   dataApi: { url: process.env.NEON_DATA_API_URL! },
-});
+})
 ```
 
 This applies to all adapters:
@@ -72,8 +72,8 @@ Auth UI components require CSS. Choose **ONE** method based on your project.
 
 ```css
 /* In app/globals.css */
-@import "tailwindcss";
-@import "@neondatabase/neon-js/ui/tailwind";
+@import 'tailwindcss';
+@import '@neondatabase/neon-js/ui/tailwind';
 /* Or: @import '@neondatabase/auth/ui/tailwind'; */
 ```
 
@@ -81,7 +81,7 @@ Auth UI components require CSS. Choose **ONE** method based on your project.
 
 ```typescript
 // In app/layout.tsx
-import "@neondatabase/neon-js/ui/css";
+import '@neondatabase/neon-js/ui/css'
 // Or: import "@neondatabase/auth/ui/css";
 ```
 
@@ -91,8 +91,8 @@ import "@neondatabase/neon-js/ui/css";
 
 ```css
 /* Causes ~94KB of duplicate styles */
-@import "@neondatabase/neon-js/ui/css";
-@import "@neondatabase/neon-js/ui/tailwind";
+@import '@neondatabase/neon-js/ui/css';
+@import '@neondatabase/neon-js/ui/tailwind';
 ```
 
 **Why:** The `ui/css` import includes pre-built CSS (~47KB). The `ui/tailwind` import provides Tailwind tokens (~2KB) that generate similar styles. Using both doubles your CSS bundle.
@@ -109,22 +109,22 @@ The `createAuthClient` function takes the URL as the first argument, not as a pr
 
 ```typescript
 // This will NOT work
-createAuthClient({ baseURL: url });
-createAuthClient({ url: myUrl });
+createAuthClient({ baseURL: url })
+createAuthClient({ url: myUrl })
 ```
 
 **Correct:**
 
 ```typescript
 // Vanilla client - URL as first arg
-createAuthClient(url);
+createAuthClient(url)
 
 // With adapter - URL as first arg, options as second
-createAuthClient(url, { adapter: BetterAuthReactAdapter() });
+createAuthClient(url, { adapter: BetterAuthReactAdapter() })
 
 // Next.js client - no arguments (uses env vars automatically)
-import { createAuthClient } from "@neondatabase/auth/next";
-const authClient = createAuthClient();
+import { createAuthClient } from '@neondatabase/auth/next'
+const authClient = createAuthClient()
 ```
 
 ### Missing Environment Variables
@@ -167,10 +167,10 @@ Client components using `useSession()` need the `"use client"` directive.
 
 ```typescript
 // Missing directive - will cause hydration errors
-import { authClient } from "@/lib/auth/client";
+import { authClient } from '@/lib/auth/client'
 
 function AuthStatus() {
-  const session = authClient.useSession();
+  const session = authClient.useSession()
   // ...
 }
 ```
@@ -178,12 +178,12 @@ function AuthStatus() {
 **Correct:**
 
 ```typescript
-"use client";
+'use client'
 
-import { authClient } from "@/lib/auth/client";
+import { authClient } from '@/lib/auth/client'
 
 function AuthStatus() {
-  const session = authClient.useSession();
+  const session = authClient.useSession()
   // ...
 }
 ```
@@ -198,10 +198,10 @@ Each adapter has its own API style. Don't mix them.
 const client = createClient({
   auth: { adapter: SupabaseAuthAdapter(), url },
   dataApi: { url },
-});
+})
 
 // This won't work with SupabaseAuthAdapter
-await client.auth.signIn.email({ email, password });
+await client.auth.signIn.email({ email, password })
 ```
 
 **Correct - Supabase API with SupabaseAuthAdapter:**
@@ -210,10 +210,10 @@ await client.auth.signIn.email({ email, password });
 const client = createClient({
   auth: { adapter: SupabaseAuthAdapter(), url },
   dataApi: { url },
-});
+})
 
 // Use Supabase-style methods
-await client.auth.signInWithPassword({ email, password });
+await client.auth.signInWithPassword({ email, password })
 ```
 
 **API Reference by Adapter:**

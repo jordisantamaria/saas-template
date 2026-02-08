@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 
-type Preferences = {
+interface Preferences {
   emailNotifications: boolean
   marketingEmails: boolean
 }

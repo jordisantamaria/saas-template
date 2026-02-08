@@ -32,36 +32,36 @@ npm install @neondatabase/neon-js
 
 ```typescript
 // app/api/auth/[...path]/route.ts
-import { authApiHandler } from "@neondatabase/neon-js/auth/next";
-export const { GET, POST } = authApiHandler();
+import { authApiHandler } from '@neondatabase/neon-js/auth/next'
+export const { GET, POST } = authApiHandler()
 ```
 
 **2. Auth Client:**
 
 ```typescript
 // lib/auth/client.ts
-import { createAuthClient } from "@neondatabase/neon-js/auth/next";
-export const authClient = createAuthClient();
+import { createAuthClient } from '@neondatabase/neon-js/auth/next'
+export const authClient = createAuthClient()
 ```
 
 **3. Database Client:**
 
 ```typescript
 // lib/db/client.ts
-import { createClient } from "@neondatabase/neon-js";
-import type { Database } from "./database.types";
+import { createClient } from '@neondatabase/neon-js'
+import type { Database } from './database.types'
 
 export const dbClient = createClient<Database>({
   auth: { url: process.env.NEXT_PUBLIC_NEON_AUTH_URL! },
   dataApi: { url: process.env.NEON_DATA_API_URL! },
-});
+})
 ```
 
 ### React SPA
 
 ```typescript
-import { createClient } from "@neondatabase/neon-js";
-import { BetterAuthReactAdapter } from "@neondatabase/neon-js/auth/react/adapters";
+import { createClient } from '@neondatabase/neon-js'
+import { BetterAuthReactAdapter } from '@neondatabase/neon-js/auth/react/adapters'
 
 const client = createClient<Database>({
   auth: {
@@ -69,18 +69,18 @@ const client = createClient<Database>({
     url: import.meta.env.VITE_NEON_AUTH_URL,
   },
   dataApi: { url: import.meta.env.VITE_NEON_DATA_API_URL },
-});
+})
 ```
 
 ### Node.js Backend
 
 ```typescript
-import { createClient } from "@neondatabase/neon-js";
+import { createClient } from '@neondatabase/neon-js'
 
 const client = createClient<Database>({
   auth: { url: process.env.NEON_AUTH_URL! },
   dataApi: { url: process.env.NEON_DATA_API_URL! },
-});
+})
 ```
 
 ## Environment Variables
@@ -103,24 +103,24 @@ All query methods follow PostgREST syntax (same as Supabase):
 ```typescript
 // Select with filters
 const { data } = await client
-  .from("items")
-  .select("id, name, status")
-  .eq("status", "active")
-  .order("created_at", { ascending: false })
-  .limit(10);
+  .from('items')
+  .select('id, name, status')
+  .eq('status', 'active')
+  .order('created_at', { ascending: false })
+  .limit(10)
 
 // Insert
 const { data, error } = await client
-  .from("items")
-  .insert({ name: "New Item", status: "pending" })
+  .from('items')
+  .insert({ name: 'New Item', status: 'pending' })
   .select()
-  .single();
+  .single()
 
 // Update
-await client.from("items").update({ status: "completed" }).eq("id", 1);
+await client.from('items').update({ status: 'completed' }).eq('id', 1)
 
 // Delete
-await client.from("items").delete().eq("id", 1);
+await client.from('items').delete().eq('id', 1)
 ```
 
 For complete Data API query reference, see `neon-js/data-api.md`.
@@ -131,35 +131,35 @@ For complete Data API query reference, see `neon-js/data-api.md`.
 
 ```typescript
 // Sign in/up
-await client.auth.signIn.email({ email, password });
-await client.auth.signUp.email({ email, password, name });
-await client.auth.signOut();
+await client.auth.signIn.email({ email, password })
+await client.auth.signUp.email({ email, password, name })
+await client.auth.signOut()
 
 // Get session
-const session = await client.auth.getSession();
+const session = await client.auth.getSession()
 
 // Social sign-in
 await client.auth.signIn.social({
-  provider: "google",
-  callbackURL: "/dashboard",
-});
+  provider: 'google',
+  callbackURL: '/dashboard',
+})
 ```
 
 ### Supabase-Compatible API
 
 ```typescript
-import { createClient, SupabaseAuthAdapter } from "@neondatabase/neon-js";
+import { createClient, SupabaseAuthAdapter } from '@neondatabase/neon-js'
 
 const client = createClient({
   auth: { adapter: SupabaseAuthAdapter(), url },
   dataApi: { url },
-});
+})
 
-await client.auth.signInWithPassword({ email, password });
-await client.auth.signUp({ email, password });
+await client.auth.signInWithPassword({ email, password })
+await client.auth.signUp({ email, password })
 const {
   data: { session },
-} = await client.auth.getSession();
+} = await client.auth.getSession()
 ```
 
 ## Sub-Resources
@@ -173,31 +173,20 @@ const {
 
 ```typescript
 // Main client
-import {
-  createClient,
-  SupabaseAuthAdapter,
-  BetterAuthVanillaAdapter,
-} from "@neondatabase/neon-js";
+import { createClient, SupabaseAuthAdapter, BetterAuthVanillaAdapter } from '@neondatabase/neon-js'
 
 // Next.js integration
-import {
-  authApiHandler,
-  createAuthClient,
-} from "@neondatabase/neon-js/auth/next";
+import { authApiHandler, createAuthClient } from '@neondatabase/neon-js/auth/next'
 
 // React adapter (NOT from main entry - must use subpath)
-import { BetterAuthReactAdapter } from "@neondatabase/neon-js/auth/react/adapters";
+import { BetterAuthReactAdapter } from '@neondatabase/neon-js/auth/react/adapters'
 
 // UI components
-import {
-  NeonAuthUIProvider,
-  AuthView,
-  SignInForm,
-} from "@neondatabase/neon-js/auth/react/ui";
-import { authViewPaths } from "@neondatabase/neon-js/auth/react/ui/server";
+import { NeonAuthUIProvider, AuthView, SignInForm } from '@neondatabase/neon-js/auth/react/ui'
+import { authViewPaths } from '@neondatabase/neon-js/auth/react/ui/server'
 
 // CSS (choose one)
-import "@neondatabase/neon-js/ui/css"; // Without Tailwind
+import '@neondatabase/neon-js/ui/css' // Without Tailwind
 // @import '@neondatabase/neon-js/ui/tailwind'; // With Tailwind v4 (in CSS file)
 ```
 

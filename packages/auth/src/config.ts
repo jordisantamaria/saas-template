@@ -19,7 +19,15 @@ type CreateAuthConfigParams = {
 
 export function createAuthConfig({ db, tables, providers, pages }: CreateAuthConfigParams) {
   return NextAuth({
-    adapter: DrizzleAdapter(db as never, { usersTable: tables.users, accountsTable: tables.accounts, sessionsTable: tables.sessions, verificationTokensTable: tables.verificationTokens } as never),
+    adapter: DrizzleAdapter(
+      db as never,
+      {
+        usersTable: tables.users,
+        accountsTable: tables.accounts,
+        sessionsTable: tables.sessions,
+        verificationTokensTable: tables.verificationTokens,
+      } as never,
+    ),
     session: { strategy: 'jwt' },
     providers,
     pages: {

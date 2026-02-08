@@ -5,9 +5,11 @@ import type { Provider } from 'next-auth/providers'
 export function createProviders({
   resendApiKey,
   emailFrom,
+  sendMagicLink,
 }: {
   resendApiKey?: string
   emailFrom?: string
+  sendMagicLink?: (params: { to: string; magicLinkUrl: string }) => Promise<void>
 }): Provider[] {
   const providers: Provider[] = [Google]
 
@@ -16,6 +18,11 @@ export function createProviders({
       Resend({
         apiKey: resendApiKey,
         from: emailFrom ?? 'App <noreply@example.com>',
+        ...(sendMagicLink && {
+          sendVerificationRequest: async ({ identifier, url }) => {
+            await sendMagicLink({ to: identifier, magicLinkUrl: url })
+          },
+        }),
       }),
     )
   }

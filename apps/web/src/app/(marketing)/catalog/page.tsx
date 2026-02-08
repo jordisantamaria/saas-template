@@ -4,18 +4,52 @@ import { redirect } from 'next/navigation'
 export const metadata: Metadata = { title: 'Component Catalog' }
 
 const components = [
-  { name: 'Button — Primary', className: 'inline-flex h-10 items-center rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground hover:bg-primary/90' },
-  { name: 'Button — Outline', className: 'inline-flex h-10 items-center rounded-md border px-4 text-sm font-medium hover:bg-accent' },
-  { name: 'Button — Ghost', className: 'inline-flex h-10 items-center rounded-md px-4 text-sm font-medium hover:bg-accent' },
-  { name: 'Button — Destructive', className: 'inline-flex h-10 items-center rounded-md bg-destructive px-4 text-sm font-medium text-destructive-foreground hover:bg-destructive/90' },
+  {
+    name: 'Button — Primary',
+    className:
+      'inline-flex h-10 items-center rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground hover:bg-primary/90',
+  },
+  {
+    name: 'Button — Outline',
+    className:
+      'inline-flex h-10 items-center rounded-md border px-4 text-sm font-medium hover:bg-accent',
+  },
+  {
+    name: 'Button — Ghost',
+    className: 'inline-flex h-10 items-center rounded-md px-4 text-sm font-medium hover:bg-accent',
+  },
+  {
+    name: 'Button — Destructive',
+    className:
+      'inline-flex h-10 items-center rounded-md bg-destructive px-4 text-sm font-medium text-destructive-foreground hover:bg-destructive/90',
+  },
 ]
 
 const badges = [
-  { label: 'Default', className: 'inline-flex rounded-full bg-muted px-2 py-0.5 text-xs font-medium' },
-  { label: 'Primary', className: 'inline-flex rounded-full bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary' },
-  { label: 'Success', className: 'inline-flex rounded-full bg-green-100 px-2 py-0.5 text-xs font-medium text-green-700 dark:bg-green-900/20 dark:text-green-400' },
-  { label: 'Warning', className: 'inline-flex rounded-full bg-yellow-100 px-2 py-0.5 text-xs font-medium text-yellow-700 dark:bg-yellow-900/20 dark:text-yellow-400' },
-  { label: 'Destructive', className: 'inline-flex rounded-full bg-destructive/10 px-2 py-0.5 text-xs font-medium text-destructive' },
+  {
+    label: 'Default',
+    className: 'inline-flex rounded-full bg-muted px-2 py-0.5 text-xs font-medium',
+  },
+  {
+    label: 'Primary',
+    className:
+      'inline-flex rounded-full bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary',
+  },
+  {
+    label: 'Success',
+    className:
+      'inline-flex rounded-full bg-green-100 px-2 py-0.5 text-xs font-medium text-green-700 dark:bg-green-900/20 dark:text-green-400',
+  },
+  {
+    label: 'Warning',
+    className:
+      'inline-flex rounded-full bg-yellow-100 px-2 py-0.5 text-xs font-medium text-yellow-700 dark:bg-yellow-900/20 dark:text-yellow-400',
+  },
+  {
+    label: 'Destructive',
+    className:
+      'inline-flex rounded-full bg-destructive/10 px-2 py-0.5 text-xs font-medium text-destructive',
+  },
 ]
 
 export default function CatalogPage() {
@@ -34,7 +68,16 @@ export default function CatalogPage() {
       <section className="mt-12">
         <h2 className="text-xl font-semibold">Colors</h2>
         <div className="mt-4 grid grid-cols-4 gap-4">
-          {['bg-background', 'bg-foreground', 'bg-primary', 'bg-muted', 'bg-accent', 'bg-destructive', 'bg-card', 'bg-border'].map((c) => (
+          {[
+            'bg-background',
+            'bg-foreground',
+            'bg-primary',
+            'bg-muted',
+            'bg-accent',
+            'bg-destructive',
+            'bg-card',
+            'bg-border',
+          ].map((c) => (
             <div key={c} className="space-y-1">
               <div className={`h-16 rounded-md border ${c}`} />
               <p className="text-xs text-muted-foreground">{c.replace('bg-', '')}</p>
@@ -62,7 +105,9 @@ export default function CatalogPage() {
         <h2 className="text-xl font-semibold">Buttons</h2>
         <div className="mt-4 flex flex-wrap gap-4">
           {components.map((c) => (
-            <button key={c.name} className={c.className}>{c.name}</button>
+            <button key={c.name} className={c.className}>
+              {c.name}
+            </button>
           ))}
         </div>
       </section>
@@ -72,7 +117,9 @@ export default function CatalogPage() {
         <h2 className="text-xl font-semibold">Badges</h2>
         <div className="mt-4 flex flex-wrap gap-3">
           {badges.map((b) => (
-            <span key={b.label} className={b.className}>{b.label}</span>
+            <span key={b.label} className={b.className}>
+              {b.label}
+            </span>
           ))}
         </div>
       </section>
@@ -106,7 +153,9 @@ export default function CatalogPage() {
           </div>
           <div className="rounded-lg border border-primary p-6 shadow-sm">
             <h3 className="font-semibold">Highlighted Card</h3>
-            <p className="mt-1 text-sm text-muted-foreground">Card with primary border and shadow.</p>
+            <p className="mt-1 text-sm text-muted-foreground">
+              Card with primary border and shadow.
+            </p>
           </div>
         </div>
       </section>

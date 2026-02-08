@@ -1,4 +1,4 @@
-type ActivityItem = {
+interface ActivityItem {
   id: string
   description: string
   timestamp: string

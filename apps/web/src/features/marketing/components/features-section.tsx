@@ -29,7 +29,8 @@ const FEATURES = [
   {
     icon: Zap,
     title: 'Performance',
-    description: 'Server Components by default, edge middleware, and optimized for Core Web Vitals.',
+    description:
+      'Server Components by default, edge middleware, and optimized for Core Web Vitals.',
   },
 ]
 

@@ -1,16 +1,19 @@
 const testimonials = [
   {
-    quote: 'This tool has completely transformed how we manage our projects. The simplicity is unmatched.',
+    quote:
+      'This tool has completely transformed how we manage our projects. The simplicity is unmatched.',
     name: 'Sarah Chen',
     title: 'CTO at TechFlow',
   },
   {
-    quote: 'We migrated from three different tools to this single platform. Best decision we made this year.',
+    quote:
+      'We migrated from three different tools to this single platform. Best decision we made this year.',
     name: 'Marcus Rodriguez',
     title: 'Head of Product at Scaleup',
   },
   {
-    quote: 'The onboarding was seamless and the support team is incredibly responsive. Highly recommended.',
+    quote:
+      'The onboarding was seamless and the support team is incredibly responsive. Highly recommended.',
     name: 'Emily Park',
     title: 'Founder at Launchpad',
   },
@@ -22,9 +25,7 @@ export function Testimonials() {
       <div className="mx-auto max-w-6xl px-4">
         <div className="text-center">
           <h2 className="text-3xl font-bold tracking-tight">Loved by teams</h2>
-          <p className="mt-2 text-muted-foreground">
-            See what our customers have to say.
-          </p>
+          <p className="mt-2 text-muted-foreground">See what our customers have to say.</p>
         </div>
 
         <div className="mt-16 grid gap-8 md:grid-cols-3">

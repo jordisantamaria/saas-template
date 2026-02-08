@@ -9,7 +9,9 @@ export const plans = pgTable('plans', {
   slug: text('slug').notNull().unique(),
   price: integer('price').notNull(), // cents
   currency: text('currency').default('usd').notNull(),
-  interval: text('interval', { enum: ['month', 'year'] }).default('month').notNull(),
+  interval: text('interval', { enum: ['month', 'year'] })
+    .default('month')
+    .notNull(),
   stripePriceId: text('stripe_price_id').unique(),
   features: text('features').array(),
   limits: text('limits'), // JSON string of plan limits

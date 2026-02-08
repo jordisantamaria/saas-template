@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { formatDate } from '@nyxidiom/shared'
 import { auth } from '@/lib/auth'
 import { redirect } from 'next/navigation'
 import { payments } from '@/lib/services'
@@ -26,16 +27,12 @@ export default async function BillingPage() {
           status={subscription.status}
           currentPeriodEnd={
             subscription.currentPeriodEnd
-              ? new Intl.DateTimeFormat('en-US', { dateStyle: 'long' }).format(
-                  subscription.currentPeriodEnd,
-                )
+              ? formatDate(subscription.currentPeriodEnd, 'long')
               : null
           }
           cancelAtPeriodEnd={
             subscription.cancelAtPeriodEnd
-              ? new Intl.DateTimeFormat('en-US', { dateStyle: 'long' }).format(
-                  subscription.cancelAtPeriodEnd,
-                )
+              ? formatDate(subscription.cancelAtPeriodEnd, 'long')
               : null
           }
         />

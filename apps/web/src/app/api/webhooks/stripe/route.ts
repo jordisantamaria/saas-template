@@ -2,6 +2,9 @@ import { NextResponse } from 'next/server'
 import { handleWebhook } from 'payments'
 import { db } from 'db'
 import { stripe } from '@/lib/services'
+import { email } from '@/lib/email'
+
+const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000'
 
 export async function POST(req: Request) {
   const payload = await req.text()
@@ -17,7 +20,15 @@ export async function POST(req: Request) {
       stripe,
       payload,
       signature,
-      webhookSecret: process.env.STRIPE_WEBHOOK_SECRET!,
+      webhookSecret: process.env.STRIPE_WEBHOOK_SECRET ?? '',
+      onSubscriptionCreated: async ({ email: userEmail, planName }) => {
+        await email.sendSubscriptionConfirmation({
+          to: userEmail,
+          name: userEmail.split('@')[0] ?? 'there',
+          planName,
+          dashboardUrl: `${appUrl}/dashboard`,
+        })
+      },
     })
 
     return NextResponse.json(result)

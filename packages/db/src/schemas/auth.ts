@@ -8,7 +8,9 @@ export const users = pgTable('users', {
   email: text('email').notNull().unique(),
   emailVerified: timestamp('email_verified', { withTimezone: true }),
   image: text('image'),
-  role: text('role', { enum: ['admin', 'member', 'viewer'] }).default('member').notNull(),
+  role: text('role', { enum: ['admin', 'member', 'viewer'] })
+    .default('member')
+    .notNull(),
   onboardingCompleted: timestamp('onboarding_completed', { withTimezone: true }),
 })
 

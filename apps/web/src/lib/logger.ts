@@ -10,7 +10,7 @@ const LOG_LEVELS: Record<LogLevel, number> = {
 const currentLevel: LogLevel = (process.env.LOG_LEVEL as LogLevel) ?? 'info'
 
 function shouldLog(level: LogLevel): boolean {
-  return LOG_LEVELS[level]! >= LOG_LEVELS[currentLevel]!
+  return (LOG_LEVELS[level] ?? 0) >= (LOG_LEVELS[currentLevel] ?? 0)
 }
 
 function formatMessage(level: LogLevel, message: string, meta?: Record<string, unknown>) {

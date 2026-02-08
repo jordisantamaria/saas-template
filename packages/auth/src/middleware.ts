@@ -20,9 +20,7 @@ const AUTH_PATHS = ['/login', '/register']
 const PROTECTED_PATHS = ['/dashboard', '/admin']
 
 function isPublicPath(pathname: string) {
-  return PUBLIC_PATHS.some(
-    (path) => pathname === path || pathname.startsWith(path + '/'),
-  )
+  return PUBLIC_PATHS.some((path) => pathname === path || pathname.startsWith(path + '/'))
 }
 
 type Session = { user?: { id?: string; role?: string } } | null

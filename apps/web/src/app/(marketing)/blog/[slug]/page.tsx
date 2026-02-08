@@ -6,12 +6,14 @@ const POSTS: Record<string, { title: string; date: string; content: string }> = 
   'getting-started': {
     title: 'Getting Started with Our Platform',
     date: '2026-01-15',
-    content: 'This is a placeholder blog post. Replace this with your CMS integration or MDX content.',
+    content:
+      'This is a placeholder blog post. Replace this with your CMS integration or MDX content.',
   },
   'new-features-january': {
     title: 'New Features: January 2026',
     date: '2026-01-01',
-    content: 'This is a placeholder blog post. Replace this with your CMS integration or MDX content.',
+    content:
+      'This is a placeholder blog post. Replace this with your CMS integration or MDX content.',
   },
 }
 

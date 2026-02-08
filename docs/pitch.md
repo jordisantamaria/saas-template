@@ -13,6 +13,7 @@
 ## 2. El Problema que Resolvemos
 
 ### Lo que vive una startup tipica
+
 ```
 Mes 1-2:    Contratar equipo (2-3 devs) o agencia
 Mes 2-3:    Setup del proyecto, decisiones de arquitectura
@@ -27,6 +28,7 @@ Riesgo:     Alto — puede fallar por mala arquitectura
 ```
 
 ### Lo que ofrecemos nosotros
+
 ```
 Semana 1:   Discovery + Setup (plantilla lista)
 Semana 2-4: Features del negocio (lo unico que importa)
@@ -43,6 +45,7 @@ Riesgo:     Bajo — arquitectura probada en multiples proyectos
 ## 3. Value Proposition
 
 ### Para el CEO/Founder
+
 ```
 "Llegas a produccion 4 meses antes que tus competidores.
 4 meses de ventaja = 4 meses mas de feedback de clientes,
@@ -50,6 +53,7 @@ Riesgo:     Bajo — arquitectura probada en multiples proyectos
 ```
 
 ### Para el CTO/Technical Co-founder
+
 ```
 "No reinventas la rueda. Auth, pagos, seguridad, CI/CD — todo
 resuelto con las mejores practicas. Tu equipo se enfoca en lo que
@@ -58,6 +62,7 @@ GitHub, con zero vendor lock-in."
 ```
 
 ### Para el CFO/Inversor
+
 ```
 "Coste de infraestructura: $0 hasta 1000 usuarios, $96/mes hasta 10k.
 No necesitas DevOps dedicado. No necesitas 6 meses de runway quemando
@@ -70,22 +75,24 @@ antes de tener producto. ROI desde el dia del lanzamiento."
 
 ### Lo que OTROS cobran como desarrollo
 
-| Feature | Otros | Nosotros |
-|---------|-------|----------|
-| Auth (Google, magic link, RBAC) | 2-3 semanas | Incluido |
+| Feature                                  | Otros       | Nosotros |
+| ---------------------------------------- | ----------- | -------- |
+| Auth (Google, magic link, RBAC)          | 2-3 semanas | Incluido |
 | Payments (Stripe subs, checkout, portal) | 2-3 semanas | Incluido |
-| Email transaccional | 1 semana | Incluido |
-| Dashboard con sidebar, stats, tablas | 2 semanas | Incluido |
-| Security (DDoS, rate limiting, headers) | 1-2 semanas | Incluido |
-| Monitoring (errores, uptime, analytics) | 1 semana | Incluido |
-| CI/CD (preview deploys, tests, lint) | 1 semana | Incluido |
-| Design system responsivo | 2 semanas | Incluido |
+| Email transaccional                      | 1 semana    | Incluido |
+| Dashboard con sidebar, stats, tablas     | 2 semanas   | Incluido |
+| Security (DDoS, rate limiting, headers)  | 1-2 semanas | Incluido |
+| Monitoring (errores, uptime, analytics)  | 1 semana    | Incluido |
+| CI/CD (preview deploys, tests, lint)     | 1 semana    | Incluido |
+| Design system responsivo                 | 2 semanas   | Incluido |
 
 **Total que otros cobran: 12-17 semanas de desarrollo.**
 **Con nosotros: incluido en la base, sin coste adicional.**
 
 ### Lo que cobramos
+
 Solo las features unicas de tu negocio:
+
 - Tu logica de dominio
 - Tus integraciones
 - Tu landing page
@@ -121,6 +128,7 @@ COMPARACION:
 ## 6. Casos de Uso Ideales
 
 ### Donde brillamos
+
 ```
 FINTECH
   Dashboards de metricas financieras
@@ -148,6 +156,7 @@ CUALQUIER SAAS QUE NECESITE:
 ```
 
 ### Donde NO somos el fit
+
 ```
 - Apps mobile-first (juegos, redes sociales consumer)
 - Proyectos con zero presupuesto
@@ -160,6 +169,7 @@ CUALQUIER SAAS QUE NECESITE:
 ## 7. Modelo de Pricing (Sugerido)
 
 ### Opcion A: Proyecto cerrado
+
 ```
 STARTER         $X,XXX
   - MVP con hasta 5 features custom
@@ -182,6 +192,7 @@ ENTERPRISE      Custom
 ```
 
 ### Opcion B: Retainer mensual
+
 ```
   $X,XXX/mes
   - X horas de desarrollo al mes
@@ -191,6 +202,7 @@ ENTERPRISE      Custom
 ```
 
 ### Upsells
+
 ```
   App mobile (Expo)          $X,XXX
   Multi-tenancy              $X,XXX
@@ -204,6 +216,7 @@ ENTERPRISE      Custom
 ## 8. Proceso de Venta
 
 ### Paso 1: Primer contacto
+
 ```
 Objetivo: Entender si hay fit
 Duracion: 15-30 min (call o email)
@@ -211,6 +224,7 @@ Output: Decidir si hacer reunion de discovery
 ```
 
 ### Paso 2: Discovery meeting
+
 ```
 Objetivo: Entender requisitos, mostrar credibilidad
 Duracion: 45-60 min
@@ -219,6 +233,7 @@ Material: Demo de la plantilla (dashboard, auth, pagos funcionando)
 ```
 
 ### Paso 3: Propuesta
+
 ```
 Enviar en <48h despues del discovery:
 - Resumen de lo discutido
@@ -230,6 +245,7 @@ Enviar en <48h despues del discovery:
 ```
 
 ### Paso 4: Cierre
+
 ```
 - Resolver dudas
 - Ajustar scope si necesario
@@ -273,15 +289,18 @@ Enviar en <48h despues del discovery:
 ## 10. Materiales de Apoyo
 
 ### Para enviar al cliente pre-meeting
+
 - One-pager PDF con value proposition
 - Link a una demo live de la plantilla (con datos de ejemplo)
 
 ### Para enviar post-meeting
+
 - Propuesta detallada con timeline y presupuesto
 - Casos de estudio (si existen)
 - FAQ documento
 
 ### Para redes / marketing
+
 ```
 MENSAJES CLAVE:
 
@@ -303,6 +322,7 @@ cuando los datos lo justifiquen."
 ## 11. FAQ para Sales
 
 ### "Que tecnologias usan?"
+
 ```
 Next.js (React), PostgreSQL, TypeScript. El stack mas usado en SaaS
 modernos. Miles de empresas lo usan: Vercel, Notion, Linear.
@@ -310,6 +330,7 @@ Tu equipo no tendra problemas para encontrar devs que lo conozcan.
 ```
 
 ### "Que pasa si quiero cambiar de agencia despues?"
+
 ```
 El codigo es 100% tuyo. Esta en tu GitHub, con documentacion,
 tests, y un CLAUDE.md que permite a cualquier dev (o IA) entender
@@ -318,12 +339,14 @@ vendor.
 ```
 
 ### "Puedo ver el codigo antes de pagar?"
+
 ```
 Podemos darte acceso a la plantilla base (sin las features custom)
 para que tu CTO la revise. La arquitectura habla por si sola.
 ```
 
 ### "Que SLA de uptime ofrecen?"
+
 ```
 Vercel + Cloudflare dan 99.99% de uptime. Tenemos monitoring
 automatico que nos alerta en <1 minuto si algo falla. Los backups
@@ -331,6 +354,7 @@ de DB son continuos (point-in-time recovery a cualquier segundo).
 ```
 
 ### "Necesitamos GDPR/compliance?"
+
 ```
 La arquitectura esta preparada: data en PostgreSQL (facil de exportar/
 eliminar), auth con consentimiento, logs estructurados. Para compliance

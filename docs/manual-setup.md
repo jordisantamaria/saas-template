@@ -101,7 +101,7 @@ necesitas un Personal Access Token (PAT).
 
 - [ ] Ve a GitHub → Settings (tu perfil, no el repo) → Developer settings → **Personal access tokens** → **Tokens (classic)**
 - [ ] Generate new token (classic):
-  - Note: `nyxidiom-packages-read`
+  - Note: `nyxidiomanualm-packages-read`
   - Expiration: **No expiration** (o 1 year)
   - Scopes: marcar solo **`read:packages`**
   - Click **Generate token**
@@ -109,7 +109,7 @@ necesitas un Personal Access Token (PAT).
 
 #### Paso 3: Configurar el token en tu maquina local
 
-- [ ] Ejecuta esto en tu terminal (reemplaza `TOKEN` por tu token):
+- [x] Ejecuta esto en tu terminal (reemplaza `TOKEN` por tu token):
 
 ```bash
 npm config set //npm.pkg.github.com/:_authToken TOKEN
@@ -195,11 +195,11 @@ Esto genera un secret aleatorio y lo imprime. Copialo al `.env.local` como `AUTH
 - [x] Activar **Test mode** (toggle arriba a la derecha)
 - [x] Crear 3 productos en Products:
 
-| Producto | Precio | Recurrencia | Lookup Key |
-|----------|--------|-------------|------------|
-| Free | $0 | — | `free` |
-| Pro | $29/mes | Monthly | `pro` |
-| Enterprise | $99/mes | Monthly | `enterprise` |
+| Producto   | Precio  | Recurrencia | Lookup Key   |
+| ---------- | ------- | ----------- | ------------ |
+| Free       | $0      | —           | `free`       |
+| Pro        | $29/mes | Monthly     | `pro`        |
+| Enterprise | $99/mes | Monthly     | `enterprise` |
 
 - [x] Copiar cada **Price ID** (`price_xxx`) y actualizar en la DB:
 
@@ -269,10 +269,11 @@ Una vez todo configurado, ejecutar estas comprobaciones:
 
 - [x] `pnpm dev` → la app carga en `localhost:3000`
 - [x] `pnpm typecheck` → 0 errores
-- [ ] `pnpm lint` → 0 errores
-- [ ] `pnpm test` → tests pasan
+- [x] `pnpm lint` → 0 errores
+- [x] `pnpm test` → tests pasan
 
 ### Auth flow
+
 - [x] Registro con Google → redirige a `/welcome`
 - [x] Registro con Magic Link → email llega, link funciona
 - [x] Login → redirige a `/dashboard`
@@ -280,6 +281,7 @@ Una vez todo configurado, ejecutar estas comprobaciones:
 - [x] `/dashboard` sin sesion → redirige a `/login`
 
 ### Payments flow
+
 - [x] Click en "Start Free Trial" en pricing → abre Stripe Checkout
 - [x] Completar checkout con tarjeta de test (`4242 4242 4242 4242`)
 - [x] Webhook procesa → subscription aparece en DB

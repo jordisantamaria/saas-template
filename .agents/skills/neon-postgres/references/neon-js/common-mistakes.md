@@ -11,13 +11,13 @@ Reference guide for common mistakes when using `@neondatabase/neon-js`.
 **Wrong:**
 
 ```typescript
-import { BetterAuthReactAdapter } from "@neondatabase/neon-js";
+import { BetterAuthReactAdapter } from '@neondatabase/neon-js'
 ```
 
 **Correct:**
 
 ```typescript
-import { BetterAuthReactAdapter } from "@neondatabase/neon-js/auth/react/adapters";
+import { BetterAuthReactAdapter } from '@neondatabase/neon-js/auth/react/adapters'
 ```
 
 ### Adapter Factory Functions
@@ -33,7 +33,7 @@ const client = createClient({
     url: process.env.NEON_AUTH_URL!,
   },
   dataApi: { url: process.env.NEON_DATA_API_URL! },
-});
+})
 ```
 
 **Correct:**
@@ -45,7 +45,7 @@ const client = createClient({
     url: process.env.NEON_AUTH_URL!,
   },
   dataApi: { url: process.env.NEON_DATA_API_URL! },
-});
+})
 ```
 
 ---
@@ -57,14 +57,14 @@ Choose **ONE** CSS import method:
 **With Tailwind v4:**
 
 ```css
-@import "tailwindcss";
-@import "@neondatabase/neon-js/ui/tailwind";
+@import 'tailwindcss';
+@import '@neondatabase/neon-js/ui/tailwind';
 ```
 
 **Without Tailwind:**
 
 ```typescript
-import "@neondatabase/neon-js/ui/css";
+import '@neondatabase/neon-js/ui/css'
 ```
 
 **Never import both** - causes duplicate styles.
@@ -97,12 +97,12 @@ VITE_NEON_DATA_API_URL=https://ep-xxx.apirest.c-2.us-east-2.aws.neon.build/dbnam
 ### Missing "use client" Directive
 
 ```typescript
-"use client"; // Required!
+'use client' // Required!
 
-import { authClient } from "@/lib/auth/client";
+import { authClient } from '@/lib/auth/client'
 
 function AuthStatus() {
-  const session = authClient.useSession();
+  const session = authClient.useSession()
   // ...
 }
 ```

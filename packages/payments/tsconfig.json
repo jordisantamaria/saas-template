@@ -1,13 +1,9 @@
 {
+  "extends": "@nyxidiom/config/typescript/base",
   "compilerOptions": {
-    "strict": true,
-    "target": "ES2022",
-    "module": "ESNext",
-    "moduleResolution": "bundler",
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "noUncheckedIndexedAccess": true,
-    "verbatimModuleSyntax": true,
+    "declaration": false,
+    "declarationMap": false,
+    "sourceMap": false,
     "noEmit": true,
     "jsx": "react-jsx"
   },

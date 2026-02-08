@@ -126,9 +126,9 @@ describe('handleWebhook', () => {
       const sessionData = { metadata: {}, subscription: 'sub_123', customer: 'cus_123' }
       const stripe = createMockStripe('checkout.session.completed', sessionData)
 
-      await expect(
-        handleWebhook({ db: db as never, stripe, ...defaultParams }),
-      ).rejects.toThrow('Missing userId or planId')
+      await expect(handleWebhook({ db: db as never, stripe, ...defaultParams })).rejects.toThrow(
+        'Missing userId or planId',
+      )
     })
   })
 
@@ -141,9 +141,7 @@ describe('handleWebhook', () => {
       await handleWebhook({ db: db as never, stripe, ...defaultParams })
 
       expect(db.update).toHaveBeenCalled()
-      expect(db._chain.set).toHaveBeenCalledWith(
-        expect.objectContaining({ status: 'canceled' }),
-      )
+      expect(db._chain.set).toHaveBeenCalledWith(expect.objectContaining({ status: 'canceled' }))
     })
   })
 
@@ -185,9 +183,7 @@ describe('handleWebhook', () => {
       await handleWebhook({ db: db as never, stripe, ...defaultParams })
 
       expect(db.update).toHaveBeenCalled()
-      expect(db._chain.set).toHaveBeenCalledWith(
-        expect.objectContaining({ status: 'active' }),
-      )
+      expect(db._chain.set).toHaveBeenCalledWith(expect.objectContaining({ status: 'active' }))
     })
   })
 
@@ -258,9 +254,7 @@ describe('handleWebhook', () => {
 
       // Should update subscription to past_due
       expect(db.update).toHaveBeenCalled()
-      expect(db._chain.set).toHaveBeenCalledWith(
-        expect.objectContaining({ status: 'past_due' }),
-      )
+      expect(db._chain.set).toHaveBeenCalledWith(expect.objectContaining({ status: 'past_due' }))
     })
   })
 

@@ -17,6 +17,7 @@
     "analyze": "ANALYZE=true pnpm --filter web build"
   },
   "devDependencies": {
+    "@nyxidiom/config": "^0.2.0",
     "prettier": "^3.4.0",
     "turbo": "^2.3.0"
   },

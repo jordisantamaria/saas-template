@@ -1,6 +1,6 @@
 import Link from 'next/link'
 
-type AdminUser = {
+interface AdminUser {
   id: string
   name: string | null
   email: string
