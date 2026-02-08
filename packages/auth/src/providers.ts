@@ -11,7 +11,7 @@ export function createProviders({
   emailFrom?: string
   sendMagicLink?: (params: { to: string; magicLinkUrl: string }) => Promise<void>
 }): Provider[] {
-  const providers: Provider[] = [Google]
+  const providers: Provider[] = [Google({ allowDangerousEmailAccountLinking: true })]
 
   if (resendApiKey) {
     providers.push(
