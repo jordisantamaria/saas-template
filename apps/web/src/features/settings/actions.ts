@@ -6,6 +6,7 @@ import { db } from 'db'
 import { users, subscriptions } from 'db/schemas'
 import { eq } from 'drizzle-orm'
 import { stripe } from '@/lib/services'
+import { storage } from '@/lib/storage'
 
 export const updateProfile = createAction({
   schema: z.object({ name: z.string().min(1).max(100) }),
@@ -39,6 +40,16 @@ export const deleteAccount = createAction({
       if (sub.stripeSubscriptionId && sub.status !== 'canceled') {
         await stripe.subscriptions.cancel(sub.stripeSubscriptionId).catch(() => {})
       }
+    }
+
+    // Clean up avatar from storage (non-blocking)
+    const user = await db.query.users.findFirst({
+      columns: { image: true },
+      where: eq(users.id, userId),
+    })
+    if (user?.image?.includes('/avatars/')) {
+      const key = user.image.split('/').slice(-2).join('/')
+      storage.delete(key).catch(() => {})
     }
 
     // FK cascade handles: accounts, sessions, subscriptions, invoices, organizations, members, invitations

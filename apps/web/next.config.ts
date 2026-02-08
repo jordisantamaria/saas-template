@@ -9,6 +9,7 @@ const nextConfig: NextConfig = {
     formats: ['image/avif', 'image/webp'],
     remotePatterns: [
       { protocol: 'https', hostname: 'lh3.googleusercontent.com' }, // Google avatars
+      { protocol: 'https', hostname: '*.r2.dev' }, // Cloudflare R2
     ],
   },
 

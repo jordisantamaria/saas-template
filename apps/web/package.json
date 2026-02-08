@@ -14,8 +14,11 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.985.0",
+    "@aws-sdk/s3-request-presigner": "^3.985.0",
     "@nyxidiom/email": "^0.2.0",
     "@nyxidiom/shared": "^0.2.0",
+    "@nyxidiom/storage": "^0.2.0",
     "@nyxidiom/ui": "^0.2.2",
     "@sentry/nextjs": "^10.38.0",
     "auth": "workspace:*",

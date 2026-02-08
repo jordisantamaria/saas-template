@@ -17,6 +17,7 @@ para que `saas-template` los pueda instalar con `pnpm install`.
 - [x] Crear repo `nyxidiom-packages` en GitHub (privado)
 - [x] Push del codigo
 - [x] Settings → Actions → General → Workflow permissions → dejar el default (el workflow ya define sus permisos en el YAML)
+- [ ] Settings → Actions → General → marcar **"Allow GitHub Actions to create and approve pull requests"** (necesario para que Changesets cree el PR de versioning automaticamente)
 
 #### Paso 2: Primer publish (automatico via GitHub Actions)
 
@@ -66,6 +67,7 @@ git push
   - [x] `@nyxidiom/ui`
   - [x] `@nyxidiom/email`
   - [x] `@nyxidiom/shared`
+  - [x] `@nyxidiom/storage`
 
 Si no aparece la tab Packages, ve a `https://github.com/TU_USUARIO?tab=packages`.
 
@@ -101,7 +103,7 @@ necesitas un Personal Access Token (PAT).
 
 - [ ] Ve a GitHub → Settings (tu perfil, no el repo) → Developer settings → **Personal access tokens** → **Tokens (classic)**
 - [ ] Generate new token (classic):
-  - Note: `nyxidiomanualm-packages-read`
+  - Note: `nyxidiom-packages-read`
   - Expiration: **No expiration** (o 1 year)
   - Scopes: marcar solo **`read:packages`**
   - Click **Generate token**
@@ -263,7 +265,67 @@ En Drizzle Studio, ir a la tabla `plans` y actualizar la columna `stripe_price_i
 
 ---
 
-## 9. Verificacion Local
+## 9. Cloudflare R2 (File Storage)
+
+El template usa Cloudflare R2 (S3-compatible) para subir avatares y otros ficheros.
+R2 no tiene coste de egress, solo pagas por almacenamiento ($0.015/GB/mes) y operaciones.
+
+### Cuenta y bucket
+
+- [x] Crear cuenta en [cloudflare.com](https://cloudflare.com) (si no tienes una ya)
+- [x] Dashboard → R2 Object Storage → **Create bucket**:
+  - [x] Nombre: `tu-proyecto-storage` (o similar)
+  - [x] Region: **Automatic** (o la mas cercana a tus usuarios)
+
+### API Token
+
+- [x] R2 Object Storage → Overview → **Manage R2 API Tokens** → **Create API token**:
+  - [x] Permissions: **Object Read & Write**
+  - [x] Specify bucket: seleccionar el bucket que acabas de crear
+  - [x] TTL: **No expiration** (o segun tu preferencia)
+  - [x] Click **Create API Token**
+- [x] Copiar los valores que aparecen:
+  - [x] **Access Key ID** → `R2_ACCESS_KEY_ID` en `apps/web/.env.local`
+  - [x] **Secret Access Key** → `R2_SECRET_ACCESS_KEY` en `apps/web/.env.local`
+
+### Endpoint y URL publica
+
+- [x] Copiar el **S3 API endpoint** del bucket (formato: `https://ACCOUNT_ID.r2.cloudflarestorage.com`) → `R2_ENDPOINT` en `apps/web/.env.local`
+- [x] El **Account ID** se ve en la URL del dashboard de Cloudflare o en Overview del bucket
+- [x] Poner el nombre del bucket → `R2_BUCKET_NAME` en `apps/web/.env.local`
+
+### Acceso publico (para servir avatares)
+
+Los avatares necesitan ser accesibles publicamente. Hay dos opciones:
+
+**Opcion A: r2.dev subdomain (rapido para dev)**
+
+- [x] R2 → bucket → Settings → **Public Development URL** → activar toggle
+- [x] Copiar la URL (formato: `https://pub-xxx.r2.dev`) → `NEXT_PUBLIC_R2_PUBLIC_URL` en `apps/web/.env.local`
+
+**Opcion B: Custom domain (recomendado para produccion)**
+
+- [ ] R2 → bucket → Settings → **Public access** → **Custom Domains** → Connect Domain
+- [ ] Usar un subdominio como `assets.tudominio.com`
+- [ ] Cloudflare configura el DNS automaticamente si el dominio ya esta en Cloudflare
+- [ ] Usar `https://assets.tudominio.com` → `NEXT_PUBLIC_R2_PUBLIC_URL`
+
+### Verificar
+
+```bash
+# El .env.local deberia tener estas 5 variables:
+# R2_ENDPOINT=https://ACCOUNT_ID.r2.cloudflarestorage.com
+# R2_ACCESS_KEY_ID=xxx
+# R2_SECRET_ACCESS_KEY=xxx
+# R2_BUCKET_NAME=tu-proyecto-storage
+# NEXT_PUBLIC_R2_PUBLIC_URL=https://pub-xxx.r2.dev
+```
+
+- [x] `pnpm dev` → ir a Settings → subir un avatar → se muestra correctamente
+
+---
+
+## 10. Verificacion Local
 
 Una vez todo configurado, ejecutar estas comprobaciones:
 
@@ -298,7 +360,7 @@ Una vez todo configurado, ejecutar estas comprobaciones:
 
 ---
 
-## 10. Vercel (Deploy)
+## 11. Vercel (Deploy)
 
 ### Proyecto
 
@@ -309,7 +371,7 @@ Una vez todo configurado, ejecutar estas comprobaciones:
 ### Dominio
 
 - [ ] Settings → Domains → Add Domain
-- [ ] Configurar DNS en Cloudflare (ver seccion 11)
+- [ ] Configurar DNS en Cloudflare (ver seccion 12)
 - [ ] Verificar que SSL funciona
 
 ### Preview Deployments
@@ -319,7 +381,7 @@ Una vez todo configurado, ejecutar estas comprobaciones:
 
 ---
 
-## 11. Cloudflare (CDN/Security)
+## 12. Cloudflare (CDN/Security)
 
 - [ ] Crear cuenta en [cloudflare.com](https://cloudflare.com) (free tier vale)
 - [ ] Add site → Introducir dominio
@@ -339,7 +401,7 @@ Una vez todo configurado, ejecutar estas comprobaciones:
 
 ---
 
-## 12. Google OAuth — Produccion
+## 13. Google OAuth — Produccion
 
 - [ ] APIs & Services → Credentials → editar el OAuth Client ID:
   - [ ] Añadir a Authorized JavaScript origins: `https://tudominio.com`
@@ -347,7 +409,7 @@ Una vez todo configurado, ejecutar estas comprobaciones:
 
 ---
 
-## 13. Stripe — Produccion
+## 14. Stripe — Produccion
 
 ### Webhooks
 
@@ -371,7 +433,7 @@ Una vez todo configurado, ejecutar estas comprobaciones:
 
 ---
 
-## 14. Sentry — Produccion
+## 15. Sentry — Produccion
 
 - [ ] Settings → **Organization** Auth Tokens → Create Token (NO usar Personal token)
 - [ ] Añadir en Vercel env vars:
@@ -384,7 +446,7 @@ Una vez todo configurado, ejecutar estas comprobaciones:
 
 ---
 
-## 15. Resend — Produccion
+## 16. Resend — Produccion
 
 - [ ] Domains → Add Domain → añadir tu dominio
 - [ ] Configurar DNS records (SPF, DKIM, DMARC) segun instrucciones de Resend
@@ -393,7 +455,7 @@ Una vez todo configurado, ejecutar estas comprobaciones:
 
 ---
 
-## 16. Vercel Observability — Recomendado
+## 17. Vercel Observability — Recomendado
 
 - [ ] En Vercel project settings → Observability
 - [ ] Activar Log Drains ($10/mes) para 30 dias de retencion de logs
@@ -401,7 +463,7 @@ Una vez todo configurado, ejecutar estas comprobaciones:
 
 ---
 
-## 17. Verificacion Produccion
+## 18. Verificacion Produccion
 
 - [ ] Deploy en Vercel funciona sin errores
 - [ ] Dominio con HTTPS funciona

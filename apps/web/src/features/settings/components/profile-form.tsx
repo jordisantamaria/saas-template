@@ -1,19 +1,49 @@
 'use client'
 
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
+import Image from 'next/image'
 import { updateProfile } from '../actions'
 
 interface ProfileFormProps {
   initialName: string
   email: string
+  initialImage: string | null
 }
 
-export function ProfileForm({ initialName, email }: ProfileFormProps) {
+export function ProfileForm({ initialName, email, initialImage }: ProfileFormProps) {
   const router = useRouter()
+  const fileInputRef = useRef<HTMLInputElement>(null)
   const [name, setName] = useState(initialName)
+  const [image, setImage] = useState(initialImage)
   const [loading, setLoading] = useState(false)
+  const [uploading, setUploading] = useState(false)
   const [message, setMessage] = useState('')
+
+  async function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0]
+    if (!file) return
+
+    setUploading(true)
+    setMessage('')
+
+    const formData = new FormData()
+    formData.append('file', file)
+
+    const res = await fetch('/api/upload/avatar', { method: 'POST', body: formData })
+    const data = (await res.json()) as { url?: string; error?: string }
+
+    if (res.ok && data.url) {
+      setImage(data.url)
+      router.refresh()
+    } else {
+      setMessage(data.error ?? 'Upload failed.')
+    }
+
+    setUploading(false)
+    // Reset input so the same file can be re-selected
+    if (fileInputRef.current) fileInputRef.current.value = ''
+  }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -31,10 +61,53 @@ export function ProfileForm({ initialName, email }: ProfileFormProps) {
     setLoading(false)
   }
 
+  const initials = (initialName || email).charAt(0).toUpperCase()
+
   return (
     <div className="rounded-lg border p-6">
       <h3 className="text-lg font-medium">Profile</h3>
       <p className="mt-1 text-sm text-muted-foreground">Your personal information.</p>
+
+      <div className="mt-4 flex items-center gap-4">
+        <div className="relative size-16 shrink-0">
+          {image ? (
+            <Image
+              src={image}
+              alt="Avatar"
+              width={64}
+              height={64}
+              className="size-16 rounded-full object-cover"
+            />
+          ) : (
+            <div className="flex size-16 items-center justify-center rounded-full bg-muted text-lg font-medium text-muted-foreground">
+              {initials}
+            </div>
+          )}
+          {uploading && (
+            <div className="absolute inset-0 flex items-center justify-center rounded-full bg-background/80">
+              <div className="size-5 animate-spin rounded-full border-2 border-muted-foreground border-t-transparent" />
+            </div>
+          )}
+        </div>
+        <div>
+          <button
+            type="button"
+            onClick={() => fileInputRef.current?.click()}
+            disabled={uploading}
+            className="text-sm font-medium text-primary hover:underline disabled:opacity-50"
+          >
+            {image ? 'Change avatar' : 'Upload avatar'}
+          </button>
+          <p className="text-xs text-muted-foreground">JPEG, PNG or WebP. Max 2MB.</p>
+        </div>
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept="image/jpeg,image/png,image/webp"
+          onChange={handleFileChange}
+          className="hidden"
+        />
+      </div>
 
       <form onSubmit={handleSubmit} className="mt-4 grid max-w-md gap-4">
         <div className="grid gap-2">
