@@ -1,12 +1,16 @@
 'use client'
 
-import { signOut, useSession } from 'next-auth/react'
+import { signOut } from 'next-auth/react'
 import Link from 'next/link'
 import { LogOut, Settings, User } from 'lucide-react'
 import { useState, useRef, useEffect } from 'react'
 
-export function UserMenu() {
-  const { data: session } = useSession()
+type UserMenuProps = {
+  name: string | null
+  email: string
+}
+
+export function UserMenu({ name, email }: UserMenuProps) {
   const [open, setOpen] = useState(false)
   const ref = useRef<HTMLDivElement>(null)
 
@@ -20,22 +24,20 @@ export function UserMenu() {
     return () => document.removeEventListener('mousedown', handleClick)
   }, [])
 
-  if (!session?.user) return null
-
   return (
     <div className="relative" ref={ref}>
       <button
         onClick={() => setOpen(!open)}
         className="flex h-8 w-8 items-center justify-center rounded-full bg-muted text-sm font-medium"
       >
-        {session.user.name?.[0]?.toUpperCase() ?? <User className="h-4 w-4" />}
+        {name?.[0]?.toUpperCase() ?? <User className="h-4 w-4" />}
       </button>
 
       {open && (
         <div className="absolute right-0 top-10 z-50 w-48 rounded-md border bg-popover p-1 shadow-md">
           <div className="px-2 py-1.5">
-            <p className="text-sm font-medium">{session.user.name}</p>
-            <p className="text-xs text-muted-foreground">{session.user.email}</p>
+            <p className="text-sm font-medium">{name}</p>
+            <p className="text-xs text-muted-foreground">{email}</p>
           </div>
           <div className="my-1 h-px bg-border" />
           <Link

@@ -2,17 +2,27 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { createOrganization } from '../actions'
 
 export function SetupForm() {
   const router = useRouter()
   const [orgName, setOrgName] = useState('')
   const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     setLoading(true)
-    // TODO: Server action to create org + mark onboarding complete
-    router.push('/dashboard')
+    setError('')
+
+    const result = await createOrganization({ name: orgName })
+
+    if (result.success) {
+      router.push('/dashboard')
+    } else {
+      setError(result.error)
+      setLoading(false)
+    }
   }
 
   return (
@@ -21,6 +31,12 @@ export function SetupForm() {
         <h1 className="text-2xl font-bold">Set up your workspace</h1>
         <p className="mt-1 text-sm text-muted-foreground">Create your organization.</p>
       </div>
+
+      {error && (
+        <p className="rounded-md border border-destructive/30 bg-destructive/5 p-3 text-sm text-destructive">
+          {error}
+        </p>
+      )}
 
       <div className="grid gap-2">
         <label htmlFor="org-name" className="text-sm font-medium">

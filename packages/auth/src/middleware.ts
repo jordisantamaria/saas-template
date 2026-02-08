@@ -16,13 +16,18 @@ const PUBLIC_PATHS = [
   '/api/webhooks',
 ]
 
+const AUTH_PATHS = ['/login', '/register']
+const PROTECTED_PATHS = ['/dashboard', '/admin']
+
 function isPublicPath(pathname: string) {
   return PUBLIC_PATHS.some(
     (path) => pathname === path || pathname.startsWith(path + '/'),
   )
 }
 
-export function createAuthMiddleware(authMiddleware: (req: NextRequest) => Promise<NextResponse | Response | null | undefined>) {
+type Session = { user?: { id?: string; role?: string } } | null
+
+export function createAuthMiddleware(getSession: () => Promise<Session>) {
   return async function middleware(request: NextRequest) {
     const { pathname } = request.nextUrl
     const ip = request.headers.get('x-forwarded-for') ?? '127.0.0.1'
@@ -48,8 +53,19 @@ export function createAuthMiddleware(authMiddleware: (req: NextRequest) => Promi
       return NextResponse.next()
     }
 
-    // Auth middleware for protected routes
-    const result = await authMiddleware(request)
-    return result ?? NextResponse.next()
+    const session = await getSession()
+    const isLoggedIn = !!session?.user
+
+    // Protected routes require authentication
+    if (PROTECTED_PATHS.some((p) => pathname.startsWith(p)) && !isLoggedIn) {
+      return NextResponse.redirect(new URL('/login', request.nextUrl))
+    }
+
+    // Redirect logged-in users away from auth pages
+    if (AUTH_PATHS.some((p) => pathname.startsWith(p)) && isLoggedIn) {
+      return NextResponse.redirect(new URL('/dashboard', request.nextUrl))
+    }
+
+    return NextResponse.next()
   }
 }

@@ -1,7 +1,6 @@
 'use server'
 
 import { z } from 'zod'
-import { redirect } from 'next/navigation'
 import { createAction } from '@/lib/safe-action'
 import { payments } from '@/lib/services'
 import { auth } from '@/lib/auth'
@@ -15,8 +14,33 @@ export const createCheckoutSession = createAction({
       userEmail: session?.user?.email ?? '',
       planSlug: input.planSlug,
     })
-    if (result.url) redirect(result.url)
-    return result
+    return { url: result.url }
+  },
+})
+
+export const cancelSubscription = createAction({
+  handler: async ({ userId }) => {
+    const subscription = await payments.getSubscription({ userId })
+    if (!subscription?.stripeSubscriptionId) {
+      throw new Error('No active subscription found')
+    }
+    await payments.cancelSubscription({
+      stripeSubscriptionId: subscription.stripeSubscriptionId,
+    })
+    return { success: true }
+  },
+})
+
+export const resumeSubscription = createAction({
+  handler: async ({ userId }) => {
+    const subscription = await payments.getSubscription({ userId })
+    if (!subscription?.stripeSubscriptionId) {
+      throw new Error('No active subscription found')
+    }
+    await payments.resumeSubscription({
+      stripeSubscriptionId: subscription.stripeSubscriptionId,
+    })
+    return { success: true }
   },
 })
 
@@ -29,14 +53,6 @@ export const createPortalSession = createAction({
       throw new Error('No billing account found')
     }
     const result = await payments.createCustomerPortalSession({ stripeCustomerId })
-    if (result.url) redirect(result.url)
-    return result
-  },
-})
-
-export const getSubscription = createAction({
-  handler: async ({ userId }) => {
-    const subscription = await payments.getSubscription({ userId })
-    return subscription
+    return { url: result.url }
   },
 })

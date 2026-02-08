@@ -2,17 +2,31 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { updateUserName } from '../actions'
 
-export function WelcomeForm() {
+type WelcomeFormProps = {
+  initialName: string
+}
+
+export function WelcomeForm({ initialName }: WelcomeFormProps) {
   const router = useRouter()
-  const [name, setName] = useState('')
+  const [name, setName] = useState(initialName)
   const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     setLoading(true)
-    // TODO: Server action to update user name
-    router.push('/setup')
+    setError('')
+
+    const result = await updateUserName({ name })
+
+    if (result.success) {
+      router.push('/setup')
+    } else {
+      setError(result.error)
+      setLoading(false)
+    }
   }
 
   return (
@@ -21,6 +35,12 @@ export function WelcomeForm() {
         <h1 className="text-2xl font-bold">Welcome!</h1>
         <p className="mt-1 text-sm text-muted-foreground">Let&apos;s get you set up.</p>
       </div>
+
+      {error && (
+        <p className="rounded-md border border-destructive/30 bg-destructive/5 p-3 text-sm text-destructive">
+          {error}
+        </p>
+      )}
 
       <div className="grid gap-2">
         <label htmlFor="name" className="text-sm font-medium">

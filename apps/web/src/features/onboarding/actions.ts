@@ -39,6 +39,11 @@ export const createOrganization = createAction({
       role: 'admin',
     })
 
+    await db
+      .update(users)
+      .set({ onboardingCompleted: new Date() })
+      .where(eq(users.id, userId))
+
     return { orgId: org.id }
   },
 })

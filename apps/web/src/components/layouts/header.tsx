@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { auth } from '@/lib/auth'
+import { UserMenu } from '@/features/auth/components/user-menu'
 
 export async function Header() {
   const session = await auth()
@@ -14,9 +15,10 @@ export async function Header() {
 
       <div className="ml-auto flex items-center gap-4">
         {session?.user && (
-          <div className="flex items-center gap-2">
-            <span className="text-sm text-muted-foreground">{session.user.email}</span>
-          </div>
+          <UserMenu
+            name={session.user.name ?? null}
+            email={session.user.email ?? ''}
+          />
         )}
       </div>
     </header>

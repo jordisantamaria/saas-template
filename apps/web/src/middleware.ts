@@ -1,9 +1,7 @@
 import { createAuthMiddleware } from 'auth'
 import { auth } from '@/lib/auth'
 
-export default createAuthMiddleware(
-  (() => auth()) as never,
-)
+export default createAuthMiddleware(auth)
 
 export const config = {
   matcher: [

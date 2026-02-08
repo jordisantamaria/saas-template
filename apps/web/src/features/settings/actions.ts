@@ -26,3 +26,12 @@ export const updateNotificationPreferences = createAction({
     return { success: true }
   },
 })
+
+export const deleteAccount = createAction({
+  schema: z.object({ confirmation: z.literal('DELETE') }),
+  handler: async ({ userId }) => {
+    // Cascade delete: accounts, sessions are deleted via FK cascade
+    await db.delete(users).where(eq(users.id, userId))
+    return { success: true }
+  },
+})

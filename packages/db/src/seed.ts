@@ -1,4 +1,7 @@
+import { config } from 'dotenv'
 import { neon } from '@neondatabase/serverless'
+
+config({ path: '../../apps/web/.env.local' })
 import { drizzle } from 'drizzle-orm/neon-http'
 import { plans } from './schemas/billing'
 

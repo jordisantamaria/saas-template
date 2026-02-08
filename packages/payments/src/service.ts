@@ -1,5 +1,5 @@
 import type Stripe from 'stripe'
-import { eq } from 'drizzle-orm'
+import { eq, desc } from 'drizzle-orm'
 import type { Database } from 'db'
 import { plans, subscriptions, invoices } from 'db/schemas'
 
@@ -15,12 +15,10 @@ export function createPaymentService({ db, stripe, appUrl }: CreatePaymentServic
       userId,
       userEmail,
       planSlug,
-      stripeCustomerId,
     }: {
       userId: string
       userEmail: string
       planSlug: string
-      stripeCustomerId?: string
     }) {
       const plan = await db.query.plans.findFirst({
         where: eq(plans.slug, planSlug),
@@ -29,6 +27,42 @@ export function createPaymentService({ db, stripe, appUrl }: CreatePaymentServic
       if (!plan?.stripePriceId) {
         throw new Error(`Plan "${planSlug}" not found or missing Stripe Price ID`)
       }
+
+      // Check if user already has an active subscription
+      const existing = await db.query.subscriptions.findFirst({
+        where: eq(subscriptions.userId, userId),
+        orderBy: [desc(subscriptions.createdAt)],
+      })
+
+      // If user has an active subscription, update it instead of creating a new checkout
+      if (existing?.stripeSubscriptionId && ['active', 'trialing'].includes(existing.status)) {
+        const stripeSub = await stripe.subscriptions.retrieve(existing.stripeSubscriptionId)
+        const itemId = stripeSub.items.data[0]?.id
+
+        if (itemId) {
+          const updated = await stripe.subscriptions.update(existing.stripeSubscriptionId, {
+            items: [{ id: itemId, price: plan.stripePriceId }],
+            proration_behavior: 'create_prorations',
+            metadata: { userId, planId: plan.id },
+          })
+
+          // Update DB immediately
+          await db
+            .update(subscriptions)
+            .set({
+              planId: plan.id,
+              currentPeriodStart: new Date(updated.current_period_start * 1000),
+              currentPeriodEnd: new Date(updated.current_period_end * 1000),
+              updatedAt: new Date(),
+            })
+            .where(eq(subscriptions.id, existing.id))
+
+          return { url: null, updated: true }
+        }
+      }
+
+      // New subscription — create Stripe Checkout
+      const stripeCustomerId = existing?.stripeCustomerId
 
       const session = await stripe.checkout.sessions.create({
         mode: 'subscription',
@@ -63,21 +97,43 @@ export function createPaymentService({ db, stripe, appUrl }: CreatePaymentServic
       const sub = await db.query.subscriptions.findFirst({
         where: eq(subscriptions.userId, userId),
         with: { plan: true },
+        orderBy: [desc(subscriptions.createdAt)],
       })
 
       return sub ?? null
     },
 
     async cancelSubscription({ stripeSubscriptionId }: { stripeSubscriptionId: string }) {
-      return stripe.subscriptions.update(stripeSubscriptionId, {
+      const updated = await stripe.subscriptions.update(stripeSubscriptionId, {
         cancel_at_period_end: true,
       })
+
+      // Update DB immediately so UI reflects the change without waiting for webhook
+      await db
+        .update(subscriptions)
+        .set({
+          cancelAtPeriodEnd: new Date(updated.current_period_end * 1000),
+          updatedAt: new Date(),
+        })
+        .where(eq(subscriptions.stripeSubscriptionId, stripeSubscriptionId))
+
+      return updated
     },
 
     async resumeSubscription({ stripeSubscriptionId }: { stripeSubscriptionId: string }) {
-      return stripe.subscriptions.update(stripeSubscriptionId, {
+      const updated = await stripe.subscriptions.update(stripeSubscriptionId, {
         cancel_at_period_end: false,
       })
+
+      await db
+        .update(subscriptions)
+        .set({
+          cancelAtPeriodEnd: null,
+          updatedAt: new Date(),
+        })
+        .where(eq(subscriptions.stripeSubscriptionId, stripeSubscriptionId))
+
+      return updated
     },
   }
 }

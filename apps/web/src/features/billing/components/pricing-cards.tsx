@@ -1,47 +1,106 @@
 import { Check } from 'lucide-react'
 import { PLANS } from 'payments'
 import { CheckoutButton } from './checkout-button'
+import { CancelButton } from './cancel-button'
 
 const plans = Object.values(PLANS)
+const PLAN_ORDER = ['free', 'pro', 'enterprise']
 
-export function PricingCards() {
+type PricingCardsProps = {
+  currentPlanSlug?: string
+  isCanceling?: boolean
+}
+
+function getButtonLabel(planSlug: string, currentPlanSlug: string | undefined) {
+  if (planSlug === currentPlanSlug) return 'Current plan'
+
+  const currentIndex = PLAN_ORDER.indexOf(currentPlanSlug ?? 'free')
+  const planIndex = PLAN_ORDER.indexOf(planSlug)
+
+  if (planSlug === 'free') return 'Free'
+  if (planIndex > currentIndex) return 'Upgrade'
+  return 'Downgrade'
+}
+
+export function PricingCards({ currentPlanSlug, isCanceling }: PricingCardsProps) {
   return (
     <div className="grid gap-8 md:grid-cols-3">
-      {plans.map((plan) => (
-        <div
-          key={plan.slug}
-          className={`rounded-lg border p-8 ${plan.slug === 'pro' ? 'border-primary shadow-sm' : ''}`}
-        >
-          {plan.slug === 'pro' && (
-            <span className="mb-4 inline-block rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
-              Most Popular
-            </span>
-          )}
+      {plans.map((plan) => {
+        const isCurrent = plan.slug === currentPlanSlug
+        const label = getButtonLabel(plan.slug, currentPlanSlug)
 
-          <h3 className="text-lg font-semibold">{plan.name}</h3>
-          <div className="mt-4">
-            <span className="text-4xl font-bold">${(plan.price / 100).toFixed(0)}</span>
-            {plan.price > 0 && <span className="text-muted-foreground">/month</span>}
+        return (
+          <div
+            key={plan.slug}
+            className={`relative rounded-lg border p-8 ${
+              isCurrent
+                ? 'border-primary ring-1 ring-primary'
+                : plan.slug === 'pro' && !currentPlanSlug
+                  ? 'border-primary shadow-sm'
+                  : ''
+            }`}
+          >
+            {isCurrent && (
+              <span className="mb-4 inline-block rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
+                Current plan
+              </span>
+            )}
+            {plan.slug === 'pro' && !isCurrent && (
+              <span className="mb-4 inline-block rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
+                Most Popular
+              </span>
+            )}
+
+            <h3 className="text-lg font-semibold">{plan.name}</h3>
+            <div className="mt-4">
+              <span className="text-4xl font-bold">${(plan.price / 100).toFixed(0)}</span>
+              {plan.price > 0 && <span className="text-muted-foreground">/month</span>}
+            </div>
+
+            <ul className="mt-8 space-y-3">
+              {plan.features.map((feature) => (
+                <li key={feature} className="flex items-center gap-2 text-sm">
+                  <Check className="h-4 w-4 text-primary" />
+                  {feature}
+                </li>
+              ))}
+            </ul>
+
+            <div className="mt-8">
+              {isCurrent ? (
+                <button
+                  disabled
+                  className="inline-flex h-10 w-full items-center justify-center rounded-md border text-sm font-medium opacity-50"
+                >
+                  Current plan
+                </button>
+              ) : plan.slug === 'free' && currentPlanSlug && !isCanceling ? (
+                <CancelButton />
+              ) : plan.slug === 'free' && isCanceling ? (
+                <button
+                  disabled
+                  className="inline-flex h-10 w-full items-center justify-center rounded-md border text-sm font-medium opacity-50"
+                >
+                  Canceling...
+                </button>
+              ) : plan.slug === 'free' ? (
+                <button
+                  disabled
+                  className="inline-flex h-10 w-full items-center justify-center rounded-md border text-sm font-medium opacity-50"
+                >
+                  Free
+                </button>
+              ) : (
+                <CheckoutButton
+                  planSlug={plan.slug}
+                  label={label}
+                  variant={plan.slug === 'pro' ? 'primary' : 'outline'}
+                />
+              )}
+            </div>
           </div>
-
-          <ul className="mt-8 space-y-3">
-            {plan.features.map((feature) => (
-              <li key={feature} className="flex items-center gap-2 text-sm">
-                <Check className="h-4 w-4 text-primary" />
-                {feature}
-              </li>
-            ))}
-          </ul>
-
-          <div className="mt-8">
-            <CheckoutButton
-              planSlug={plan.slug}
-              label={plan.slug === 'free' ? 'Get Started' : 'Start Free Trial'}
-              variant={plan.slug === 'pro' ? 'primary' : 'outline'}
-            />
-          </div>
-        </div>
-      ))}
+        )
+      })}
     </div>
   )
 }

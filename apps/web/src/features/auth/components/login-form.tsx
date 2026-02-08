@@ -7,16 +7,43 @@ import { Mail } from 'lucide-react'
 export function LoginForm() {
   const [email, setEmail] = useState('')
   const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     setLoading(true)
-    await signIn('resend', { email, callbackUrl: '/dashboard' })
+    setError('')
+
+    try {
+      const result = await signIn('resend', {
+        email,
+        callbackUrl: '/dashboard',
+        redirect: false,
+      })
+
+      if (result?.error) {
+        setError('Could not send the sign-in email. Please try again.')
+      } else if (result?.ok) {
+        window.location.href = '/check-email'
+        return
+      } else {
+        setError('Something went wrong. Please try again.')
+      }
+    } catch {
+      setError('Something went wrong. Please try again.')
+    }
+
     setLoading(false)
   }
 
   return (
     <form onSubmit={handleSubmit} className="grid gap-4">
+      {error && (
+        <p className="rounded-md border border-destructive/30 bg-destructive/5 p-3 text-sm text-destructive">
+          {error}
+        </p>
+      )}
+
       <div className="grid gap-2">
         <label htmlFor="email" className="text-sm font-medium">
           Email
@@ -25,6 +52,7 @@ export function LoginForm() {
           id="email"
           type="email"
           required
+          autoComplete="email"
           placeholder="you@example.com"
           value={email}
           onChange={(e) => setEmail(e.target.value)}

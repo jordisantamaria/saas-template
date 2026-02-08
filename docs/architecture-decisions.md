@@ -173,6 +173,13 @@ Auth.js (NextAuth v5) como solucion de autenticacion.
 - Database session: query a DB por request, ~50-100ms
 - JWT para performance; datos de sesion enriquecidos en el callback
 
+### Por que no Neon Auth
+Neon ofrece su propio modulo de autenticacion (Neon Auth). No lo usamos porque:
+- Auth.js da control total sobre providers, callbacks y UI
+- JWT strategy sin queries a DB en cada request
+- No ata la autenticacion al proveedor de base de datos
+- Si migramos de Neon a otro PostgreSQL, auth sigue funcionando sin cambios
+
 ### Paginas publicas y auth
 - Paginas marketing (/, /pricing, /blog): CERO auth check, SSG, CDN
 - Paginas protegidas (/dashboard, /settings): JWT check en middleware Edge
@@ -402,7 +409,43 @@ Endpoint `/api/health` que verifica conectividad a DB. Better Stack lo monitorea
 
 ---
 
-## ADR-015: Dos Repos — Packages Publicados + Template de Proyecto
+## ADR-015: PostHog para Product Analytics
+
+### Decision
+PostHog como unica herramienta de analytics. No incluir Google Analytics.
+
+### Contexto
+Una startup SaaS necesita entender como los usuarios usan el producto para tomar decisiones. Hay dos tipos de analytics:
+- **Web/marketing analytics** (trafico, fuentes, SEO): Google Analytics, Plausible
+- **Product analytics** (comportamiento dentro de la app, funnels, retencion): PostHog, Mixpanel, Amplitude
+
+### Alternativas evaluadas
+| Opcion | Pros | Contras |
+|--------|------|---------|
+| **PostHog** | Product analytics + pageviews en uno, 1M eventos gratis, open source | Menos potente para attribution de campañas |
+| Google Analytics | Gratis, attribution de ads, SEO insights | No tiene funnels de producto, no mide uso de features |
+| Mixpanel | Muy potente para producto | Caro (solo 1k usuarios en free), closed source |
+| Amplitude | Enterprise-grade | Overkill, complejo |
+| PostHog + GA | Lo mejor de ambos | Dos herramientas, mas complejidad |
+
+### Justificacion
+- PostHog cubre el 90% de lo que un SaaS necesita: pageviews, funnels, retencion, feature usage
+- Para una startup, saber "el 70% abandona en el paso 2 del checkout" vale mas que "100 visitas vinieron de Google"
+- 1M eventos gratis/mes es mas que suficiente para startups en fase inicial
+- Si un cliente necesita attribution de campañas de Google Ads, se anade GA en ese proyecto especifico
+- No es responsabilidad del template base
+
+### Que medir con PostHog
+| Tipo | Ejemplo |
+|------|---------|
+| Funnels | Signup → Onboarding → First action → Subscription |
+| Feature usage | Cuantos usuarios usan feature X por semana |
+| Retencion | Cuantos vuelven despues de 7/30 dias |
+| Pageviews | Paginas mas visitadas, bounce rate |
+
+---
+
+## ADR-016: Dos Repos — Packages Publicados + Template de Proyecto
 
 ### Decision
 Separar en dos repositorios: uno para packages compartidos (publicados en GitHub Packages) y otro como template de proyecto para clientes.
@@ -479,7 +522,7 @@ export function CurrencyInput(props) {
 
 ---
 
-## ADR-016: Design System sin Disenador
+## ADR-017: Design System sin Disenador
 
 ### Decision
 Design system basado en shadcn/ui con personalizacion minima por cliente. Sin ilustraciones custom. Estetica minimalista tipo Linear/Vercel.
@@ -520,7 +563,7 @@ Design system basado en shadcn/ui con personalizacion minima por cliente. Sin il
 
 ---
 
-## ADR-017: Configuracion Claude Code para el Equipo
+## ADR-018: Configuracion Claude Code para el Equipo
 
 ### Decision
 CLAUDE.md en raiz y por package + custom commands + settings compartidos. Se configura en AMBOS repos.
@@ -549,7 +592,7 @@ saas-template/ (repo 2)
 
 ---
 
-## ADR-018: Fechas, Formateo e Idioma
+## ADR-019: Fechas, Formateo e Idioma
 
 ### Decision
 - Fechas almacenadas en **UTC** en la base de datos
