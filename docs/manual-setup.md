@@ -6,32 +6,135 @@ Todo lo que hay que configurar a mano en servicios externos para que el template
 
 ## 1. GitHub — Repos
 
-### REPO 1: `nyxidiom-packages`
+### REPO 1: `nyxidiom-packages` — Publicar los paquetes
 
-- [ ] Crear repo `nyxidiom-packages` en GitHub (privado)
-- [ ] Push del codigo
-- [ ] Settings → Actions → General → Workflow permissions → **Read and write**
-- [ ] Settings → Packages → Package visibility → **Inherit from repository**
-- [ ] Configurar GitHub Packages como registry privado:
-  - [ ] Crear Personal Access Token (classic) con scopes: `read:packages`, `write:packages`, `delete:packages`
-  - [ ] Guardar token como secret del repo: `NPM_TOKEN`
-  - [ ] Verificar que `.npmrc` en el repo apunta a `https://npm.pkg.github.com`
-  - [ ] Hacer un primer publish manual: `pnpm changeset` → `pnpm changeset version` → push → merge → el Action publica
-- [ ] Verificar que los 4 paquetes aparecen en la tab **Packages** del repo:
-  - [ ] `@nyxidiom/config`
-  - [ ] `@nyxidiom/ui`
-  - [ ] `@nyxidiom/email`
-  - [ ] `@nyxidiom/shared`
+Este repo contiene los paquetes compartidos (`@nyxidiom/ui`, `@nyxidiom/config`, etc.).
+El objetivo es publicarlos a **GitHub Packages** (un registry npm privado gratuito de GitHub)
+para que `saas-template` los pueda instalar con `pnpm install`.
 
-### REPO 2: `saas-template`
+#### Paso 1: Repo y permisos
+
+- [x] Crear repo `nyxidiom-packages` en GitHub (privado)
+- [x] Push del codigo
+- [x] Settings → Actions → General → Workflow permissions → **Read and write**
+
+#### Paso 2: Primer publish (automatico via GitHub Actions)
+
+El repo ya tiene un workflow `.github/workflows/publish.yml` que usa Changesets.
+Changesets es una herramienta que gestiona versiones: tu le dices "he cambiado X",
+y ella sube la version y publica automaticamente.
+
+- [ ] En tu terminal, desde la raiz de `nyxidiom-packages`:
+
+```bash
+# 1. Crear un changeset — te preguntara que paquetes cambiaron y si es patch/minor/major
+pnpm changeset
+# Selecciona todos los paquetes (space para seleccionar, enter para confirmar)
+# Tipo: minor (primera release)
+# Summary: "Initial release"
+```
+
+Esto crea un fichero en `.changeset/` describiendo los cambios.
+
+- [x] Aplicar las versiones:
+
+```bash
+# 2. Esto lee los changesets y actualiza las versiones en cada package.json
+pnpm version-packages
+```
+
+Veras que los `package.json` de cada paquete cambian su version (ej: 0.1.0 → 0.2.0).
+
+- [x] Commit y push a main:
+
+```bash
+git add .
+git commit -m "chore: version packages for first release"
+git push
+```
+
+- [x] El GitHub Action `Publish` se ejecutara automaticamente:
+  1. Hace build de todos los paquetes
+  2. Publica cada `@nyxidiom/*` a GitHub Packages
+  3. Si falla, mira la tab **Actions** del repo para ver el log
+
+#### Paso 4: Verificar que se publicaron
+
+- [x] Ve a tu repo en GitHub → tab **Packages** (en la sidebar derecha)
+- [x] Deben aparecer los 4 paquetes:
+  - [x] `@nyxidiom/config`
+  - [x] `@nyxidiom/ui`
+  - [x] `@nyxidiom/email`
+  - [x] `@nyxidiom/shared`
+
+Si no aparece la tab Packages, ve a `https://github.com/TU_USUARIO?tab=packages`.
+
+#### Para futuras releases
+
+Cada vez que quieras publicar cambios:
+
+```bash
+pnpm changeset          # Describir que cambio
+pnpm version-packages   # Actualizar versiones
+git add . && git commit -m "chore: version packages" && git push
+# El Action publica automaticamente
+```
+
+---
+
+### REPO 2: `saas-template` — Configurar para instalar los paquetes
+
+Este repo tiene un `.npmrc` que ya apunta a GitHub Packages para `@nyxidiom/*`.
+Pero necesita un token para autenticarse al hacer `pnpm install`.
+
+#### Paso 1: Repo basico
 
 - [ ] Crear repo `saas-template` en GitHub (privado)
 - [ ] Push del codigo
 - [ ] Settings → General → **Template repository** → Marcar checkbox ✅
 - [ ] Settings → Actions → General → Workflow permissions → **Read and write**
-- [ ] Secrets del repo (Settings → Secrets and variables → Actions):
-  - [ ] `DATABASE_URL` — para CI (se puede usar una DB de test en Neon)
+
+#### Paso 2: Token para instalar paquetes privados
+
+Para que `pnpm install` pueda descargar `@nyxidiom/*` desde GitHub Packages,
+necesitas un Personal Access Token (PAT).
+
+- [ ] Ve a GitHub → Settings (tu perfil, no el repo) → Developer settings → **Personal access tokens** → **Tokens (classic)**
+- [ ] Generate new token (classic):
+  - Note: `nyxidiom-packages-read`
+  - Expiration: **No expiration** (o 1 year)
+  - Scopes: marcar solo **`read:packages`**
+  - Click **Generate token**
+  - **Copia el token** (empieza por `ghp_...`) — no lo volveras a ver
+
+#### Paso 3: Configurar el token en tu maquina local
+
+- [ ] Ejecuta esto en tu terminal (reemplaza `TOKEN` por tu token):
+
+```bash
+npm config set //npm.pkg.github.com/:_authToken TOKEN
+```
+
+Esto guarda el token en tu `~/.npmrc` global. Ahora `pnpm install` puede descargar `@nyxidiom/*`.
+
+#### Paso 4: Configurar el token para CI (GitHub Actions)
+
+- [ ] En el repo `saas-template` → Settings → Secrets and variables → Actions → **New repository secret**:
+  - Name: `NPM_TOKEN`
+  - Value: el mismo token `ghp_...`
+
+- [ ] Otros secrets necesarios para CI:
+  - [ ] `DATABASE_URL` — connection string de Neon (puede ser un branch de test)
   - [ ] `AUTH_SECRET` — generar con `openssl rand -base64 32`
+
+#### Paso 5: Verificar
+
+```bash
+cd saas-template
+pnpm install   # Deberia instalar @nyxidiom/* desde GitHub Packages sin errores
+```
+
+Si da error 401 o 403, el token no tiene permisos o no esta configurado correctamente.
 
 ---
 
