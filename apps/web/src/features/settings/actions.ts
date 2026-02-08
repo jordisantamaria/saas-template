@@ -3,8 +3,9 @@
 import { z } from 'zod'
 import { createAction } from '@/lib/safe-action'
 import { db } from 'db'
-import { users } from 'db/schemas'
+import { users, subscriptions } from 'db/schemas'
 import { eq } from 'drizzle-orm'
+import { stripe } from '@/lib/services'
 
 export const updateProfile = createAction({
   schema: z.object({ name: z.string().min(1).max(100) }),
@@ -30,7 +31,17 @@ export const updateNotificationPreferences = createAction({
 export const deleteAccount = createAction({
   schema: z.object({ confirmation: z.literal('DELETE') }),
   handler: async ({ userId }) => {
-    // Cascade delete: accounts, sessions are deleted via FK cascade
+    // Cancel active Stripe subscriptions before deleting
+    const activeSubs = await db.query.subscriptions.findMany({
+      where: eq(subscriptions.userId, userId),
+    })
+    for (const sub of activeSubs) {
+      if (sub.stripeSubscriptionId && sub.status !== 'canceled') {
+        await stripe.subscriptions.cancel(sub.stripeSubscriptionId).catch(() => {})
+      }
+    }
+
+    // FK cascade handles: accounts, sessions, subscriptions, invoices, organizations, members, invitations
     await db.delete(users).where(eq(users.id, userId))
     return { success: true }
   },

@@ -759,3 +759,168 @@ function formatCurrency(amount: number, currency: string) {
 - Fechas y numeros se adaptan al locale del usuario automaticamente
 - Sin complejidad de i18n hasta que un proyecto la necesite
 - Facil de evolucionar: anadir `next-intl` despues es un cambio localizado, no una reescritura
+
+---
+
+## ADR-020: Escalabilidad a React Native (Mobile)
+
+### Decision
+
+La arquitectura esta preparada para anadir una app movil con Expo + React Native sin reestructurar el proyecto. La UI se construye nativa por plataforma; la logica de negocio se comparte via packages.
+
+### Contexto
+
+SaaS B2B es 90%+ web, pero algunos clientes necesitan app movil (notificaciones push, acceso offline, presencia en app stores). La plantilla debe poder escalar a mobile sin reescritura.
+
+### Diferencia fundamental: Server Components no existen en React Native
+
+| Concepto | Next.js (web) | React Native (mobile) |
+| --- | --- | --- |
+| Server Components | Si — renderizan en servidor | No — todo es cliente |
+| Server Actions | Si — formularios llaman al servidor directamente | No — necesita fetch a API HTTP |
+| SSR / SSG | Si — HTML pre-renderizado | No — no hay HTML |
+| Auth | Cookies / JWT en servidor | Token almacenado en device (SecureStore) |
+| Rendering | Servidor + browser | Solo en el dispositivo |
+
+### Arquitectura actual (solo web)
+
+```
+┌─────────────────────────────────────────┐
+│  apps/web (Next.js)                     │
+│                                         │
+│  Server Components ──► DB directa       │
+│  Server Actions ────► DB directa        │
+│  /api/webhooks/* ───► Solo Stripe       │
+└─────────────────────────────────────────┘
+```
+
+El web NO necesita API routes internas porque Server Components/Actions acceden a la DB directamente.
+
+### Arquitectura con mobile (fase 2)
+
+```
+┌─────────────────────────────────────────┐
+│  apps/web (Next.js)                     │
+│                                         │
+│  Server Components ──► DB directa       │
+│  Server Actions ────► DB directa        │
+│  /api/v1/* ─────────► API routes (NEW)  │
+│  /api/webhooks/* ───► Stripe            │
+└──────────────┬──────────────────────────┘
+               │ HTTPS
+┌──────────────┴──────────────────────────┐
+│  apps/mobile (Expo)                     │
+│                                         │
+│  fetch('/api/v1/...') ──► API routes    │
+│  100% client-side                       │
+└─────────────────────────────────────────┘
+```
+
+La app movil llama a API routes de Next.js por HTTP. No se crea un backend separado.
+
+### Que se comparte y que no
+
+| Capa | Compartido | Explicacion |
+| --- | --- | --- |
+| packages/db | Si | Schemas y queries reutilizables |
+| packages/auth | Parcial | La logica de verificacion se reusa; el flow de login cambia (OAuth con deep links) |
+| packages/payments | Si | Misma logica de Stripe |
+| @nyxidiom/shared | Si | Validaciones zod, tipos, utils |
+| @nyxidiom/ui | No | Web usa shadcn/ui; mobile usa componentes nativos (React Native Paper, Tamagui, NativeWind) |
+| @nyxidiom/email | Si | Emails se envian desde el servidor, no cambian |
+
+### Cambios necesarios para anadir mobile
+
+**1. Crear API routes (`/api/v1/*`)**
+
+El web actualmente usa Server Actions para todo. Para mobile hay que exponer endpoints HTTP:
+
+```ts
+// apps/web/src/app/api/v1/dashboard/stats/route.ts
+import { auth } from '@/lib/auth'
+import { db } from 'db'
+
+export async function GET() {
+  const session = await auth() // JWT desde header Authorization
+  if (!session) return Response.json({ error: 'Unauthorized' }, { status: 401 })
+
+  const stats = await getStats(db, session.user.id)
+  return Response.json(stats)
+}
+```
+
+No se duplica logica — el handler llama a las mismas funciones que los Server Components.
+
+**2. Auth para mobile**
+
+- Web: cookies con httpOnly (automatico con Auth.js)
+- Mobile: OAuth flow con deep links → recibe JWT → almacena en SecureStore → envia en header `Authorization: Bearer xxx`
+
+El JWT es el mismo que usa el web. Solo cambia como se obtiene y donde se guarda.
+
+**3. Estructura del monorepo**
+
+```
+apps/
+  web/              → Next.js (ya existe)
+  mobile/           → Expo + React Native (nuevo)
+packages/
+  db/               → compartido
+  auth/             → compartido (anadir token-based flow)
+  payments/         → compartido
+  api-client/       → SDK tipado para mobile (nuevo, opcional)
+```
+
+**4. API client tipado (opcional)**
+
+Para evitar que mobile duplique URLs y tipos, se puede crear un package que genere el client:
+
+```ts
+// packages/api-client/src/index.ts
+export function createApiClient(baseUrl: string, token: string) {
+  return {
+    dashboard: {
+      getStats: () => fetch(`${baseUrl}/api/v1/dashboard/stats`, {
+        headers: { Authorization: `Bearer ${token}` },
+      }).then(r => r.json()),
+    },
+  }
+}
+```
+
+### Deploy
+
+| App | Plataforma | Metodo |
+| --- | --- | --- |
+| Web | Vercel | Push a main → deploy automatico |
+| Mobile | Expo EAS | `eas build` → App Store / Google Play |
+| API | Vercel | Misma app web, mismas functions |
+
+No se necesita un servidor adicional. Las API routes de Next.js corren como serverless functions en Vercel, igual que las paginas.
+
+### Coste adicional
+
+| Servicio | Free | Pagado |
+| --- | --- | --- |
+| Expo EAS Build | 30 builds/mes | $99/mes (unlimited) |
+| Apple Developer | — | $99/ano (obligatorio para App Store) |
+| Google Play | — | $25 unico (obligatorio para Play Store) |
+| Vercel (mas API calls) | Ya incluido | Puede subir si hay mucho trafico mobile |
+
+### Cuando anadir mobile
+
+- No anadir mobile al lanzar el SaaS
+- Validar product-market fit con web primero
+- Anadir mobile cuando haya demanda real (usuarios piden app, push notifications son criticas, offline es necesario)
+- El monorepo ya esta preparado: `apps/mobile/` + reusar packages
+
+### Alternativa: PWA antes de nativa
+
+Si solo necesitas push notifications y "install to home screen", una PWA es mas rapida de implementar:
+
+- Service worker con next-pwa
+- Web Push API para notificaciones
+- No necesita app stores ni cuentas de developer
+- Limitacion: no accede a Bluetooth, NFC, HealthKit, etc.
+
+Para la mayoria de SaaS B2B, PWA es suficiente como primer paso mobile

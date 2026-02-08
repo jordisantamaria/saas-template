@@ -10,7 +10,7 @@ export const organizations = pgTable('organizations', {
   logo: text('logo'),
   ownerId: uuid('owner_id')
     .notNull()
-    .references(() => users.id),
+    .references(() => users.id, { onDelete: 'cascade' }),
 })
 
 export const members = pgTable('members', {
@@ -34,7 +34,7 @@ export const invitations = pgTable('invitations', {
     .references(() => organizations.id, { onDelete: 'cascade' }),
   invitedById: uuid('invited_by_id')
     .notNull()
-    .references(() => users.id),
+    .references(() => users.id, { onDelete: 'cascade' }),
   role: text('role', { enum: ['admin', 'member', 'viewer'] })
     .default('member')
     .notNull(),
