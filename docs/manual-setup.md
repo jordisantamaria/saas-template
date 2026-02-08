@@ -267,24 +267,24 @@ En Drizzle Studio, ir a la tabla `plans` y actualizar la columna `stripe_price_i
 
 Una vez todo configurado, ejecutar estas comprobaciones:
 
-- [ ] `pnpm dev` → la app carga en `localhost:3000`
-- [ ] `pnpm typecheck` → 0 errores
+- [x] `pnpm dev` → la app carga en `localhost:3000`
+- [x] `pnpm typecheck` → 0 errores
 - [ ] `pnpm lint` → 0 errores
 - [ ] `pnpm test` → tests pasan
 
 ### Auth flow
-- [ ] Registro con Google → redirige a `/welcome`
-- [ ] Registro con Magic Link → email llega, link funciona
-- [ ] Login → redirige a `/dashboard`
-- [ ] Logout → redirige a `/login`
-- [ ] `/dashboard` sin sesion → redirige a `/login`
+- [x] Registro con Google → redirige a `/welcome`
+- [x] Registro con Magic Link → email llega, link funciona
+- [x] Login → redirige a `/dashboard`
+- [x] Logout → redirige a `/login`
+- [x] `/dashboard` sin sesion → redirige a `/login`
 
 ### Payments flow
-- [ ] Click en "Start Free Trial" en pricing → abre Stripe Checkout
-- [ ] Completar checkout con tarjeta de test (`4242 4242 4242 4242`)
-- [ ] Webhook procesa → subscription aparece en DB
-- [ ] Billing settings → "Manage Subscription" abre Stripe Customer Portal
-- [ ] Cancelar subscription → webhook actualiza DB
+- [x] Click en "Start Free Trial" en pricing → abre Stripe Checkout
+- [x] Completar checkout con tarjeta de test (`4242 4242 4242 4242`)
+- [x] Webhook procesa → subscription aparece en DB
+- [x] Billing settings → "Manage Subscription" abre Stripe Customer Portal
+- [x] Cancelar subscription → webhook actualiza DB
 
 ---
 
