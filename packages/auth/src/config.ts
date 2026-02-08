@@ -28,6 +28,7 @@ export function createAuthConfig({ db, tables, providers, pages }: CreateAuthCon
         verificationTokensTable: tables.verificationTokens,
       } as never,
     ),
+    trustHost: true,
     session: { strategy: 'jwt' },
     providers,
     pages: {
