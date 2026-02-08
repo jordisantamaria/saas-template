@@ -27,8 +27,8 @@ importers:
         specifier: ^0.2.0
         version: 0.2.0
       '@nyxidiom/ui':
-        specifier: ^0.2.1
-        version: 0.2.1(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(tailwindcss@4.1.18)
+        specifier: ^0.2.2
+        version: 0.2.2(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(tailwindcss@4.1.18)
       '@sentry/nextjs':
         specifier: ^10.38.0
         version: 10.38.0(@opentelemetry/context-async-hooks@2.5.0(@opentelemetry/api@1.9.0))(@opentelemetry/core@2.5.0(@opentelemetry/api@1.9.0))(@opentelemetry/sdk-trace-base@2.5.0(@opentelemetry/api@1.9.0))(next@15.5.12(@babel/core@7.29.0)(@opentelemetry/api@1.9.0)(@playwright/test@1.58.1)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)(webpack@5.105.0)
@@ -1045,8 +1045,8 @@ packages:
   '@nyxidiom/shared@0.2.0':
     resolution: {integrity: sha512-lMUvDzCVZgvkWUzS4znMvEUqzr3aKZ3Z7dPyB1Ce2wAUXUHPaeqmN64FKGPFAmsvHmxYcQ2u/hffqV+W46Pa1Q==, tarball: https://npm.pkg.github.com/download/@nyxidiom/shared/0.2.0/23639164df5467fb9fbe8545b039d801e6164693}
 
-  '@nyxidiom/ui@0.2.1':
-    resolution: {integrity: sha512-esmNv8qU7jHW8SVNvDqGf0m//jj3tpdY3He1h9lqlgXTr6jtt+JY6UptCGPEVohsKCo829ZbWk4FXmpAfVvRPA==, tarball: https://npm.pkg.github.com/download/@nyxidiom/ui/0.2.1/0ad9abcf8d2a2d6eb6f9a4b92b8e60536e4fdc8a}
+  '@nyxidiom/ui@0.2.2':
+    resolution: {integrity: sha512-PW5iE5G8Gzk3s8hxY0xv7qnnp94q/0APO40eNuOIElbN5Z+gaAMhjB7FW1A4QrT725yzlkgO/z0qlL+JOP0plg==, tarball: https://npm.pkg.github.com/download/@nyxidiom/ui/0.2.2/9dba208270ea3724a584350f7359443e1faad615}
     peerDependencies:
       react: ^19.0.0
       react-dom: ^19.0.0
@@ -5506,7 +5506,7 @@ snapshots:
     dependencies:
       zod: 3.25.76
 
-  '@nyxidiom/ui@0.2.1(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(tailwindcss@4.1.18)':
+  '@nyxidiom/ui@0.2.2(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(tailwindcss@4.1.18)':
     dependencies:
       '@hookform/resolvers': 5.2.2(react-hook-form@7.71.1(react@19.2.4))
       '@tanstack/react-table': 8.21.3(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
