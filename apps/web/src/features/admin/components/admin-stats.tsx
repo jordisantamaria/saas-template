@@ -1,3 +1,5 @@
+'use client'
+
 import { Users, CreditCard, TrendingUp, TrendingDown } from 'lucide-react'
 import { StatsCard } from '@nyxidiom/ui'
 
