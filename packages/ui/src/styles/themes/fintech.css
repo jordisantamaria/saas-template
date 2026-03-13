@@ -1,0 +1,27 @@
+/*
+ * Fintech Theme — Blue primary
+ * Usage: Import this file in your app's CSS after globals.css
+ *
+ * @import "@nyxidiom/ui/globals.css";
+ * @import "@nyxidiom/ui/themes/fintech.css";
+ */
+
+:root {
+  --color-primary: oklch(0.488 0.243 264.376);
+  --color-primary-foreground: oklch(0.985 0 0);
+  --color-ring: oklch(0.488 0.243 264.376);
+  --color-sidebar-primary: oklch(0.488 0.243 264.376);
+  --color-sidebar-primary-foreground: oklch(0.985 0 0);
+  --color-sidebar-ring: oklch(0.488 0.243 264.376);
+  --color-chart-1: oklch(0.488 0.243 264.376);
+}
+
+.dark {
+  --color-primary: oklch(0.623 0.214 259.815);
+  --color-primary-foreground: oklch(0.145 0.017 285.823);
+  --color-ring: oklch(0.623 0.214 259.815);
+  --color-sidebar-primary: oklch(0.623 0.214 259.815);
+  --color-sidebar-primary-foreground: oklch(0.145 0.017 285.823);
+  --color-sidebar-ring: oklch(0.623 0.214 259.815);
+  --color-chart-1: oklch(0.623 0.214 259.815);
+}

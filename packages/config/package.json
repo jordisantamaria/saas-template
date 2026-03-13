@@ -1,0 +1,32 @@
+{
+  "name": "@nyxidiom/config",
+  "version": "0.2.0",
+  "private": false,
+  "type": "module",
+  "exports": {
+    "./eslint/base": "./eslint/base.js",
+    "./eslint/next": "./eslint/next.js",
+    "./typescript/base": "./typescript/base.json",
+    "./typescript/nextjs": "./typescript/nextjs.json",
+    "./typescript/library": "./typescript/library.json",
+    "./prettier": "./prettier.js",
+    "./sentry": "./sentry.js"
+  },
+  "dependencies": {
+    "@next/eslint-plugin-next": "^15.1.0",
+    "@typescript-eslint/eslint-plugin": "^8.18.0",
+    "@typescript-eslint/parser": "^8.18.0",
+    "eslint-plugin-react": "^7.37.0",
+    "eslint-plugin-react-hooks": "^5.1.0",
+    "globals": "^15.14.0",
+    "typescript-eslint": "^8.18.0"
+  },
+  "peerDependencies": {
+    "eslint": ">=9.0.0",
+    "typescript": ">=5.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^9.16.0",
+    "typescript": "^5.7.0"
+  }
+}

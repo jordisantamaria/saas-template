@@ -1,0 +1,27 @@
+/*
+ * Marketing Theme — Violet primary
+ * Usage: Import this file in your app's CSS after globals.css
+ *
+ * @import "@nyxidiom/ui/globals.css";
+ * @import "@nyxidiom/ui/themes/marketing.css";
+ */
+
+:root {
+  --color-primary: oklch(0.541 0.281 293.009);
+  --color-primary-foreground: oklch(0.985 0 0);
+  --color-ring: oklch(0.541 0.281 293.009);
+  --color-sidebar-primary: oklch(0.541 0.281 293.009);
+  --color-sidebar-primary-foreground: oklch(0.985 0 0);
+  --color-sidebar-ring: oklch(0.541 0.281 293.009);
+  --color-chart-1: oklch(0.541 0.281 293.009);
+}
+
+.dark {
+  --color-primary: oklch(0.627 0.265 303.9);
+  --color-primary-foreground: oklch(0.145 0.017 285.823);
+  --color-ring: oklch(0.627 0.265 303.9);
+  --color-sidebar-primary: oklch(0.627 0.265 303.9);
+  --color-sidebar-primary-foreground: oklch(0.145 0.017 285.823);
+  --color-sidebar-ring: oklch(0.627 0.265 303.9);
+  --color-chart-1: oklch(0.627 0.265 303.9);
+}

@@ -1,0 +1,27 @@
+/*
+ * Health Theme — Green primary
+ * Usage: Import this file in your app's CSS after globals.css
+ *
+ * @import "@nyxidiom/ui/globals.css";
+ * @import "@nyxidiom/ui/themes/health.css";
+ */
+
+:root {
+  --color-primary: oklch(0.596 0.145 163.225);
+  --color-primary-foreground: oklch(0.985 0 0);
+  --color-ring: oklch(0.596 0.145 163.225);
+  --color-sidebar-primary: oklch(0.596 0.145 163.225);
+  --color-sidebar-primary-foreground: oklch(0.985 0 0);
+  --color-sidebar-ring: oklch(0.596 0.145 163.225);
+  --color-chart-1: oklch(0.596 0.145 163.225);
+}
+
+.dark {
+  --color-primary: oklch(0.696 0.17 162.48);
+  --color-primary-foreground: oklch(0.145 0.017 285.823);
+  --color-ring: oklch(0.696 0.17 162.48);
+  --color-sidebar-primary: oklch(0.696 0.17 162.48);
+  --color-sidebar-primary-foreground: oklch(0.145 0.017 285.823);
+  --color-sidebar-ring: oklch(0.696 0.17 162.48);
+  --color-chart-1: oklch(0.696 0.17 162.48);
+}

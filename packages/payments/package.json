@@ -10,7 +10,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@nyxidiom/shared": "^0.2.0",
+    "@nyxidiom/shared": "workspace:*",
     "db": "workspace:*",
     "stripe": "^17.5.0"
   },

@@ -62,29 +62,29 @@ pnpm db:seed          # Seed plans (free, pro, enterprise)
 
 ## Cloud Services
 
-Todo el entorno (local incluido) usa servicios cloud. No hay Docker.
+The entire environment (including local) uses cloud services. No Docker.
 
-| Servicio                             | Uso                   | Free tier            |
-| ------------------------------------ | --------------------- | -------------------- |
-| [Neon](https://neon.tech)            | PostgreSQL            | 10 proyectos, 0.5 GB |
-| [Upstash](https://upstash.com)       | Redis (rate limiting) | 10K commands/day     |
-| [Stripe](https://stripe.com)         | Pagos                 | Test mode ilimitado  |
-| [Resend](https://resend.com)         | Email transaccional   | 3K emails/mes        |
-| [Sentry](https://sentry.io)          | Error tracking        | 5K events/mes        |
-| [PostHog](https://posthog.com)       | Analytics             | 1M events/mes        |
-| [Vercel](https://vercel.com)         | Deploy                | Hobby plan gratis    |
-| [Cloudflare](https://cloudflare.com) | CDN / DDoS            | Free tier            |
+| Service                              | Usage                 | Free tier              |
+| ------------------------------------ | --------------------- | ---------------------- |
+| [Neon](https://neon.tech)            | PostgreSQL            | 10 projects, 0.5 GB   |
+| [Upstash](https://upstash.com)       | Redis (rate limiting) | 10K commands/day       |
+| [Stripe](https://stripe.com)         | Payments              | Unlimited test mode    |
+| [Resend](https://resend.com)         | Transactional email   | 3K emails/month        |
+| [Sentry](https://sentry.io)          | Error tracking        | 5K events/month        |
+| [PostHog](https://posthog.com)       | Analytics             | 1M events/month        |
+| [Vercel](https://vercel.com)         | Deploy                | Free Hobby plan        |
+| [Cloudflare](https://cloudflare.com) | CDN / DDoS            | Free tier              |
 
-Los servicios se comparten por equipo. La unica variable que cambia por desarrollador es `DATABASE_URL` (cada uno usa su propio branch de Neon).
+Services are shared across the team. The only variable that changes per developer is `DATABASE_URL` (each one uses their own Neon branch).
 
-## Onboarding de un nuevo dev
+## Onboarding a New Dev
 
-### 1. Requisitos
+### 1. Prerequisites
 
 - Node.js 22+ (`nvm use`)
 - pnpm 9+ (`corepack enable`)
-- Acceso al repo
-- Credenciales del equipo (1Password, Vault, o lo que useis)
+- Access to the repo
+- Team credentials (1Password, Vault, or whatever you use)
 
 ### 2. Setup
 
@@ -95,38 +95,38 @@ pnpm install
 cp .env.example .env
 ```
 
-### 3. Variables de entorno
+### 3. Environment Variables
 
-Copia las variables compartidas del equipo en `.env`. Todas son identicas para todos **excepto `DATABASE_URL`**.
+Copy the shared team variables into `.env`. They are all identical for everyone **except `DATABASE_URL`**.
 
-### 4. Crear tu branch de base de datos
+### 4. Create Your Database Branch
 
-Cada dev trabaja contra su propio branch de Neon (copia aislada de la DB):
+Each dev works against their own Neon branch (an isolated copy of the DB):
 
-1. Entra en [Neon Dashboard](https://console.neon.tech)
-2. Proyecto del equipo → **Branches** → **Create Branch**
-3. Nombre: `dev-tunombre`
+1. Go to [Neon Dashboard](https://console.neon.tech)
+2. Team project → **Branches** → **Create Branch**
+3. Name: `dev-yourname`
 4. Parent: `main`
-5. Copia el connection string del branch
-6. Pegalo como `DATABASE_URL` en tu `.env`
+5. Copy the branch's connection string
+6. Paste it as `DATABASE_URL` in your `.env`
 
 ```bash
-# Migrar y seedear tu branch
+# Migrate and seed your branch
 pnpm db:migrate
 pnpm db:seed
 ```
 
-### 5. Verificar
+### 5. Verify
 
 ```bash
-pnpm dev        # Abre http://localhost:3000
-pnpm typecheck  # 0 errores
-pnpm test       # 46 tests pasan
+pnpm dev        # Open http://localhost:3000
+pnpm typecheck  # 0 errors
+pnpm test       # 46 tests pass
 ```
 
-### 6. Stripe local (webhooks)
+### 6. Local Stripe (webhooks)
 
-Para probar pagos en local, necesitas el Stripe CLI:
+To test payments locally, you need the Stripe CLI:
 
 ```bash
 brew install stripe/stripe-cli/stripe
@@ -134,25 +134,25 @@ stripe login
 stripe listen --forward-to localhost:3000/api/webhooks/stripe
 ```
 
-Copia el `whsec_...` que imprime como `STRIPE_WEBHOOK_SECRET` en tu `.env`.
+Copy the `whsec_...` it prints as `STRIPE_WEBHOOK_SECRET` in your `.env`.
 
-## Crear un nuevo proyecto de cliente
+## Creating a New Client Project
 
-Ver [docs/new-project-guide.md](docs/new-project-guide.md).
+See [docs/new-project-guide.md](docs/new-project-guide.md).
 
-## Configuracion manual de servicios
+## Manual Service Setup
 
-Ver [docs/manual-setup.md](docs/manual-setup.md) para la checklist completa de setup inicial de todos los servicios.
+See [docs/manual-setup.md](docs/manual-setup.md) for the complete initial setup checklist of all services.
 
-## Documentacion
+## Documentation
 
-| Doc                                                         | Contenido                                   |
-| ----------------------------------------------------------- | ------------------------------------------- |
-| [architecture-decisions.md](docs/architecture-decisions.md) | Decisiones tecnicas y trade-offs            |
-| [build-checklist.md](docs/build-checklist.md)               | Checklist de construccion del template      |
-| [clean-code.md](docs/clean-code.md)                         | Convenciones de codigo                      |
-| [playbook.md](docs/playbook.md)                             | Playbook de la agencia                      |
-| [manual-setup.md](docs/manual-setup.md)                     | Setup manual de servicios cloud             |
-| [setup-cloudflare.md](docs/setup-cloudflare.md)             | Guia de configuracion Cloudflare            |
-| [setup-monitoring.md](docs/setup-monitoring.md)             | Guia de Sentry + PostHog + Vercel Logs      |
-| [new-project-guide.md](docs/new-project-guide.md)           | Como crear proyecto nuevo desde el template |
+| Doc                                                         | Contents                                          |
+| ----------------------------------------------------------- | ------------------------------------------------- |
+| [architecture-decisions.md](docs/architecture-decisions.md) | Technical decisions and trade-offs                |
+| [build-checklist.md](docs/build-checklist.md)               | Template build checklist                          |
+| [clean-code.md](docs/clean-code.md)                         | Code conventions                                  |
+| [playbook.md](docs/playbook.md)                             | Agency playbook                                   |
+| [manual-setup.md](docs/manual-setup.md)                     | Manual cloud services setup                       |
+| [setup-cloudflare.md](docs/setup-cloudflare.md)             | Cloudflare configuration guide                    |
+| [setup-monitoring.md](docs/setup-monitoring.md)             | Sentry + PostHog + Vercel Logs guide              |
+| [new-project-guide.md](docs/new-project-guide.md)           | How to create a new project from the template     |
