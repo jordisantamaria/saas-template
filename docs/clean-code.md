@@ -1,37 +1,37 @@
 # Clean Code Guidelines
 
-> Guia de estilo y buenas practicas para todo el equipo de desarrollo. Estas reglas se aplican a todos los proyectos que usen la plantilla.
+> Style guide and best practices for the entire development team. These rules apply to all projects that use the template.
 
 ---
 
-## 1. Principios Generales
+## 1. General Principles
 
-### Simplicidad sobre abstraccion
+### Simplicity over abstraction
 
-- No crees helpers, utilities o abstracciones para operaciones que se usan una vez
-- Tres lineas de codigo similar son mejor que una abstraccion prematura
-- No disenes para requisitos hipoteticos futuros
-- La cantidad correcta de complejidad es el minimo necesario para la tarea actual
+- Don't create helpers, utilities, or abstractions for operations used only once
+- Three lines of similar code are better than a premature abstraction
+- Don't design for hypothetical future requirements
+- The right amount of complexity is the minimum necessary for the current task
 
-### Explicito sobre implicito
+### Explicit over implicit
 
-- Prefiere codigo que se lea como prosa
-- Evita side effects ocultos
-- Las funciones deben hacer lo que su nombre dice, nada mas
-- Si una funcion necesita un comentario para explicar QUE hace, renombrala
+- Prefer code that reads like prose
+- Avoid hidden side effects
+- Functions should do what their name says, nothing more
+- If a function needs a comment to explain WHAT it does, rename it
 
 ### Colocation
 
-- Lo que va junto, vive junto
-- Tests junto al archivo: `user-service.test.ts`
-- Types donde se usan, no en un archivo `types.ts` global
-- Solo extraer a `packages/shared` si se reutiliza en 2+ proyectos
+- What goes together, lives together
+- Tests next to the file: `user-service.test.ts`
+- Types where they are used, not in a global `types.ts` file
+- Only extract to `packages/shared` if reused in 2+ projects
 
 ---
 
 ## 2. TypeScript
 
-### Strict siempre
+### Always strict
 
 ```json
 {
@@ -44,61 +44,61 @@
 }
 ```
 
-### Nunca `any`
+### Never `any`
 
 ```ts
-// MAL
+// BAD
 function processData(data: any) { ... }
 
-// BIEN
+// GOOD
 function processData(data: unknown) { ... }
 
-// MEJOR — tipo especifico
+// BETTER — specific type
 function processData(data: TransactionInput) { ... }
 ```
 
-### Inferencia sobre anotacion explicita
+### Inference over explicit annotation
 
 ```ts
-// INNECESARIO — TypeScript ya lo infiere
+// UNNECESSARY — TypeScript already infers it
 const name: string = 'John'
 const items: number[] = [1, 2, 3]
 
-// CORRECTO — dejar que TS infiera
+// CORRECT — let TS infer
 const name = 'John'
 const items = [1, 2, 3]
 
-// SI anotar: return types de funciones publicas
+// DO annotate: return types of public functions
 export function getUser(id: string): Promise<User | null> { ... }
 ```
 
-### `as const` y satisfies
+### `as const` and satisfies
 
 ```ts
-// BIEN — preserva tipos literales
+// GOOD — preserves literal types
 const PLANS = {
   free: { price: 0, features: ['basic'] },
   pro: { price: 29, features: ['basic', 'advanced'] },
 } as const
 
-// BIEN — valida sin perder tipo
+// GOOD — validates without losing type
 const config = {
   retries: 3,
   timeout: 5000,
 } satisfies RetryConfig
 ```
 
-### Discriminated unions sobre flags booleanos
+### Discriminated unions over boolean flags
 
 ```ts
-// MAL
+// BAD
 type Result = {
   success: boolean
   data?: User
   error?: string
 }
 
-// BIEN
+// GOOD
 type Result = { success: true; data: User } | { success: false; error: string }
 ```
 
@@ -106,44 +106,44 @@ type Result = { success: true; data: User } | { success: false; error: string }
 
 ## 3. Naming Conventions
 
-### Archivos
+### Files
 
 ```
-kebab-case para todo:
+kebab-case for everything:
   user-profile.tsx
   create-transaction.ts
   use-auth.ts
   auth-service.test.ts
 ```
 
-### Codigo
+### Code
 
 ```ts
-// Componentes: PascalCase
+// Components: PascalCase
 export function UserProfile() { ... }
 
-// Funciones y variables: camelCase
+// Functions and variables: camelCase
 const userName = 'John'
 function getUserById(id: string) { ... }
 
-// Tipos e interfaces: PascalCase, sin prefijo I
+// Types and interfaces: PascalCase, no I prefix
 type User = { ... }
 interface AuthConfig { ... }
 
-// Constantes globales: UPPER_SNAKE_CASE
+// Global constants: UPPER_SNAKE_CASE
 const MAX_RETRY_COUNT = 3
 const API_BASE_URL = '/api'
 
-// Schemas DB: camelCase en TS, snake_case en SQL
+// DB schemas: camelCase in TS, snake_case in SQL
 export const users = pgTable('users', {
   firstName: text('first_name'),  // TS: firstName, SQL: first_name
 })
 
-// Enums: PascalCase con valores en snake_case o lowercase
+// Enums: PascalCase with snake_case or lowercase values
 type PlanType = 'free' | 'pro' | 'enterprise'
 type UserRole = 'admin' | 'member' | 'viewer'
 
-// Event handlers: handle + Evento
+// Event handlers: handle + Event
 function handleSubmit() { ... }
 function handleClick() { ... }
 
@@ -153,25 +153,25 @@ const hasPermission = false
 const shouldRedirect = true
 ```
 
-### Nombres descriptivos
+### Descriptive names
 
 ```ts
-// MAL — abreviaciones crípticas
+// BAD — cryptic abbreviations
 const usr = getUsr(id)
 const txn = createTxn(data)
 const btn = <Btn />
 
-// BIEN — nombres claros
+// GOOD — clear names
 const user = getUser(id)
 const transaction = createTransaction(data)
 const button = <Button />
 
-// MAL — nombres genericos
+// BAD — generic names
 const data = await fetch(...)
 const result = process(input)
 const items = getAll()
 
-// BIEN — nombres especificos
+// GOOD — specific names
 const transactions = await fetchTransactions(userId)
 const validatedInput = validateTransactionInput(rawInput)
 const activeSubscriptions = getActiveSubscriptions()
@@ -179,12 +179,12 @@ const activeSubscriptions = getActiveSubscriptions()
 
 ---
 
-## 4. Funciones
+## 4. Functions
 
-### Pequenas y con un solo proposito
+### Small and single-purpose
 
 ```ts
-// MAL — hace demasiadas cosas
+// BAD — does too many things
 async function processPayment(userId: string, planId: string) {
   const user = await getUser(userId)
   if (!user) throw new Error('User not found')
@@ -198,7 +198,7 @@ async function processPayment(userId: string, planId: string) {
   return subscription
 }
 
-// BIEN — cada funcion hace una cosa
+// GOOD — each function does one thing
 async function processPayment(userId: string, planId: string) {
   const user = await requireUser(userId)
   const plan = await requirePlan(planId)
@@ -209,13 +209,13 @@ async function processPayment(userId: string, planId: string) {
 }
 ```
 
-### Maximo 3 parametros, usar objeto si hay mas
+### Maximum 3 parameters, use an object if there are more
 
 ```ts
-// MAL
+// BAD
 function createUser(name: string, email: string, role: string, orgId: string) { ... }
 
-// BIEN
+// GOOD
 function createUser(input: CreateUserInput) { ... }
 
 type CreateUserInput = {
@@ -229,7 +229,7 @@ type CreateUserInput = {
 ### Early returns
 
 ```ts
-// MAL — nesting profundo
+// BAD — deep nesting
 function getDiscount(user: User) {
   if (user) {
     if (user.subscription) {
@@ -245,7 +245,7 @@ function getDiscount(user: User) {
   return 0
 }
 
-// BIEN — early returns
+// GOOD — early returns
 function getDiscount(user: User | null) {
   if (!user) return 0
   if (!user.subscription) return 0
@@ -254,17 +254,17 @@ function getDiscount(user: User | null) {
 }
 ```
 
-### No clases. Funciones y composicion.
+### No classes. Functions and composition.
 
 ```ts
-// MAL — clase innecesaria
+// BAD — unnecessary class
 class UserService {
   constructor(private db: DrizzleDB) {}
   async getById(id: string) { ... }
   async create(input: CreateUserInput) { ... }
 }
 
-// BIEN — factory function
+// GOOD — factory function
 function createUserService(db: DrizzleDB) {
   return {
     getById: (id: string) => db.select().from(users).where(eq(users.id, id)),
@@ -277,25 +277,25 @@ function createUserService(db: DrizzleDB) {
 
 ## 5. React / Next.js
 
-### Server Components por defecto
+### Server Components by default
 
 ```tsx
-// NO pongas "use client" hasta que sea necesario
-// Server Component: 0 JS al browser
+// DON'T add "use client" until it's necessary
+// Server Component: 0 JS to the browser
 
 export default async function DashboardPage() {
-  const data = await getStats() // Fetch en servidor
+  const data = await getStats() // Server-side fetch
   return <StatsCards data={data} />
 }
 ```
 
-### "use client" solo cuando sea estrictamente necesario
+### "use client" only when strictly necessary
 
 ```tsx
-// NECESITA "use client":
+// NEEDS "use client":
 // - useState, useEffect, useRef
 // - onClick, onChange, onSubmit
-// - Librerias de browser (charts, maps)
+// - Browser libraries (charts, maps)
 
 'use client'
 
@@ -305,15 +305,15 @@ export function SearchInput() {
 }
 ```
 
-### Componentes pequenos y enfocados
+### Small and focused components
 
 ```tsx
-// MAL — componente que hace todo
+// BAD — component that does everything
 export function DashboardPage() {
-  // 200 lineas de JSX con logica inline
+  // 200 lines of JSX with inline logic
 }
 
-// BIEN — composicion de componentes pequenos
+// GOOD — composition of small components
 export default async function DashboardPage() {
   return (
     <div>
@@ -329,33 +329,33 @@ export default async function DashboardPage() {
 }
 ```
 
-### Props destructuradas
+### Destructured props
 
 ```tsx
-// MAL
+// BAD
 function UserCard(props: UserCardProps) {
   return <div>{props.user.name}</div>
 }
 
-// BIEN
+// GOOD
 function UserCard({ user, onEdit }: UserCardProps) {
   return <div>{user.name}</div>
 }
 ```
 
-### No prop drilling — composicion
+### No prop drilling — composition
 
 ```tsx
-// MAL — pasar props a traves de 4 niveles
+// BAD — passing props through 4 levels
 <Layout user={user}>
   <Sidebar user={user}>
     <UserMenu user={user}>
       <Avatar user={user} />
 
-// BIEN — composicion con children o Server Components
+// GOOD — composition with children or Server Components
 <Layout>
   <Sidebar>
-    <UserMenu /> {/* Server Component: lee session directamente */}
+    <UserMenu /> {/* Server Component: reads session directly */}
   </Sidebar>
 </Layout>
 ```
@@ -364,10 +364,10 @@ function UserCard({ user, onEdit }: UserCardProps) {
 
 ## 6. Data Fetching
 
-### Server Actions para mutaciones
+### Server Actions for mutations
 
 ```tsx
-// BIEN — Server Action tipada y validada
+// GOOD — typed and validated Server Action
 'use server'
 
 export async function updateProfile(formData: FormData) {
@@ -383,23 +383,23 @@ export async function updateProfile(formData: FormData) {
 }
 ```
 
-### Fetch paralelo, nunca en cascada
+### Parallel fetch, never waterfall
 
 ```tsx
-// MAL — cascada
+// BAD — waterfall
 const user = await getUser(id)
 const stats = await getStats(id)
 const activity = await getActivity(id)
 
-// BIEN — paralelo
+// GOOD — parallel
 const [user, stats, activity] = await Promise.all([getUser(id), getStats(id), getActivity(id)])
 ```
 
-### Validacion con Zod en boundaries
+### Zod validation at boundaries
 
 ```ts
-// Validar en: Server Actions, API Routes, form submissions
-// NO validar: funciones internas entre modulos de confianza
+// Validate at: Server Actions, API Routes, form submissions
+// DON'T validate: internal functions between trusted modules
 
 export const createTransactionSchema = z.object({
   amount: z.number().positive().max(1_000_000),
@@ -412,10 +412,10 @@ export const createTransactionSchema = z.object({
 
 ## 7. Error Handling
 
-### Errors en boundaries, no en cada linea
+### Errors at boundaries, not on every line
 
 ```ts
-// MAL — try/catch en cada funcion
+// BAD — try/catch in every function
 async function getUser(id: string) {
   try {
     return await db.query.users.findFirst({ where: eq(users.id, id) })
@@ -425,33 +425,33 @@ async function getUser(id: string) {
   }
 }
 
-// BIEN — dejar que el error suba, manejar en el boundary
+// GOOD — let the error bubble up, handle at the boundary
 async function getUser(id: string) {
   return db.query.users.findFirst({ where: eq(users.id, id) })
 }
 
-// El ErrorBoundary de React o el error.tsx de Next.js lo captura
+// React's ErrorBoundary or Next.js error.tsx catches it
 ```
 
-### Errores esperados vs inesperados
+### Expected vs unexpected errors
 
 ```ts
-// Esperado: el usuario puede no existir — return null
+// Expected: the user may not exist — return null
 async function findUserByEmail(email: string): Promise<User | null> {
   return db.query.users.findFirst({ where: eq(users.email, email) })
 }
 
-// Esperado: validacion falla — return error object
+// Expected: validation fails — return error object
 function validateInput(data: unknown) {
   const result = schema.safeParse(data)
   if (!result.success) return { error: result.error.flatten() }
   return { data: result.data }
 }
 
-// Inesperado: DB down — throw, que lo capture el boundary
+// Unexpected: DB down — throw, let the boundary catch it
 async function getStats() {
   return db.query.stats.findMany()
-  // Si la DB esta caida, Sentry lo captura automaticamente
+  // If the DB is down, Sentry catches it automatically
 }
 ```
 
@@ -459,95 +459,95 @@ async function getStats() {
 
 ## 8. Imports
 
-### Orden de imports
+### Import order
 
 ```ts
 // 1. React / Next.js
 import { Suspense } from 'react'
 import Link from 'next/link'
 
-// 2. Packages externos
+// 2. External packages
 import { eq } from 'drizzle-orm'
 
-// 3. Packages internos (@nyxidiom/*)
+// 3. Internal packages (@nyxidiom/*)
 import { Button } from '@nyxidiom/ui'
 import { db } from '@nyxidiom/db'
 
-// 4. Features / Components de la app
+// 4. App features / components
 import { StatsCards } from '@/features/dashboard/components/stats-cards'
 
-// 5. Tipos (si es import type)
+// 5. Types (if import type)
 import type { User } from '@nyxidiom/db'
 ```
 
-### Siempre import type cuando solo se importa el tipo
+### Always import type when only importing the type
 
 ```ts
-// BIEN
+// GOOD
 import type { User } from '@nyxidiom/db'
 import { type NextRequest } from 'next/server'
 ```
 
 ---
 
-## 9. Lo que NO hacer
+## 9. What NOT to do
 
-### No sobreingenieria
+### No over-engineering
 
-- No feature flags para cosas que puedes cambiar directamente
+- No feature flags for things you can change directly
 - No backwards-compatibility shims
-- No repositorios abstractos si solo hay una implementacion
-- No interfaces si solo hay una clase que la implementa
-- No comments tipo `// removed` para codigo eliminado
+- No abstract repositories if there's only one implementation
+- No interfaces if there's only one class implementing it
+- No comments like `// removed` for deleted code
 
-### No comentarios obvios
+### No obvious comments
 
 ```ts
-// MAL
+// BAD
 // Get the user by ID
 const user = getUserById(id)
 
-// BIEN — sin comentario, el codigo ya es claro
+// GOOD — no comment, the code is already clear
 const user = getUserById(id)
 
-// BIEN — comentario que explica el POR QUE, no el QUE
-// Usamos soft delete porque regulaciones fintech requieren 7 anos de retencion
+// GOOD — comment that explains the WHY, not the WHAT
+// We use soft delete because fintech regulations require 7 years of retention
 await softDeleteUser(id)
 ```
 
-### No overhandling de errores
+### No over-handling of errors
 
 ```ts
-// MAL — catch de cosas que nunca fallan
+// BAD — catching things that never fail
 try {
   const sum = a + b
 } catch (error) {
   console.error('Error adding numbers')
 }
 
-// MAL — validacion innecesaria de datos internos
+// BAD — unnecessary validation of internal data
 function calculateTotal(items: CartItem[]) {
   if (!Array.isArray(items)) throw new Error('Items must be array')
-  // ^ TypeScript ya garantiza esto
+  // ^ TypeScript already guarantees this
 }
 ```
 
 ---
 
-## 10. Checklist Pre-PR
+## 10. Pre-PR Checklist
 
-Antes de abrir un Pull Request:
+Before opening a Pull Request:
 
 ```
-[ ] El codigo compila sin errores (pnpm typecheck)
-[ ] Lint pasa sin warnings (pnpm lint)
-[ ] Tests relevantes pasan (pnpm test)
-[ ] No hay console.log de debug
-[ ] No hay any en TypeScript
-[ ] No hay codigo comentado
-[ ] No hay dependencias nuevas innecesarias
-[ ] Los nombres son descriptivos y consistentes
-[ ] Server Components donde sea posible (no "use client" innecesario)
-[ ] Validacion Zod en boundaries (Server Actions, API Routes)
-[ ] Datos sensibles no se exponen al cliente
+[ ] Code compiles without errors (pnpm typecheck)
+[ ] Lint passes without warnings (pnpm lint)
+[ ] Relevant tests pass (pnpm test)
+[ ] No debug console.log statements
+[ ] No any in TypeScript
+[ ] No commented-out code
+[ ] No unnecessary new dependencies
+[ ] Names are descriptive and consistent
+[ ] Server Components where possible (no unnecessary "use client")
+[ ] Zod validation at boundaries (Server Actions, API Routes)
+[ ] Sensitive data is not exposed to the client
 ```
