@@ -1,6 +1,4 @@
-import { Hero } from '@/features/marketing/components/hero'
-import { FeaturesSection } from '@/features/marketing/components/features-section'
-import { PricingSection } from '@/features/marketing/components/pricing-section'
+import { Hero, FeaturesSection, PricingSection } from '@/features/marketing'
 
 export default function HomePage() {
   return (

@@ -3,8 +3,7 @@ import { formatDate } from '@nyxidiom/shared'
 import { auth } from '@/lib/auth'
 import { redirect } from 'next/navigation'
 import { payments } from '@/lib/services'
-import { SubscriptionStatus } from '@/features/billing/components/subscription-status'
-import { PricingCards } from '@/features/billing/components/pricing-cards'
+import { SubscriptionStatus, PricingCards } from '@/features/billing'
 
 export const metadata: Metadata = { title: 'Billing' }
 

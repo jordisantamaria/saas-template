@@ -1,6 +1,5 @@
 import type { Metadata } from 'next'
-import { StatsCards } from '@/features/dashboard/components/stats-cards'
-import { RecentActivity } from '@/features/dashboard/components/recent-activity'
+import { StatsCards, RecentActivity } from '@/features/dashboard'
 
 export const metadata: Metadata = { title: 'Dashboard' }
 

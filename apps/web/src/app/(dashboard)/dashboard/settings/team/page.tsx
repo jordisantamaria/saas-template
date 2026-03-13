@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { auth } from '@/lib/auth'
 import { redirect } from 'next/navigation'
-import { TeamMembersTable } from '@/features/settings/components/team-members-table'
+import { TeamMembersTable } from '@/features/settings'
 
 export const metadata: Metadata = { title: 'Team' }
 

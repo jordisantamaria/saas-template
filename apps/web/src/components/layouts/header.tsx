@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { auth } from '@/lib/auth'
-import { UserMenu } from '@/features/auth/components/user-menu'
+import { UserMenu } from '@/features/auth'
 
 export async function Header() {
   const session = await auth()

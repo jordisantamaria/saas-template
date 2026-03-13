@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { RevenueChart } from '@/features/admin/components/revenue-chart'
+import { RevenueChart } from '@/features/admin'
 
 export const metadata: Metadata = { title: 'Analytics - Admin' }
 

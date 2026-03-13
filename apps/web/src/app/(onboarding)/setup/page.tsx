@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { SetupForm } from '@/features/onboarding/components/setup-form'
+import { SetupForm } from '@/features/onboarding'
 
 export const metadata: Metadata = { title: 'Setup' }
 

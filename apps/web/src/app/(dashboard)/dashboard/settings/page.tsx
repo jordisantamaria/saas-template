@@ -4,9 +4,7 @@ import { redirect } from 'next/navigation'
 import { db } from 'db'
 import { users, accounts } from 'db/schemas'
 import { eq } from 'drizzle-orm'
-import { ProfileForm } from '@/features/settings/components/profile-form'
-import { ConnectedAccounts } from '@/features/settings/components/connected-accounts'
-import { DeleteAccount } from '@/features/settings/components/delete-account'
+import { ProfileForm, ConnectedAccounts, DeleteAccount } from '@/features/settings'
 
 export const metadata: Metadata = { title: 'Settings' }
 

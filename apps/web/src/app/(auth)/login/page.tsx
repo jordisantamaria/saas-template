@@ -1,8 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { SocialButtons } from '@/features/auth/components/social-buttons'
-import { LoginForm } from '@/features/auth/components/login-form'
-import { AuthError } from '@/features/auth/components/auth-error'
+import { SocialButtons, LoginForm, AuthError } from '@/features/auth'
 
 export const metadata: Metadata = { title: 'Sign In' }
 

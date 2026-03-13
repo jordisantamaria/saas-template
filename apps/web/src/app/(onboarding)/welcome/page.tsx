@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { redirect } from 'next/navigation'
 import { auth } from '@/lib/auth'
-import { WelcomeForm } from '@/features/onboarding/components/welcome-form'
+import { WelcomeForm } from '@/features/onboarding'
 
 export const metadata: Metadata = { title: 'Welcome' }
 

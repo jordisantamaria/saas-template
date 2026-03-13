@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { Users } from 'lucide-react'
-import { UsersTable } from '@/features/admin/components/users-table'
+import { UsersTable } from '@/features/admin'
 
 export const metadata: Metadata = { title: 'Users - Admin' }
 

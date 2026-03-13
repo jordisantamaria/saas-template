@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { ForgotPasswordForm } from '@/features/auth/components/forgot-password-form'
+import { ForgotPasswordForm } from '@/features/auth'
 import Link from 'next/link'
 
 export const metadata: Metadata = { title: 'Forgot Password' }
