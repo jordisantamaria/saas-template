@@ -14,10 +14,10 @@ export default function AdminPage() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       <div>
         <h1 className="text-2xl font-bold tracking-tight">Admin Overview</h1>
-        <p className="text-muted-foreground">Platform metrics and management.</p>
+        <p className="mt-1 text-sm text-muted-foreground">Platform metrics and management.</p>
       </div>
 
       <AdminStats data={stats} />

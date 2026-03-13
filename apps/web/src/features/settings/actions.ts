@@ -8,6 +8,9 @@ import { eq } from 'drizzle-orm'
 import { stripe } from '@/lib/services'
 import { storage } from '@/lib/storage'
 
+// eslint-disable-next-line @typescript-eslint/no-empty-function
+const noop = () => {}
+
 export const updateProfile = createAction({
   schema: z.object({ name: z.string().min(1).max(100) }),
   handler: async ({ input, userId }) => {
@@ -38,7 +41,7 @@ export const deleteAccount = createAction({
     })
     for (const sub of activeSubs) {
       if (sub.stripeSubscriptionId && sub.status !== 'canceled') {
-        await stripe.subscriptions.cancel(sub.stripeSubscriptionId).catch(() => {})
+        await stripe.subscriptions.cancel(sub.stripeSubscriptionId).catch(noop)
       }
     }
 
@@ -49,7 +52,7 @@ export const deleteAccount = createAction({
     })
     if (user?.image?.includes('/avatars/')) {
       const key = user.image.split('/').slice(-2).join('/')
-      storage.delete(key).catch(() => {})
+      storage.delete(key).catch(noop)
     }
 
     // FK cascade handles: accounts, sessions, subscriptions, invoices, organizations, members, invitations

@@ -16,45 +16,45 @@ export function NotificationPreferences({ initial }: { initial: Preferences }) {
   }
 
   return (
-    <div className="grid max-w-md gap-4">
-      <div className="flex items-center justify-between rounded-lg border p-4">
+    <div className="max-w-2xl rounded-xl border bg-card shadow-sm">
+      <div className="flex items-center justify-between border-b border-border/50 px-6 py-4">
         <div>
           <p className="text-sm font-medium">Email notifications</p>
-          <p className="text-xs text-muted-foreground">Receive emails about account activity.</p>
+          <p className="mt-0.5 text-xs text-muted-foreground">Receive emails about account activity.</p>
         </div>
         <button
           type="button"
           role="switch"
           aria-checked={prefs.emailNotifications}
           onClick={() => toggle('emailNotifications')}
-          className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors ${
+          className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ${
             prefs.emailNotifications ? 'bg-primary' : 'bg-input'
           }`}
         >
           <span
-            className={`pointer-events-none block h-5 w-5 rounded-full bg-background shadow-lg transition-transform ${
+            className={`pointer-events-none block h-5 w-5 rounded-full bg-background shadow-lg transition-transform duration-200 ${
               prefs.emailNotifications ? 'translate-x-5' : 'translate-x-0'
             }`}
           />
         </button>
       </div>
 
-      <div className="flex items-center justify-between rounded-lg border p-4">
+      <div className="flex items-center justify-between px-6 py-4">
         <div>
           <p className="text-sm font-medium">Marketing emails</p>
-          <p className="text-xs text-muted-foreground">Receive product updates and tips.</p>
+          <p className="mt-0.5 text-xs text-muted-foreground">Receive product updates and tips.</p>
         </div>
         <button
           type="button"
           role="switch"
           aria-checked={prefs.marketingEmails}
           onClick={() => toggle('marketingEmails')}
-          className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors ${
+          className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ${
             prefs.marketingEmails ? 'bg-primary' : 'bg-input'
           }`}
         >
           <span
-            className={`pointer-events-none block h-5 w-5 rounded-full bg-background shadow-lg transition-transform ${
+            className={`pointer-events-none block h-5 w-5 rounded-full bg-background shadow-lg transition-transform duration-200 ${
               prefs.marketingEmails ? 'translate-x-5' : 'translate-x-0'
             }`}
           />

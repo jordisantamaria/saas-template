@@ -5,10 +5,10 @@ export const metadata: Metadata = { title: 'Notifications' }
 
 export default function NotificationsPage() {
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       <div>
         <h1 className="text-2xl font-bold tracking-tight">Notifications</h1>
-        <p className="text-muted-foreground">Manage your notification preferences.</p>
+        <p className="mt-1 text-sm text-muted-foreground">Manage your notification preferences.</p>
       </div>
 
       <NotificationPreferences initial={{ emailNotifications: true, marketingEmails: false }} />

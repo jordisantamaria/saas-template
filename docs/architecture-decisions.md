@@ -4,6 +4,39 @@
 
 ---
 
+## Technology Summary
+
+| Capa               | Tecnologia                      | Justificacion                                            |
+| ------------------ | ------------------------------- | -------------------------------------------------------- |
+| **Monorepo**       | Turborepo + pnpm                | Cache inteligente, workspaces eficientes                 |
+| **Framework**      | Next.js 15 (App Router)        | SSR + API + React en uno, Server Components              |
+| **UI Library**     | React 19                        | Ecosistema mas grande, Server Components                 |
+| **Styling**        | Tailwind CSS v4                 | Utility-first, zero runtime, temas con CSS vars          |
+| **Components**     | shadcn/ui (@nyxidiom/ui)        | Radix primitives, personalizable, estilo Linear/Vercel   |
+| **Icons**          | Lucide React                    | +1500 iconos, tree-shakeable                             |
+| **Typography**     | Geist Sans/Mono (next/font)     | Zero layout shift, estetica moderna                      |
+| **ORM**            | Drizzle ORM                     | TypeScript nativo, schemas modulares, sin code gen       |
+| **Database**       | Neon PostgreSQL                 | Serverless, branching, scale-to-zero, PITR               |
+| **Auth**           | Auth.js (NextAuth v5) — JWT     | Gratis, data en nuestra DB, 80+ providers                |
+| **Payments**       | Stripe                          | Subscriptions, invoices, checkout, customer portal        |
+| **File Storage**   | Cloudflare R2                   | S3-compatible, sin egress fees, $0.015/GB                |
+| **Email**          | Resend + React Email            | Templates en JSX, 3k/mes gratis                          |
+| **Rate Limiting**  | Upstash Redis                   | Serverless, Edge-compatible                              |
+| **CDN / Security** | Cloudflare (free)               | DDoS, WAF, bot detection, SSL                            |
+| **Hosting**        | Vercel                          | Zero-config para Next.js, preview deploys                |
+| **Analytics**      | PostHog                         | Product analytics, funnels, retencion, 1M eventos gratis |
+| **Error Tracking** | Sentry                          | Stack traces, performance monitoring                     |
+| **Logs / Uptime**  | Vercel Observability            | 30 dias retencion, trazas, $10/mes                       |
+| **Validation**     | Zod                             | Schema validation TypeScript-first                       |
+| **Formatting**     | Intl nativo (browser)           | Zero bundle, auto-detecta locale del usuario             |
+| **Dates**          | UTC en DB, Intl.DateTimeFormat  | Sin librerias, formateo automatico por locale            |
+| **Packages**       | GitHub Packages (@nyxidiom/\*)  | Registry npm privado, Changesets para versioning         |
+| **Linting**        | ESLint + Prettier (@nyxidiom/config) | Reglas compartidas, estilo consistente              |
+| **TypeScript**     | TypeScript 5 (strict)           | noUncheckedIndexedAccess, verbatimModuleSyntax           |
+| **Testing**        | Vitest + Playwright             | Unit tests + E2E                                         |
+
+---
+
 ## ADR-001: Monorepo con Turborepo
 
 ### Decision
@@ -169,7 +202,56 @@ export function createAuthService(db: DrizzleDB) { ... }
 
 ---
 
-## ADR-006: Auth.js para Autenticacion
+## ADR-006: Neon PostgreSQL sobre Supabase
+
+### Decision
+
+Neon PostgreSQL como base de datos, sin usar Supabase.
+
+### Contexto
+
+Supabase es la alternativa mas popular para startups: incluye PostgreSQL + Auth + Storage + Realtime + Edge Functions en un solo dashboard. La pregunta es si conviene usar Supabase como plataforma all-in-one o componer servicios especializados.
+
+### Alternativas evaluadas
+
+| Opcion                  | Pros                                                       | Contras                                                                        |
+| ----------------------- | ---------------------------------------------------------- | ------------------------------------------------------------------------------ |
+| **Neon PostgreSQL**     | Solo DB, serverless, branching por PR, scale-to-zero       | Solo base de datos, hay que componer el resto                                  |
+| Supabase                | All-in-one (DB + Auth + Storage + Realtime), dashboard     | Auth/Storage solapan con nuestros modulos, vendor lock-in, menos control       |
+| PlanetScale             | Branching, buen DX                                         | MySQL (no PostgreSQL), pricing cambio a peor                                   |
+| AWS RDS                 | Control total, barato a escala                             | No serverless, config manual, sin branching                                    |
+| Vercel Postgres (Neon)  | Integrado en Vercel                                        | Markup sobre Neon directo, misma tecnologia pero mas caro                      |
+
+### Justificacion
+
+**El problema con Supabase all-in-one:**
+
+- Supabase Auth solapa con Auth.js — y Auth.js nos da JWT sin query a DB, 80+ providers y control total sobre callbacks y UI
+- Supabase Storage solapa con Cloudflare R2 — y R2 no tiene egress fees ($0 vs Supabase que cobra por bandwidth)
+- Supabase Realtime y Edge Functions no los necesitamos al inicio
+- Usar solo Supabase PostgreSQL sin sus otros servicios no tiene ventaja sobre Neon
+
+**Por que Neon en concreto:**
+
+- **Scale-to-zero**: en dev y pre-revenue, la DB se apaga cuando no hay conexiones ($0)
+- **Branching**: cada PR puede tener su propia copia de la DB para testear migraciones
+- **Serverless driver**: conexion via HTTP, sin pool de conexiones persistente (ideal para Vercel serverless)
+- **PITR (Point-in-Time Recovery)**: backup continuo incluido en todos los planes
+- **PostgreSQL puro**: sin abstracciones propias, migrar a cualquier otro PostgreSQL es trivial
+
+**Filosofia del template:**
+
+Preferimos componer servicios best-of-breed que cada uno haga una cosa bien (Neon = DB, Auth.js = auth, R2 = storage, Stripe = payments) en vez de depender de una plataforma all-in-one donde si quieres salir, tienes que migrar todo a la vez.
+
+### Cuando si considerar Supabase
+
+- Prototipo rapido (hackathon, MVP en 1 semana) donde la velocidad importa mas que el control
+- El equipo no quiere gestionar multiples servicios
+- Necesitas Realtime (presencia, cursores colaborativos) desde dia 1
+
+---
+
+## ADR-007: Auth.js para Autenticacion
 
 ### Decision
 
@@ -217,7 +299,7 @@ Neon ofrece su propio modulo de autenticacion (Neon Auth). No lo usamos porque:
 
 ---
 
-## ADR-007: Estructura de Carpetas (Feature-Based)
+## ADR-008: Estructura de Carpetas (Feature-Based)
 
 ### Decision
 
@@ -254,7 +336,7 @@ Nunca imports cruzados entre features. Si dos features necesitan comunicarse, se
 
 ---
 
-## ADR-008: Rendering Strategy
+## ADR-009: Rendering Strategy
 
 ### Decision
 
@@ -288,7 +370,7 @@ Solo cuando el compilador lo requiera:
 
 ---
 
-## ADR-009: No TanStack Query por Defecto
+## ADR-010: No TanStack Query por Defecto
 
 ### Decision
 
@@ -311,7 +393,7 @@ Menos dependencias = menos mantenimiento = mas margen para la agencia. Se instal
 
 ---
 
-## ADR-010: Performance Strategy
+## ADR-011: Performance Strategy
 
 ### Decision
 
@@ -350,7 +432,7 @@ Cada seccion independiente envuelta en Suspense con su propio Skeleton. La pagin
 
 ---
 
-## ADR-011: Gestion de SVGs
+## ADR-012: Gestion de SVGs
 
 ### Decision
 
@@ -380,7 +462,7 @@ Se incluye en `packages/ui` para el design system reutilizable. Solo componentes
 
 ---
 
-## ADR-012: Cloud & Infrastructure
+## ADR-013: Cloud & Infrastructure
 
 ### Decision
 
@@ -422,7 +504,7 @@ Servicios compuestos: Vercel + Neon + Cloudflare + servicios especializados.
 
 ---
 
-## ADR-013: Seguridad — Defensa por Capas
+## ADR-014: Seguridad — Defensa por Capas
 
 ### Decision
 
@@ -452,7 +534,7 @@ Servicios compuestos: Vercel + Neon + Cloudflare + servicios especializados.
 
 ---
 
-## ADR-014: Backups y Monitoring
+## ADR-015: Backups y Monitoring
 
 ### Backups
 
@@ -475,7 +557,7 @@ Endpoint `/api/health` que verifica conectividad a DB. Vercel Observability ($10
 
 ---
 
-## ADR-015: PostHog para Product Analytics
+## ADR-016: PostHog para Product Analytics
 
 ### Decision
 
@@ -517,7 +599,7 @@ Una startup SaaS necesita entender como los usuarios usan el producto para tomar
 
 ---
 
-## ADR-016: Dos Repos — Packages Publicados + Template de Proyecto
+## ADR-017: Dos Repos — Packages Publicados + Template de Proyecto
 
 ### Decision
 
@@ -599,7 +681,7 @@ export function CurrencyInput(props) {
 
 ---
 
-## ADR-017: Design System sin Disenador
+## ADR-018: Design System sin Disenador
 
 ### Decision
 
@@ -647,7 +729,7 @@ Design system basado en shadcn/ui con personalizacion minima por cliente. Sin il
 
 ---
 
-## ADR-018: Configuracion Claude Code para el Equipo
+## ADR-019: Configuracion Claude Code para el Equipo
 
 ### Decision
 
@@ -678,7 +760,7 @@ saas-template/ (repo 2)
 
 ---
 
-## ADR-019: Fechas, Formateo e Idioma
+## ADR-020: Fechas, Formateo e Idioma
 
 ### Decision
 
@@ -762,7 +844,7 @@ function formatCurrency(amount: number, currency: string) {
 
 ---
 
-## ADR-020: Escalabilidad a React Native (Mobile)
+## ADR-021: Escalabilidad a React Native (Mobile)
 
 ### Decision
 

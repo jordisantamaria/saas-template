@@ -35,7 +35,8 @@ export async function POST(request: Request) {
     )
   }
 
-  const ext = file.type.split('/')[1] === 'jpeg' ? 'jpg' : file.type.split('/')[1]!
+  const typePart = file.type.split('/')[1] ?? 'png'
+  const ext = typePart === 'jpeg' ? 'jpg' : typePart
   const key = `avatars/${session.user.id}.${ext}`
   const buffer = new Uint8Array(await file.arrayBuffer())
 

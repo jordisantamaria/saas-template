@@ -19,7 +19,7 @@
     "@nyxidiom/email": "^0.2.0",
     "@nyxidiom/shared": "^0.2.0",
     "@nyxidiom/storage": "^0.2.0",
-    "@nyxidiom/ui": "^0.2.2",
+    "@nyxidiom/ui": "^0.2.4",
     "@sentry/nextjs": "^10.38.0",
     "auth": "workspace:*",
     "db": "workspace:*",

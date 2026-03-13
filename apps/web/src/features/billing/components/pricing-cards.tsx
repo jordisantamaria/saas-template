@@ -32,11 +32,11 @@ export function PricingCards({ currentPlanSlug, isCanceling }: PricingCardsProps
         return (
           <div
             key={plan.slug}
-            className={`relative rounded-lg border p-8 ${
+            className={`relative rounded-xl border bg-card p-8 shadow-sm transition-shadow duration-200 hover:shadow-md ${
               isCurrent
                 ? 'border-primary ring-1 ring-primary'
                 : plan.slug === 'pro' && !currentPlanSlug
-                  ? 'border-primary shadow-sm'
+                  ? 'border-primary shadow-md'
                   : ''
             }`}
           >
@@ -53,14 +53,14 @@ export function PricingCards({ currentPlanSlug, isCanceling }: PricingCardsProps
 
             <h3 className="text-lg font-semibold">{plan.name}</h3>
             <div className="mt-4">
-              <span className="text-4xl font-bold">${(plan.price / 100).toFixed(0)}</span>
-              {plan.price > 0 && <span className="text-muted-foreground">/month</span>}
+              <span className="text-4xl font-bold tabular-nums tracking-tight">${(plan.price / 100).toFixed(0)}</span>
+              {plan.price > 0 && <span className="text-sm text-muted-foreground">/month</span>}
             </div>
 
             <ul className="mt-8 space-y-3">
               {plan.features.map((feature) => (
-                <li key={feature} className="flex items-center gap-2 text-sm">
-                  <Check className="h-4 w-4 text-primary" />
+                <li key={feature} className="flex items-start gap-2.5 text-sm">
+                  <Check className="mt-0.5 size-4 shrink-0 text-emerald-600" />
                   {feature}
                 </li>
               ))}

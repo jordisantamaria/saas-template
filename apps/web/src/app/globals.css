@@ -1,5 +1,103 @@
 @import '@nyxidiom/ui/globals.css';
 
+/*
+ * Design System Overrides — Bold & Premium
+ *
+ * Personality: Stripe / Mercury
+ * Primary:     Blue (trust)
+ * Neutrals:    Cool zinc grays
+ * Font:        DM Sans + Geist Mono
+ * Radius:      Moderate (8px btns, 12px cards)
+ * Depth:       Subtle elevation
+ * Spacing:     Spacious
+ */
+
+@theme inline {
+  /* Font — DM Sans loaded via next/font in layout.tsx */
+  --font-sans: var(--font-dm-sans, 'DM Sans'), ui-sans-serif, system-ui, -apple-system, sans-serif;
+
+  /* Primary — Blue Trust */
+  --color-primary: oklch(0.546 0.245 262.881);
+  --color-primary-foreground: oklch(1 0 0);
+
+  /* Focus ring — matches primary */
+  --color-ring: oklch(0.546 0.245 262.881);
+
+  /* Muted — page backgrounds, clearly visible gray */
+  --color-muted: oklch(0.955 0.002 286.375);
+  --color-muted-foreground: oklch(0.552 0.016 285.938);
+
+  /* Secondary — same as muted for consistency */
+  --color-secondary: oklch(0.955 0.002 286.375);
+
+  /* Accent — subtle blue-tinted background for highlights */
+  --color-accent: oklch(0.940 0.012 260);
+  --color-accent-foreground: oklch(0.141 0.005 285.823);
+
+  /* Borders — slightly more defined */
+  --color-border: oklch(0.895 0.005 286.32);
+  --color-input: oklch(0.870 0.006 286.32);
+
+  /* Sidebar — lighter than page bg, distinct panel */
+  --color-sidebar: oklch(0.985 0.002 286.375);
+  --color-sidebar-primary: oklch(0.546 0.245 262.881);
+  --color-sidebar-primary-foreground: oklch(1 0 0);
+  --color-sidebar-accent: oklch(0.940 0.015 260);
+  --color-sidebar-accent-foreground: oklch(0.210 0.006 285.885);
+  --color-sidebar-border: oklch(0.895 0.005 286.32);
+  --color-sidebar-ring: oklch(0.546 0.245 262.881);
+
+  /* Charts — blue-first palette */
+  --color-chart-1: oklch(0.546 0.245 262.881);
+  --color-chart-2: oklch(0.600 0.118 184.714);
+  --color-chart-3: oklch(0.398 0.070 227.392);
+  --color-chart-4: oklch(0.828 0.189 84.429);
+  --color-chart-5: oklch(0.769 0.188 70.080);
+}
+
+@layer base {
+  .dark {
+    /* Primary — brighter blue for dark backgrounds */
+    --color-primary: oklch(0.623 0.214 259.815);
+    --color-primary-foreground: oklch(1 0 0);
+
+    --color-ring: oklch(0.623 0.214 259.815);
+
+    /* Surfaces — proper dark hierarchy */
+    --color-card: oklch(0.180 0.006 285.885);
+    --color-card-foreground: oklch(0.985 0 0);
+
+    --color-popover: oklch(0.180 0.006 285.885);
+    --color-popover-foreground: oklch(0.985 0 0);
+
+    --color-muted: oklch(0.210 0.006 285.885);
+    --color-accent: oklch(0.230 0.012 260);
+    --color-accent-foreground: oklch(0.985 0 0);
+
+    --color-secondary: oklch(0.210 0.006 285.885);
+
+    --color-border: oklch(0.270 0.006 285.885);
+    --color-input: oklch(0.270 0.006 285.885);
+
+    /* Sidebar — darker than content area */
+    --color-sidebar: oklch(0.120 0.005 285.823);
+    --color-sidebar-foreground: oklch(0.985 0 0);
+    --color-sidebar-primary: oklch(0.623 0.214 259.815);
+    --color-sidebar-primary-foreground: oklch(1 0 0);
+    --color-sidebar-accent: oklch(0.210 0.006 285.885);
+    --color-sidebar-accent-foreground: oklch(0.985 0 0);
+    --color-sidebar-border: oklch(0.254 0.006 285.885);
+    --color-sidebar-ring: oklch(0.623 0.214 259.815);
+
+    /* Charts */
+    --color-chart-1: oklch(0.623 0.214 259.815);
+    --color-chart-2: oklch(0.696 0.170 162.480);
+    --color-chart-3: oklch(0.769 0.188 70.080);
+    --color-chart-4: oklch(0.627 0.265 303.900);
+    --color-chart-5: oklch(0.645 0.246 16.439);
+  }
+}
+
 button {
   cursor: pointer;
 }

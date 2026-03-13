@@ -6,7 +6,7 @@ export async function Header() {
   const session = await auth()
 
   return (
-    <header className="flex h-14 items-center justify-between border-b px-4 lg:px-6">
+    <header className="sticky top-0 z-30 flex h-14 items-center justify-between border-b bg-background/80 px-4 backdrop-blur-sm lg:px-6">
       <div className="lg:hidden">
         <Link href="/dashboard" className="text-lg font-bold tracking-tight">
           SaaS App

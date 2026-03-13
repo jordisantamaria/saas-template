@@ -26,15 +26,15 @@ export function DeleteAccount() {
 
   if (!showConfirm) {
     return (
-      <div className="rounded-lg border border-destructive/30 p-6">
-        <h3 className="text-lg font-medium text-destructive">Danger zone</h3>
-        <p className="mt-1 text-sm text-muted-foreground">
+      <div className="rounded-xl border border-destructive/20 bg-card p-6 shadow-sm">
+        <h3 className="font-semibold text-destructive">Danger zone</h3>
+        <p className="mt-1.5 text-sm text-muted-foreground">
           Permanently delete your account and all associated data. This action cannot be undone.
         </p>
         <button
           type="button"
           onClick={() => setShowConfirm(true)}
-          className="mt-4 inline-flex h-9 items-center rounded-md border border-destructive/30 px-4 text-sm font-medium text-destructive hover:bg-destructive/10"
+          className="mt-4 inline-flex h-9 items-center rounded-lg border border-destructive/30 px-4 text-sm font-medium text-destructive transition-colors hover:bg-destructive hover:text-white"
         >
           Delete account
         </button>
@@ -43,8 +43,8 @@ export function DeleteAccount() {
   }
 
   return (
-    <div className="rounded-lg border border-destructive/30 p-6">
-      <h3 className="text-lg font-medium text-destructive">Are you sure?</h3>
+    <div className="rounded-xl border border-destructive/20 bg-card p-6 shadow-sm">
+      <h3 className="font-semibold text-destructive">Are you sure?</h3>
       <p className="mt-1 text-sm text-muted-foreground">
         This will permanently delete your account, all your data, and cancel any active
         subscriptions. Type <strong>DELETE</strong> to confirm.

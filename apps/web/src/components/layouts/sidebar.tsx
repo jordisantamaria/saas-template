@@ -17,14 +17,14 @@ export function Sidebar() {
   const pathname = usePathname()
 
   return (
-    <aside className="hidden w-60 shrink-0 border-r bg-sidebar lg:block">
-      <div className="flex h-14 items-center border-b px-4">
-        <Link href="/dashboard" className="text-lg font-bold tracking-tight">
+    <aside className="hidden w-60 shrink-0 border-r border-border/40 bg-sidebar lg:block">
+      <div className="flex h-14 items-center border-b border-border/40 px-5">
+        <Link href="/dashboard" className="text-base font-semibold tracking-tight">
           SaaS App
         </Link>
       </div>
 
-      <nav className="space-y-1 p-3">
+      <nav className="space-y-0.5 p-3">
         {NAV_ITEMS.map((item) => {
           const isActive =
             pathname === item.href || (item.href !== '/dashboard' && pathname.startsWith(item.href))
@@ -33,13 +33,13 @@ export function Sidebar() {
               key={item.href}
               href={item.href}
               className={cn(
-                'flex items-center gap-3 rounded-md px-3 py-2 text-sm transition-colors',
+                'flex items-center gap-3 rounded-lg px-3 py-2 text-[13px] transition-all duration-150',
                 isActive
-                  ? 'bg-sidebar-accent font-medium text-sidebar-accent-foreground'
-                  : 'text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground',
+                  ? 'bg-sidebar-accent font-medium text-sidebar-accent-foreground shadow-sm'
+                  : 'text-sidebar-foreground/60 hover:bg-sidebar-accent/60 hover:text-sidebar-accent-foreground',
               )}
             >
-              <item.icon className="h-4 w-4" />
+              <item.icon className="size-4" />
               {item.label}
             </Link>
           )

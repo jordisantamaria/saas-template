@@ -21,14 +21,14 @@ export default async function AdminUserDetailPage({ params }: { params: Promise<
         <p className="text-muted-foreground">{user.email}</p>
       </div>
 
-      <div className="grid max-w-md gap-4">
-        <div className="rounded-lg border p-4">
-          <p className="text-sm text-muted-foreground">Role</p>
-          <p className="mt-1 font-medium capitalize">{user.role}</p>
+      <div className="grid max-w-lg gap-4 sm:grid-cols-2">
+        <div className="rounded-xl border bg-card p-5 shadow-sm">
+          <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">Role</p>
+          <p className="mt-2 text-lg font-semibold capitalize">{user.role}</p>
         </div>
-        <div className="rounded-lg border p-4">
-          <p className="text-sm text-muted-foreground">Joined</p>
-          <p className="mt-1 font-medium">{user.createdAt}</p>
+        <div className="rounded-xl border bg-card p-5 shadow-sm">
+          <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">Joined</p>
+          <p className="mt-2 text-lg font-semibold">{user.createdAt}</p>
         </div>
       </div>
     </div>

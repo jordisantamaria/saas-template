@@ -7,22 +7,34 @@ interface Member {
 
 export function TeamMembersTable({ members }: { members: Member[] }) {
   return (
-    <div className="rounded-lg border">
+    <div className="overflow-hidden rounded-xl border bg-card shadow-sm">
       <table className="w-full text-sm">
         <thead>
-          <tr className="border-b bg-muted/50">
-            <th className="px-4 py-3 text-left font-medium">Name</th>
-            <th className="px-4 py-3 text-left font-medium">Email</th>
-            <th className="px-4 py-3 text-left font-medium">Role</th>
+          <tr className="border-b bg-muted/30">
+            <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-muted-foreground">
+              Name
+            </th>
+            <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-muted-foreground">
+              Email
+            </th>
+            <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-muted-foreground">
+              Role
+            </th>
           </tr>
         </thead>
-        <tbody>
+        <tbody className="divide-y divide-border/50">
           {members.map((member) => (
-            <tr key={member.id} className="border-b last:border-0">
-              <td className="px-4 py-3">{member.name ?? '—'}</td>
-              <td className="px-4 py-3 text-muted-foreground">{member.email}</td>
-              <td className="px-4 py-3">
-                <span className="inline-flex rounded-full bg-muted px-2 py-0.5 text-xs font-medium capitalize">
+            <tr key={member.id} className="transition-colors hover:bg-muted/30">
+              <td className="px-6 py-4 font-medium">{member.name ?? '—'}</td>
+              <td className="px-6 py-4 text-muted-foreground">{member.email}</td>
+              <td className="px-6 py-4">
+                <span
+                  className={`inline-flex rounded-full px-2.5 py-0.5 text-xs font-medium capitalize ${
+                    member.role === 'admin'
+                      ? 'border border-amber-200/60 bg-amber-50 text-amber-700'
+                      : 'bg-muted text-muted-foreground'
+                  }`}
+                >
                   {member.role}
                 </span>
               </td>

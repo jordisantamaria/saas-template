@@ -63,3 +63,4 @@ pnpm db:seed        # Seed initial data
 3. Add relations in same file
 4. Export from `packages/db/src/schemas/index.ts`
 5. Run `pnpm db:generate` then `pnpm db:migrate`
+

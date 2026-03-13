@@ -18,7 +18,7 @@ export default async function BillingPage() {
     <div className="max-w-4xl space-y-8">
       <div>
         <h1 className="text-2xl font-bold tracking-tight">Billing</h1>
-        <p className="text-muted-foreground">Manage your subscription and billing.</p>
+        <p className="mt-1 text-sm text-muted-foreground">Manage your subscription and billing.</p>
       </div>
 
       {subscription ? (
@@ -37,15 +37,16 @@ export default async function BillingPage() {
           }
         />
       ) : (
-        <div className="rounded-lg border p-6">
-          <p className="text-sm text-muted-foreground">
-            You are on the <strong>Free</strong> plan. Upgrade to unlock more features.
+        <div className="rounded-xl border bg-card p-6 shadow-sm">
+          <p className="text-sm font-medium">Free plan</p>
+          <p className="mt-1 text-sm text-muted-foreground">
+            You are on the free plan. Upgrade to unlock more features.
           </p>
         </div>
       )}
 
       <div>
-        <h2 className="mb-4 text-lg font-medium">Available plans</h2>
+        <h2 className="mb-4 font-semibold">Available plans</h2>
         <PricingCards
           currentPlanSlug={subscription?.plan.slug}
           isCanceling={!!subscription?.cancelAtPeriodEnd}

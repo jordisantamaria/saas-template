@@ -16,14 +16,19 @@ export default function DashboardPage() {
   const activity: { id: string; description: string; timestamp: string }[] = []
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       <div>
         <h1 className="text-2xl font-bold tracking-tight">Dashboard</h1>
-        <p className="text-muted-foreground">Overview of your workspace.</p>
+        <p className="mt-1 text-sm text-muted-foreground">
+          Overview of your workspace activity and metrics.
+        </p>
       </div>
 
       <StatsCards data={stats} />
-      <RecentActivity items={activity} />
+
+      <div className="grid gap-6 lg:grid-cols-2">
+        <RecentActivity items={activity} />
+      </div>
     </div>
   )
 }

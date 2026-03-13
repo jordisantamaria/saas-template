@@ -20,13 +20,13 @@ export default async function TeamPage() {
   ]
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold tracking-tight">Team</h1>
-          <p className="text-muted-foreground">Manage your team members.</p>
+          <p className="mt-1 text-sm text-muted-foreground">Manage your team members.</p>
         </div>
-        <button className="inline-flex h-9 items-center rounded-md bg-primary px-3 text-sm font-medium text-primary-foreground hover:bg-primary/90">
+        <button className="inline-flex h-9 items-center rounded-lg bg-primary px-4 text-sm font-medium text-primary-foreground shadow-sm transition-all duration-150 hover:brightness-110">
           Invite Member
         </button>
       </div>

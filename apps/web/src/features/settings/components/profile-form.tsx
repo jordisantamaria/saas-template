@@ -64,8 +64,8 @@ export function ProfileForm({ initialName, email, initialImage }: ProfileFormPro
   const initials = (initialName || email).charAt(0).toUpperCase()
 
   return (
-    <div className="rounded-lg border p-6">
-      <h3 className="text-lg font-medium">Profile</h3>
+    <div className="rounded-xl border bg-card p-6 shadow-sm">
+      <h3 className="font-semibold">Profile</h3>
       <p className="mt-1 text-sm text-muted-foreground">Your personal information.</p>
 
       <div className="mt-4 flex items-center gap-4">
@@ -135,7 +135,7 @@ export function ProfileForm({ initialName, email, initialImage }: ProfileFormPro
 
         {message && (
           <p
-            className={`text-sm ${message === 'Profile updated.' ? 'text-green-600' : 'text-destructive'}`}
+            className={`text-sm ${message === 'Profile updated.' ? 'text-emerald-600' : 'text-destructive'}`}
           >
             {message}
           </p>
@@ -144,7 +144,7 @@ export function ProfileForm({ initialName, email, initialImage }: ProfileFormPro
         <button
           type="submit"
           disabled={loading}
-          className="inline-flex h-10 w-fit items-center justify-center rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground hover:bg-primary/90 disabled:opacity-50"
+          className="inline-flex h-9 w-fit items-center justify-center rounded-lg bg-primary px-4 text-sm font-medium text-primary-foreground shadow-sm transition-all duration-150 hover:brightness-110 disabled:opacity-50"
         >
           {loading ? 'Saving...' : 'Save Changes'}
         </button>

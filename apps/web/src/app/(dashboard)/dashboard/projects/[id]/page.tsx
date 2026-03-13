@@ -11,24 +11,24 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
   if (!project) notFound()
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       <div className="flex items-center justify-between">
         <div>
           <Link
             href="/dashboard/projects"
-            className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"
+            className="inline-flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground"
           >
-            <ArrowLeft className="h-3 w-3" />
+            <ArrowLeft className="size-3.5" />
             Back to projects
           </Link>
-          <h1 className="mt-2 text-2xl font-bold tracking-tight">{project.name}</h1>
-          <p className="text-muted-foreground">{project.description}</p>
+          <h1 className="mt-3 text-2xl font-bold tracking-tight">{project.name}</h1>
+          <p className="mt-1 text-sm text-muted-foreground">{project.description}</p>
         </div>
         <Link
           href={`/dashboard/projects/${id}/edit`}
-          className="inline-flex h-9 items-center gap-2 rounded-md border px-3 text-sm font-medium hover:bg-accent"
+          className="inline-flex h-9 items-center gap-2 rounded-lg border bg-card px-4 text-sm font-medium shadow-sm transition-all duration-150 hover:bg-accent"
         >
-          <Pencil className="h-3.5 w-3.5" />
+          <Pencil className="size-3.5" />
           Edit
         </Link>
       </div>

@@ -28,10 +28,10 @@ export default async function SettingsPage() {
   const providers = [...new Set(userAccounts.map((a) => a.provider))]
 
   return (
-    <div className="max-w-2xl space-y-6">
+    <div className="max-w-2xl space-y-8">
       <div>
         <h1 className="text-2xl font-bold tracking-tight">Settings</h1>
-        <p className="text-muted-foreground">Manage your account settings.</p>
+        <p className="mt-1 text-sm text-muted-foreground">Manage your account settings.</p>
       </div>
 
       <ProfileForm

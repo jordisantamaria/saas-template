@@ -23,18 +23,22 @@ const FOOTER_LINKS = [
 
 export function Footer() {
   return (
-    <footer className="border-t">
-      <div className="mx-auto max-w-6xl px-4 py-12">
+    <footer className="border-t bg-muted/30">
+      <div className="mx-auto max-w-6xl px-4 py-16">
         <div className="grid grid-cols-2 gap-8 md:grid-cols-4">
           <div className="col-span-2 md:col-span-1">
             <p className="text-lg font-bold tracking-tight">SaaS App</p>
-            <p className="mt-2 text-sm text-muted-foreground">Your SaaS application description.</p>
+            <p className="mt-3 max-w-xs text-sm leading-relaxed text-muted-foreground">
+              Your SaaS application description.
+            </p>
           </div>
 
           {FOOTER_LINKS.map((section) => (
             <div key={section.title}>
-              <p className="text-sm font-medium">{section.title}</p>
-              <ul className="mt-3 space-y-2">
+              <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground/70">
+                {section.title}
+              </p>
+              <ul className="mt-4 space-y-2.5">
                 {section.links.map((link) => (
                   <li key={link.href}>
                     <Link
@@ -50,8 +54,8 @@ export function Footer() {
           ))}
         </div>
 
-        <div className="mt-12 border-t pt-6">
-          <p className="text-center text-xs text-muted-foreground">
+        <div className="mt-12 border-t border-border/50 pt-6">
+          <p className="text-center text-xs text-muted-foreground/70">
             &copy; {new Date().getFullYear()} SaaS App. All rights reserved.
           </p>
         </div>

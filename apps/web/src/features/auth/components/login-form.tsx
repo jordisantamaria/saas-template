@@ -44,7 +44,7 @@ export function LoginForm() {
         </p>
       )}
 
-      <div className="grid gap-2">
+      <div className="grid gap-1.5">
         <label htmlFor="email" className="text-sm font-medium">
           Email
         </label>
@@ -56,16 +56,16 @@ export function LoginForm() {
           placeholder="you@example.com"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          className="flex h-10 w-full rounded-lg border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         />
       </div>
 
       <button
         type="submit"
         disabled={loading}
-        className="inline-flex h-10 w-full items-center justify-center gap-2 rounded-md bg-primary text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 disabled:pointer-events-none disabled:opacity-50"
+        className="inline-flex h-10 w-full items-center justify-center gap-2 rounded-lg bg-primary text-sm font-medium text-primary-foreground shadow-sm transition-all duration-150 hover:brightness-110 disabled:pointer-events-none disabled:opacity-50"
       >
-        <Mail className="h-4 w-4" />
+        <Mail className="size-4" />
         {loading ? 'Sending link...' : 'Sign in with Email'}
       </button>
     </form>

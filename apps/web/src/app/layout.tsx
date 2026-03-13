@@ -1,6 +1,12 @@
 import type { Metadata } from 'next'
-import { GeistSans } from 'geist/font/sans'
+import { DM_Sans } from 'next/font/google'
 import { GeistMono } from 'geist/font/mono'
+
+const dmSans = DM_Sans({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-dm-sans',
+})
 import { ThemeProvider } from 'next-themes'
 import { Toaster } from '@nyxidiom/ui'
 import { PostHogProvider } from '@/lib/posthog'
@@ -22,7 +28,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${GeistSans.variable} ${GeistMono.variable}`}
+      className={`${dmSans.variable} ${GeistMono.variable}`}
     >
       <body className="min-h-screen bg-background font-sans text-foreground antialiased">
         <PostHogProvider>

@@ -8,7 +8,7 @@ export function SocialButtons() {
       <button
         type="button"
         onClick={() => signIn('google', { callbackUrl: '/dashboard' })}
-        className="flex h-10 w-full items-center justify-center gap-2 rounded-md border text-sm font-medium transition-colors hover:bg-accent"
+        className="flex h-10 w-full items-center justify-center gap-2 rounded-lg border bg-background text-sm font-medium shadow-sm transition-all duration-150 hover:bg-accent"
       >
         <svg className="h-4 w-4" viewBox="0 0 24 24">
           <path

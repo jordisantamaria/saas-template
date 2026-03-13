@@ -33,21 +33,21 @@ export function SubscriptionStatus({
   }
 
   return (
-    <div className="rounded-lg border p-6">
+    <div className="rounded-xl border bg-card p-6 shadow-sm">
       <div className="flex items-center justify-between">
         <div>
-          <p className="text-sm text-muted-foreground">Current Plan</p>
-          <p className="mt-1 text-xl font-bold">{planName}</p>
+          <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">Current Plan</p>
+          <p className="mt-1.5 text-xl font-bold">{planName}</p>
         </div>
         <span
-          className={`inline-flex rounded-full px-2.5 py-0.5 text-xs font-medium ${
+          className={`inline-flex rounded-full border px-2.5 py-0.5 text-xs font-medium ${
             isCanceling
-              ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200'
+              ? 'border-amber-200/60 bg-amber-50 text-amber-700 dark:border-amber-800 dark:bg-amber-950 dark:text-amber-400'
               : status === 'active'
-                ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
+                ? 'border-emerald-200/60 bg-emerald-50 text-emerald-700 dark:border-emerald-800 dark:bg-emerald-950 dark:text-emerald-400'
                 : status === 'past_due'
-                  ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200'
-                  : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'
+                  ? 'border-amber-200/60 bg-amber-50 text-amber-700 dark:border-amber-800 dark:bg-amber-950 dark:text-amber-400'
+                  : 'border-rose-200/60 bg-rose-50 text-rose-700 dark:border-rose-800 dark:bg-rose-950 dark:text-rose-400'
           }`}
         >
           {isCanceling ? 'canceling' : status}

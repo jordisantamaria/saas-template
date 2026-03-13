@@ -42,7 +42,7 @@ export function WelcomeForm({ initialName }: WelcomeFormProps) {
         </p>
       )}
 
-      <div className="grid gap-2">
+      <div className="grid gap-1.5">
         <label htmlFor="name" className="text-sm font-medium">
           Your name
         </label>
@@ -53,14 +53,14 @@ export function WelcomeForm({ initialName }: WelcomeFormProps) {
           placeholder="Enter your name"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          className="flex h-10 w-full rounded-lg border border-input bg-background px-3 py-2 text-sm placeholder:text-muted-foreground/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         />
       </div>
 
       <button
         type="submit"
         disabled={loading}
-        className="inline-flex h-10 w-full items-center justify-center rounded-md bg-primary text-sm font-medium text-primary-foreground hover:bg-primary/90 disabled:opacity-50"
+        className="inline-flex h-10 w-full items-center justify-center rounded-lg bg-primary text-sm font-medium text-primary-foreground shadow-sm transition-all duration-150 hover:brightness-110 disabled:opacity-50"
       >
         {loading ? 'Saving...' : 'Continue'}
       </button>
